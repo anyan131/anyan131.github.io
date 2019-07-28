@@ -8,20 +8,20 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>闫昊良的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Android Activity 启动模式本文github地址： https://github.com/YoungBear/MyBlog/blob/master/ActivityLaunchMode.md 说明，本文sample中使用的简写，launchMode分别为： standard    在sample中用Activity A 来表示 singleTop    在sample中用Activi">
+  <meta name="description" content="Android Activity 启动模式说明，本文sample中使用的简写，launchMode分别为： standard    在sample中用Activity A 来表示 singleTop    在sample中用Activity B 来表示 singleTask    在sample中用Activity C 来表示 singleInstance    在sample中用Activity">
 <meta property="og:type" content="article">
 <meta property="og:title" content="闫昊良的技术博客">
 <meta property="og:url" content="http://yoursite.com/2019/07/28/ActivityLaunchMode/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="Android Activity 启动模式本文github地址： https://github.com/YoungBear/MyBlog/blob/master/ActivityLaunchMode.md 说明，本文sample中使用的简写，launchMode分别为： standard    在sample中用Activity A 来表示 singleTop    在sample中用Activi">
+<meta property="og:description" content="Android Activity 启动模式说明，本文sample中使用的简写，launchMode分别为： standard    在sample中用Activity A 来表示 singleTop    在sample中用Activity B 来表示 singleTask    在sample中用Activity C 来表示 singleInstance    在sample中用Activity">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://img.blog.csdn.net/20160924235822634">
 <meta property="og:image" content="http://img.blog.csdn.net/20160924235832458">
 <meta property="og:image" content="http://img.blog.csdn.net/20160924235803222">
-<meta property="og:updated_time" content="2019-07-21T12:39:42.000Z">
+<meta property="og:updated_time" content="2019-07-28T11:57:35.690Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="闫昊良的技术博客">
-<meta name="twitter:description" content="Android Activity 启动模式本文github地址： https://github.com/YoungBear/MyBlog/blob/master/ActivityLaunchMode.md 说明，本文sample中使用的简写，launchMode分别为： standard    在sample中用Activity A 来表示 singleTop    在sample中用Activi">
+<meta name="twitter:description" content="Android Activity 启动模式说明，本文sample中使用的简写，launchMode分别为： standard    在sample中用Activity A 来表示 singleTop    在sample中用Activity B 来表示 singleTask    在sample中用Activity C 来表示 singleInstance    在sample中用Activity">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20160924235822634">
   
     <link rel="alternative" href="/atom.xml" title="闫昊良的技术博客" type="application/atom+xml">
@@ -163,15 +163,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Android-Activity-启动模式"><a href="#Android-Activity-启动模式" class="headerlink" title="Android Activity 启动模式"></a>Android Activity 启动模式</h1><p>本文github地址：</p>
-<p><a href="https://github.com/YoungBear/MyBlog/blob/master/ActivityLaunchMode.md" target="_blank" rel="noopener">https://github.com/YoungBear/MyBlog/blob/master/ActivityLaunchMode.md</a></p>
-<p>说明，本文sample中使用的简写，launchMode分别为：</p>
+        <h1 id="Android-Activity-启动模式"><a href="#Android-Activity-启动模式" class="headerlink" title="Android Activity 启动模式"></a>Android Activity 启动模式</h1><p>说明，本文sample中使用的简写，launchMode分别为：</p>
 <p>standard    在sample中用Activity A 来表示</p>
 <p>singleTop    在sample中用Activity B 来表示</p>
 <p>singleTask    在sample中用Activity C 来表示</p>
 <p>singleInstance    在sample中用Activity D 来表示</p>
 <p>查看当前任务栈情况命令：</p>
 <p><code>adb shell dumpsys activity</code></p>
+<a id="more"></a>
+
 <h2 id="standard"><a href="#standard" class="headerlink" title="standard"></a>standard</h2><p>　　默认启动模式</p>
 <p>　　不管当前栈顶有没有实例，都会新建一个A实例，将Activity放在栈顶。</p>
 <h2 id="singleTop"><a href="#singleTop" class="headerlink" title="singleTop"></a>singleTop</h2><p>　　栈顶复用模式</p>
@@ -217,8 +217,6 @@
 <p>第3步的时候，任务栈情况截图：<br><img src="http://img.blog.csdn.net/20160924235803222" alt></p>
 <p>　　有图片中的任务栈情况可以看出，A1和A2是同一个任务栈#25235,而D是单独的一个任务栈#25236。这时候，如果按back键，则退出情况为A2-&gt;A1-&gt;D(先前台任务栈，再后台任务栈)。</p>
 <p>　　第4步，可以看出来，singleInstance与singleTask的不同是，singleInstance不会让当前栈顶的实例出栈，而是将其独立的任务栈移到前台，将当前的任务栈移到后台。这时候也会调用onNewIntent()-&gt;onRestart()-&gt;onStart()-&gt;onResume()。</p>
-<p>测试代码地址：</p>
-<p><a href="https://github.com/YoungBear/LaunchModeLearn" target="_blank" rel="noopener">https://github.com/YoungBear/LaunchModeLearn</a></p>
 <p>参考：</p>
 <p><a href="http://www.jianshu.com/p/185fd7e36bd3" target="_blank" rel="noopener">http://www.jianshu.com/p/185fd7e36bd3</a></p>
 <p><a href="http://blog.csdn.net/shinay/article/details/7898492/" target="_blank" rel="noopener">http://blog.csdn.net/shinay/article/details/7898492/</a></p>
