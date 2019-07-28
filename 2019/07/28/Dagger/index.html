@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Dagger2的使用More info:Dager官网地址 Dagger是一个完全静态的、编译时依赖 注入框架，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。说说什么是依赖注入？ 依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。 class A&amp;#123;```1```     privat">
+  <meta name="description" content="Dagger2的使用More info:Dager官网地址 Dagger是一个完全静态的、编译时依赖 注入框架，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。说说什么是依赖注入？ 依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。 class A&amp;#123;12345    private B">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
 <meta property="og:url" content="http://yoursite.com/2019/07/28/Dagger/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Dagger2的使用More info:Dager官网地址 Dagger是一个完全静态的、编译时依赖 注入框架，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。说说什么是依赖注入？ 依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。 class A&amp;#123;```1```     privat">
+<meta property="og:description" content="Dagger2的使用More info:Dager官网地址 Dagger是一个完全静态的、编译时依赖 注入框架，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。说说什么是依赖注入？ 依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。 class A&amp;#123;12345    private B">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-28T08:27:09.192Z">
+<meta property="og:updated_time" content="2019-07-28T08:36:54.871Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hexo">
-<meta name="twitter:description" content="Dagger2的使用More info:Dager官网地址 Dagger是一个完全静态的、编译时依赖 注入框架，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。说说什么是依赖注入？ 依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。 class A&amp;#123;```1```     privat">
+<meta name="twitter:description" content="Dagger2的使用More info:Dager官网地址 Dagger是一个完全静态的、编译时依赖 注入框架，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。说说什么是依赖注入？ 依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。 class A&amp;#123;12345    private B">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -163,11 +163,7 @@
 <h2 id="Dagger2的使用"><a href="#Dagger2的使用" class="headerlink" title="Dagger2的使用"></a>Dagger2的使用</h2><p>More info:<a href="https://dagger.dev" target="_blank" rel="noopener">Dager官网地址</a></p>
 <p>Dagger是一个完全静态的、编译时依赖 <strong>注入框架</strong>，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。<br><strong>说说什么是依赖注入？</strong></p>
 <p>依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。</p>
-<figure class="highlight plain"><figcaption><span>class A&#123;```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">```     private B b;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><figcaption><span>A(B _b)&#123;```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">```         this.b = _b</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">```&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><figcaption><span>class A&#123;</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">    private B b;</span><br><span class="line">    public A(B _b)&#123;</span><br><span class="line">        this.b = _b </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>上面的代码是不是很常见，我们发现业务类A依赖的业务类B。<br>这就是一个典型的依赖注入。<br>那我们来想想如果A被很多的其他业务类依赖如果A做了修改是不是要修改很多地方呢？<br>这样我们的Dagger就应该登场了，Dagger就为了解决此类问题而生的。</p>
 
