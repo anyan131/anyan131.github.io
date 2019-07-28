@@ -6,19 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>闫昊良的技术博客</title>
+  <title>Fresco 与 Picasso 、Glide 的比较 | 闫昊良的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Dagger2的使用Dager官网地址 Dagger是一个完全静态的、编译时依赖 注入框架，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。说说什么是依赖注入？ 依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。 123456public class A&amp;#123;        private">
+  <meta name="description" content="比较Picasso、Glide 和 Fresco 三种图片加载库比较 Picasso 与 Glide总体来说二者极为相似，有着近乎相同的 API 的使用风格，但 Glide 在缓存策略和加载 gif 方面略胜一筹。 基础Glide 和 Picasso 非常相似，Glide 加载图片的方式和 Picasso 如出一辙。虽然两者看起来一样，但 Glide 更易用，因为 Glide 的 with 方法不">
+<meta name="keywords" content="Android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="闫昊良的技术博客">
-<meta property="og:url" content="http://yoursite.com/2019/07/28/Dagger/index.html">
+<meta property="og:title" content="Fresco 与 Picasso 、Glide 的比较">
+<meta property="og:url" content="http://yoursite.com/2018/07/22/Fresco-与-Picasso-、Glide-的比较/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="Dagger2的使用Dager官网地址 Dagger是一个完全静态的、编译时依赖 注入框架，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。说说什么是依赖注入？ 依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。 123456public class A&amp;#123;        private">
+<meta property="og:description" content="比较Picasso、Glide 和 Fresco 三种图片加载库比较 Picasso 与 Glide总体来说二者极为相似，有着近乎相同的 API 的使用风格，但 Glide 在缓存策略和加载 gif 方面略胜一筹。 基础Glide 和 Picasso 非常相似，Glide 加载图片的方式和 Picasso 如出一辙。虽然两者看起来一样，但 Glide 更易用，因为 Glide 的 with 方法不">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-28T09:55:37.542Z">
+<meta property="og:updated_time" content="2019-07-28T11:08:24.237Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闫昊良的技术博客">
-<meta name="twitter:description" content="Dagger2的使用Dager官网地址 Dagger是一个完全静态的、编译时依赖 注入框架，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。说说什么是依赖注入？ 依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。 123456public class A&amp;#123;        private">
+<meta name="twitter:title" content="Fresco 与 Picasso 、Glide 的比较">
+<meta name="twitter:description" content="比较Picasso、Glide 和 Fresco 三种图片加载库比较 Picasso 与 Glide总体来说二者极为相似，有着近乎相同的 API 的使用风格，但 Glide 在缓存策略和加载 gif 方面略胜一筹。 基础Glide 和 Picasso 非常相似，Glide 加载图片的方式和 Picasso 如出一辙。虽然两者看起来一样，但 Glide 更易用，因为 Glide 的 with 方法不">
   
     <link rel="alternative" href="/atom.xml" title="闫昊良的技术博客" type="application/atom+xml">
   
@@ -154,90 +155,38 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Dagger" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Fresco-与-Picasso-、Glide-的比较" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Fresco 与 Picasso 、Glide 的比较
+    </h1>
+  
+
+        
+        <a href="/2018/07/22/Fresco-与-Picasso-、Glide-的比较/" class="archive-article-date">
+  	<time datetime="2018-07-22T00:46:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-22</time>
+</a>
+        
+      </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <hr>
-<h2 id="Dagger2的使用"><a href="#Dagger2的使用" class="headerlink" title="Dagger2的使用"></a>Dagger2的使用</h2><p><a href="https://dagger.dev" target="_blank" rel="noopener">Dager官网地址</a></p>
-<p>Dagger是一个完全静态的、编译时依赖 <strong>注入框架</strong>，适用于Java和Android。它是Square创建的早期版本的一个改编版本、现在由谷歌维护。<br><strong>说说什么是依赖注入？</strong></p>
-<p>依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class A&#123;</span><br><span class="line">        private B b;</span><br><span class="line">        public A(B _b)&#123;</span><br><span class="line">            this.b = _b </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="比较Picasso、Glide-和-Fresco-三种图片加载库"><a href="#比较Picasso、Glide-和-Fresco-三种图片加载库" class="headerlink" title="比较Picasso、Glide 和 Fresco 三种图片加载库"></a>比较Picasso、Glide 和 Fresco 三种图片加载库</h2><h3 id="比较-Picasso-与-Glide"><a href="#比较-Picasso-与-Glide" class="headerlink" title="比较 Picasso 与 Glide"></a>比较 Picasso 与 Glide</h3><p>总体来说二者极为相似，有着近乎相同的 API 的使用风格，但 Glide 在缓存策略和加载 gif 方面略胜一筹。</p>
+<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>Glide 和 Picasso 非常相似，Glide 加载图片的方式和 Picasso 如出一辙。<br>虽然两者看起来一样，但 Glide 更易用，因为 Glide 的 with 方法不光接受 Context,还接受 Activity 和 Fragment,Context 会自动的从他们获取，同时将 Activity/Fragment 作为 with()参数的好处是：图片加载会和 Activity/Fragment 的生命周期保持一致，比如 Paused 状态在暂停加载，在 Resumed 的时候又自动重新加载。</p>
+<a id="more"></a>
 
-<p>上面的代码是不是很常见，我们发现业务类A依赖的业务类B。<br>这就是一个典型的依赖注入。<br>那我们来想想如果A被很多的其他业务类依赖如果A做了修改是不是要修改很多地方呢？<br>这样我们的Dagger就应该登场了，Dagger就为了解决此类问题而生的。</p>
-<p><strong>简单使用：</strong></p>
-<p><strong>到依赖</strong></p>
-<p>build.gradle中导入依赖：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    implementation &apos;com.google.dagger:dagger-android:2.17&apos;</span><br><span class="line">    annotationProcessor&quot;com.google.dagger:dagger-compiler:2.17&quot;</span><br><span class="line">    implementation &apos;com.google.dagger:dagger-android-support:2.17&apos; // if you use the support libraries</span><br><span class="line">    annotationProcessor &apos;com.google.dagger:dagger-android-processor:2.17&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>业务类ClassA</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package com.baweigame.daggerdemoapplication;</span><br><span class="line"></span><br><span class="line">import javax.inject.Inject;</span><br><span class="line"></span><br><span class="line">public class ClassB &#123;</span><br><span class="line">    @Inject</span><br><span class="line">    public ClassB()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Inject</span><br><span class="line">    ClassA classA;</span><br><span class="line"></span><br><span class="line">    public int Add(int a,int b)&#123;</span><br><span class="line">        return classA.Add(a,b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>业务类ClassB</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">package com.baweigame.daggerdemoapplication;</span><br><span class="line"></span><br><span class="line">import javax.inject.Inject;</span><br><span class="line"></span><br><span class="line">public class ClassB &#123;</span><br><span class="line">    @Inject</span><br><span class="line">    public ClassB()&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Inject</span><br><span class="line">    ClassA classA;</span><br><span class="line"></span><br><span class="line">    public int Add(int a,int b)&#123;</span><br><span class="line">        return classA.Add(a,b);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>MainActivityComponent</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">package com.baweigame.daggerdemoapplication;</span><br><span class="line"></span><br><span class="line">import android.app.Activity;</span><br><span class="line"></span><br><span class="line">import dagger.Component;</span><br><span class="line"></span><br><span class="line">@Component</span><br><span class="line">public interface MainActivityComponent&#123;</span><br><span class="line">    void inject(MainActivity activity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>MainActivity</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">package com.baweigame.daggerdemoapplication;</span><br><span class="line"></span><br><span class="line">import android.app.Activity;</span><br><span class="line">import android.support.v7.app.AppCompatActivity;</span><br><span class="line">import android.os.Bundle;</span><br><span class="line">import android.view.View;</span><br><span class="line">import android.widget.TextView;</span><br><span class="line">import android.widget.Toast;</span><br><span class="line"></span><br><span class="line">import javax.inject.Inject;</span><br><span class="line"></span><br><span class="line">import dagger.Component;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends AppCompatActivity &#123;</span><br><span class="line">    private TextView tvTest;</span><br><span class="line"></span><br><span class="line">    @Inject</span><br><span class="line">    ClassB classB;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        initView();</span><br><span class="line">        initListener();</span><br><span class="line"></span><br><span class="line">        DaggerMainActivityComponent.create().inject(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void initListener() &#123;</span><br><span class="line">        tvTest.setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void onClick(View v) &#123;</span><br><span class="line">                Toast.makeText(MainActivity.this, &quot;&quot;+classB.Add(2,3), Toast.LENGTH_SHORT).show();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private void initView() &#123;</span><br><span class="line">        tvTest = (TextView) findViewById(R.id.tv_test);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>我们看上面的例子，比较简单，首先业务类B依赖了业务类A，MainActivity依赖了业务类B，我们发现用Dagger实现起来是不是很清爽。如果我们不用Dagger我的代码大概应该是下面的样子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">ClassA classA=new ClassA();</span><br><span class="line">ClassB classB=new ClassB();</span><br><span class="line">classB.set(classA);</span><br><span class="line"></span><br><span class="line">classB.Add(2,3);</span><br></pre></td></tr></table></figure>
-
-<p>使用Dagger2</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Inject</span><br><span class="line">ClassB classB;</span><br><span class="line"></span><br><span class="line">classB.Add(2,3);</span><br></pre></td></tr></table></figure>
-
-<p>感觉是不是很简洁。<br>上面的例子中出现了一些新的“东西”，我们发现大多出现的是注解。</p>
-<p><strong>Componet 注解</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Retention(value=RUNTIME)</span><br><span class="line">@Target(value=TYPE)</span><br><span class="line">@Documented</span><br><span class="line">public @interface Component &#123;</span><br><span class="line">    Class&lt;?&gt;[] modules() default &#123;&#125;;</span><br><span class="line">    Class&lt;?&gt;[] dependencies() default &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考链接：<a href="https://dagger.dev/api/latest/dagger/Component.html" target="_blank" rel="noopener">https://dagger.dev/api/latest/dagger/Component.html</a></p>
-<p>注释接口或抽象类，为其从一组模块生成注入依赖关系的实现。生成的类的类型名称将带有@Component注释，前缀为Dagger。例如，@Component interface MyComponent{…}将生成一个名为DaggerMyComponent的实现。</p>
-<p><strong>Subcomponent 注解</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Retention(value=RUNTIME)</span><br><span class="line">@Target(value=TYPE)</span><br><span class="line">@Documented</span><br><span class="line">public @interface Subcomponent &#123;</span><br><span class="line">    Class&lt;?&gt;[] modules() default &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考链接：<a href="https://dagger.dev/api/latest/dagger/Subcomponent.html" target="_blank" rel="noopener">https://dagger.dev/api/latest/dagger/Subcomponent.html</a><br>从父组件或子组件继承绑定的子组件。</p>
-<p><strong>Module注解</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Retention(value=RUNTIME)</span><br><span class="line">@Target(value=TYPE)</span><br><span class="line">public @interface Module&#123;</span><br><span class="line">    Class&lt;?&gt;[] includes() default &#123;&#125;;</span><br><span class="line">    Class&lt;?&gt;[] subcomponents default &#123;&#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考链接：<a href="https://dagger.dev/api/latest/dagger/Module.html" target="_blank" rel="noopener">https://dagger.dev/api/latest/dagger/Module.html</a></p>
-<p><strong>Provides注解</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Target(value=METHOD)</span><br><span class="line">@Retention(value=RUNTIME)</span><br><span class="line">public @interface Provides&#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考链接：<a href="https://dagger.dev/api/latest/dagger/Provides.html" target="_blank" rel="noopener">https://dagger.dev/api/latest/dagger/Provides.html</a></p>
-<p>注释模块的方法，以创建提供程序方法绑定。方法的返回类型绑定到其返回值。组件实现将依赖项作为参数传递给方法。</p>
-<p><strong>MapKey 注解</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@Documented</span><br><span class="line">@Target(value=ANNOTATION_TYPE)</span><br><span class="line">@Retention(value=RUNTIME)</span><br><span class="line">public @interface MapKey&#123;</span><br><span class="line">    boolean unwrapValue() default true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>参考链接：<a href="https://dagger.dev/api/latest/dagger/MapKey.html" target="_blank" rel="noopener">https://dagger.dev/api/latest/dagger/MapKey.html</a></p>
-<p>标识用于将Key与方法返回的值关联以组成映射的注释类型。<br>每个使用@ provide和@IntoMap注释的提供程序方法都必须有一个注释来标识映射条目的键。该注释的类型必须使用@MapKey进行注释。<br>通常，键注释只有一个成员，其值用作映射键。</p>
-<p><strong>Dagger 2中用到的定义在 JSR-330的其他注解</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public @interface Inject &#123;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public @interface Scope &#123;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">public @interface Qualifier &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面的例子中我们接触到了@Inject和@Component两个注解，下面来说说这两个注解是做什么用的？<br>如果想使用Dagger来实现依赖注入就至少要使用这两个注解：<br>@Inject用于标记需要注入的依赖，或者标记用于提供依赖的方法。<br>依赖注入中最重要的注解，JSR-330标准中的一部分在javax.inject包中。</p>
-<p>Dagger 2中有3种方式提供依赖：</p>
-<p>1、构造函数注入，如我们上面例子中的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ClassA:</span><br><span class="line"></span><br><span class="line">@Inject</span><br><span class="line">public ClassA()&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>注：如果存在多个构造函数，我们只能标注一个，不能同时标注多个。</p>
-<p>2、属性注入<br>注：被标注的属性不能使用private修饰。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Inject</span><br><span class="line">ClassB b;</span><br></pre></td></tr></table></figure>
-
-<p>3、方法注入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Inject</span><br><span class="line">public void setClassB(ClassB _b) &#123;</span><br><span class="line">    this.b = _b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>方法注入与属性注入基本上没区别，Dagger2会在构造执行完立即调用这个方法，也就是说如果我们需要使用this的时候，使用方法注入是安全的。</p>
-<p>@Component用来完成注入，在上面的例子中目标MainActivity就是使用Component完成注入。<br>@Component是Dagger2中最重要的一个注解，Dagger2是使用它来完成依赖注入的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Component</span><br><span class="line">public interface MainActivityComponent&#123;</span><br><span class="line">    void inject(MainActivity activity);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>上面是我们上面例子中的接口，使用Component的使用方式，命名一般用 类名+Component 方式，我们rebuild工程后，Dagger2会生成一个Dagger+XXX（如：DaggerMainActivityComponent）的类。</p>
-<p>Component中一般使用两种方式定义方法。</p>
-<p>void inject(目标类 obj);<br>Dagger2会从目标类开始查找@Inject注解，自动生成依赖注入的代码，调用inject可完成依赖的注入。</p>
-<p>Object getObj(); 如：ClassB getClassB();<br>Dagger2会到ClassB类中找被@Inject注解标注的构造器，自动生成提供ClassB依赖的代码，这种方式一般为其他Component提供依赖。</p>
-<p>Dagger2以@Component中定义的方法作为起点，到目标类中寻找@Inject标注，生成一系列提供依赖的Factory类和注入依赖的Injector类。<br>而Component则是联系Factory和Injector，最终完成依赖的注入。</p>
-<p><a href="http://www.zydeveloper.com/2019/07/22/Dagger2/2019-07-23-15-14-00.png" target="_blank" rel="noopener">http://www.zydeveloper.com/2019/07/22/Dagger2/2019-07-23-15-14-00.png</a><br>我们来看看Dagger2生成的类，我们发现ClassA_Factory ClassB_Factory 这两个类分别对应我们的ClassA ClassB构造函数上的@Inject注解。</p>
+<h3 id="图像和内存"><a href="#图像和内存" class="headerlink" title="图像和内存"></a>图像和内存</h3><p>同样将 1920×1080 像素的图片加载到 768×432 的 ImageView 中，Glide 加载的图片质量要差于Picasso，这是因为 Glide 默认的 Bitmap 格式是 RGB-565 ，比 ARGB-8888 格式的内存开销要小一半。想要提高 Glide 的图片效果，可以创建一个新的 GlideModule 将 Bitmap 格式转换到 ARGB-8888。同时在 AndroidManifest.xml 中将 GlideModule 定义为 meta-data。<br>修改了 Bitmap 格式后，Glide 将花费两倍于上次的内存，但是仍远远小于 Picasso 的内存开销，原因在于 Picasso 是加载了全尺寸的图片到内存，然后让 GPU 来实时重绘大小。而 Glide 加载的大小和 ImageView 的大小是一致的，当然，Picasso 也是可以指定加载图片大小的，但是问题在于你需要主动计算 ImageView 的大小，或者说你的 ImageView 大小是具体的值（而不是 wrap_content ）<br>在加载图片这个问题上 Glide 完胜 Picasso，因为 Glide 可以自动计算出任意情况下的 ImageView 大小。</p>
+<h3 id="Image质量的细节"><a href="#Image质量的细节" class="headerlink" title="Image质量的细节"></a>Image质量的细节</h3><p>将 ImageView 还原到真实大小时，Glide 加载的图片没有 Picasso 那么平滑。</p>
+<h3 id="磁盘缓存"><a href="#磁盘缓存" class="headerlink" title="磁盘缓存"></a>磁盘缓存</h3><p>Picasso 和 Glide 在磁盘缓存策略上有很大的不同。Picasso 缓存的是全尺寸的，而 Glide 缓存的是跟 ImageView 尺寸相同的。我们可以将 ImageView 调整成不同大小，但不管大小如何 Picasso 只缓存一个全尺寸的。Glide 则不同，它会为每种大小的 ImageView 缓存 一次。尽管一张图片已经缓存了一次，但是假如你要在另外一个地方再次以不同尺寸显示，需要重新下载，调整成新尺寸的大小，然后将这个尺寸的也缓存起来。具体说来就是：假如在第一个页面有一个 200×200 的 ImageView，在第二个页面有一个 100×100 的 ImageView，这两个 ImageView 本来是要显示同一张图片，却需要下载两次。不过，你可以通过代码改变这种行为，让Glide既缓存全尺寸又缓存其他尺寸，<br>这样就使得下次在任何 ImageView 中加载图片的时候，全尺寸的图片将从缓存中取出，重新调整大小，然后缓存。<br>Glide 的这种方式优点是加载显示非常快。而 Picasso 的方式则因为需要在显示之前重新调整大小而导致一些延迟。不过 Glide 比 Picasso 需要更大的空间来缓存。</p>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>Glide 可以做到和 Picasso 几乎一样多的事，代码也几乎一样。但 Glide 可以加载 GIF 动态图，而 Picasso 不能，但是 Glide 动画会消费太多的内存，因此谨慎使用。除了 gif 动画之外，Glide 还可以将任何的本地视频解码成一张静态图片。还有一个特性是你可以配置图片显示的动画，而 Picasso 只有一种动画：fading in，最后一个是可以使用 thumbnail()产生一个你所加载图片的 thumbnail。其实还有一些特性，不过不是非常重要，比如将图像转换成字节数组等。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>Glide 和 Picasso 都是非常完美的库。Glide 加载图像以及磁盘缓存的方式都要优于 Picasso，速度更快，并且 Glide 更有利于减少 OutOfMemoryError 的发生，GIF 动画是 Glide 的杀手锏。不过Picasso 的图片质量更高。如果使用 Glide，建议将 Bitmap 格式换成 ARGB_8888、让 Glide 缓存同时缓存全尺寸和改变尺寸两种。</p>
+<h3 id="Fresco"><a href="#Fresco" class="headerlink" title="Fresco"></a>Fresco</h3><p>Fresco 的最大亮点在于它的内存管理。解压后的图片,即 Android 中的 Bitmap ，占用大量的内存，在 Android 5.0以下系统中，这会显著地引发界面卡顿。而使用 Fresco 将很好地解决这个问题，Fresco 会将图片放到一个特别的内存区域，当图片不再显示的时候，占用的内存会自动被释放，这会使得 APP 更流畅，减少因图片内存占用而引发的 OOM。当 APP 包含的图片较多时，这个效果尤其明显。</p>
+<p>Fresco 支持图像的渐进式呈现，渐进式的图片格式先呈现大致的图片轮廓，然后随着图片下载的继续，逐渐呈现清晰的图片，这在低网速情况下浏览图片十分有帮助，可以带来更好地用户体验。另外，Fresco 支持加载 gif 图，支持 WebP 格式。</p>
+<h3 id="最后总结"><a href="#最后总结" class="headerlink" title="最后总结"></a>最后总结</h3><p>Picasso 所能实现的功能 Glide 都能做到，只是所需设置不同。两者的区别是 Picasso 比 Glide 体积小很多且图像质量比 Glide 高，但Glide 的速度比 Picasso 更快，Glide 的长处是处理大型的图片流，如 gif、video，如果要制作视频类应用，Glide 当为首选。<br>Fresco 可以说是综合了之前图片加载库的优点，其在5.0以下的内存优化非常好，但它的不足是体积太大，按体积进行比较：Fresco&gt;Glide&gt;Picasso，所以 Fresco 在图片较多的应用中更能凸显其价值，如果应用没有太多图片需求，不推荐使用 Fresco。</p>
 
       
 
@@ -267,6 +216,17 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
@@ -317,7 +277,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/28/Dagger/" alt="微信分享二维码">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2018/07/22/Fresco-与-Picasso-、Glide-的比较/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -331,9 +291,18 @@
   
 <nav id="article-nav">
   
+    <a href="/2018/12/04/Acache/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Acache
+        
+      </div>
+    </a>
   
-    <a href="/2019/07/26/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Hello World</div>
+  
+    <a href="/2017/08/07/JAVA下实现多线程断点下载/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JAVA下实现多线程断点下载</div>
       <i class="icon-circle-right"></i>
     </a>
   
