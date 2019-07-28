@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 闫昊良的技术博客</title>
+  <title>闫昊良的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="#Android 线程和线程池 参考《Android 开发艺术探索》 ##线程池的优点##  重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销 能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象 能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能。">
+<meta property="og:type" content="article">
 <meta property="og:title" content="闫昊良的技术博客">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/07/28/ThreadPool/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
+<meta property="og:description" content="#Android 线程和线程池 参考《Android 开发艺术探索》 ##线程池的优点##  重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销 能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象 能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能。">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-28T11:54:19.602Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="闫昊良的技术博客">
+<meta name="twitter:description" content="#Android 线程和线程池 参考《Android 开发艺术探索》 ##线程池的优点##  重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销 能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象 能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能。">
   
     <link rel="alternative" href="/atom.xml" title="闫昊良的技术博客" type="application/atom+xml">
   
@@ -150,279 +154,227 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-ThreadPool" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>#Android 线程和线程池</p>
+<p>参考《Android 开发艺术探索》</p>
+<p>##线程池的优点##</p>
+<ol>
+<li>重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销</li>
+<li>能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象</li>
+<li>能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能。</li>
+</ol>
+<a id="more"></a>
+<p>　　Android 中的线程池的概念来源于 Java 中的 Executor， Executor 是一个接口，真正的线程池的实现为 ThreadPoolExecutor。ThreadPoolExecutor 提供了一系列参数来配置线程池，通过不同的参数可以创建不同的线程池，从线程池的功能特性上来说，Android 的线程池主要分为 4 类，这 4 类线程池可以通过 Executor 所提供的工厂方法来得到。由于 Android 中的线程池都是直接或者间接通过配置 ThreadPoolExecutor 来实现的，所以先了解下 ThreadPoolExecutor。</p>
+<p>package java.util.concurrent;</p>
+<p>ThreadPoolExecutor.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">int</span> maximumPoolSize,</span></span></span><br><span class="line"><span class="function"><span class="params">                              <span class="keyword">long</span> keepAliveTime,</span></span></span><br><span class="line"><span class="function"><span class="params">                              TimeUnit unit,</span></span></span><br><span class="line"><span class="function"><span class="params">                              BlockingQueue&lt;Runnable&gt; workQueue,</span></span></span><br><span class="line"><span class="function"><span class="params">                              ThreadFactory threadFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">                              RejectedExecutionHandler handler)</span></span></span><br></pre></td></tr></table></figure>
+
+<p><strong>corePoolSize</strong></p>
+<p>　　线程池的核心线程数，默认情况下，核心线程会在线程池中一直存活，即使它们处于闲置状态。如果将 ThreadPoolExecutor 的allowCoreThreadTimeOut 属性设置为true，那么闲置的核心线程在等待新任务到来时会有超时策略，这个时间间隔有keepAliveTime所指定，当等待时间超过 keepAliveTime 所指定的时长后，核心线程就会被终止。</p>
+<p><strong>maximumPoolSize</strong></p>
+<p>　　线程池所能容纳的最大线程数，当活动线程数达到这个数值后，后续的新任务将会被阻塞。</p>
+<p><strong>keepAliveTime</strong></p>
+<p>　　非核心线程闲置时的超时时长，超过这个时长，非核心线程就会被回收。当ThreadPoolExecutor的 allowCoreThreadTimeOut 属性设置为 true 时，keepAliveTime 同样会作用于核心线程。</p>
+<p><strong>unit</strong></p>
+<p>　　用于指定 keepAliveTime 参数的时间单位。</p>
+<p><strong>workQueue</strong></p>
+<p>　　线程池中的任务队列，通过线程池的 execute 方法提交的 Runnable 对象会存储在这个参数中。</p>
+<p><strong>threadFactory</strong></p>
+<p>　　线程工厂，为线程池创建新线程的功能。ThreadFactory 是一个接口，它只有一个方法：Thread newThread(Runnable r)。</p>
+<p><strong>handler</strong></p>
+<p>　　当线程池无法执行新任务时，这个能是由于任务队列已满或者是无法成功执行任务，这个时候 ThreadPoolExecutor 会调用 handler 的 rejectedExecution 方法来通知调用者，默认情况下 rejectedExecution 方法会直接抛出一个 RejectedExecutionException。</p>
+<p>　　ThreadPoolExecutor 执行任务时大致遵循如下规则：</p>
+<ol>
+<li>如果线程池中的线程数量未达到核心线程的数量，那么会直接启动一个核心线程来执行任务。</li>
+<li>如果线程池中的线程数量已经达到或者超过核心线程的数量，那么任务会被插入到任务队列中排队等待执行。</li>
+<li>如果在步骤 2 中无法将任务插入到任务队列中，这往往是由于任务队列已满，这个时候如果线程数量未达到线程池规定的最大值，那么会立即启动一个非核心线程来执行任务。</li>
+<li>如果步骤 3 中线程数量已经达到线程池规定的最大值，那么就拒绝执行此任务，ThreadPoolExecutor 会调用 RejectedExecutionHandler 的 rejectedExecution 方法来通知调用者。</li>
+</ol>
+<p>##AsyncTask 中　ThreadPoolExecutor 的配置##</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CPU_COUNT = Runtime.getRuntime().availableProcessors();</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CORE_POOL_SIZE = CPU_COUNT + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXIMUM_POOL_SIZE = CPU_COUNT * <span class="number">2</span> + <span class="number">1</span>;</span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> KEEP_ALIVE = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> ThreadFactory sThreadFactory = <span class="keyword">new</span> ThreadFactory() &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> AtomicInteger mCount = <span class="keyword">new</span> AtomicInteger(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Thread <span class="title">newThread</span><span class="params">(Runnable r)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Thread(r, <span class="string">"AsyncTask #"</span> + mCount.getAndIncrement());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> BlockingQueue&lt;Runnable&gt; sPoolWorkQueue =</span><br><span class="line">        <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;(<span class="number">128</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * An &#123;<span class="doctag">@link</span> Executor&#125; that can be used to execute tasks in parallel.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Executor THREAD_POOL_EXECUTOR</span><br><span class="line">        = <span class="keyword">new</span> ThreadPoolExecutor(CORE_POOL_SIZE, MAXIMUM_POOL_SIZE, KEEP_ALIVE,</span><br><span class="line">                TimeUnit.SECONDS, sPoolWorkQueue, sThreadFactory);</span><br></pre></td></tr></table></figure>
+
+<p>　　从上面的代码可以知道，AsyncTask 对 THREAD_POOL_EXECUTOR 这个线程池进行了配置，配置后的线程池规格如下：</p>
+<p>　　<strong>核心线程数等于 CPU 核心数 + 1；</strong></p>
+<p>　　<strong>线程池的最大线程数为 CPU 核心数的 2 倍 + 1；</strong></p>
+<p>　　<strong>核心线程无超时机制，非核心线程在闲置时的超时时间为 1 秒；</strong></p>
+<p>　　<strong>任务队列的容量为 128。</strong></p>
+<p>##Android 中最常用的四类线程池##</p>
+<p>　　<strong>FixedThreadPool</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newFixedThreadPool</span><span class="params">(<span class="keyword">int</span> nThreads)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(nThreads, nThreads,</span><br><span class="line">                                  <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                  <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　FixedThreadPool 是一种<font color="red">线程数量固定</font>的线程池，并且<font color="red">只有核心线程</font>。当线程处于空闲状态时，他们并不会被回收。当所有的线程都处于活动状态时，新任务都会处于等待状态，直到有线程空闲出来。由于 FixedThreadPool 只有核心线程并且这些核心线程不会被回收，这意味着它能够更加快速地相应外界的请求。</p>
+<p>　　特点：</p>
+<ol>
+<li>线程数量固定</li>
+<li>只有核心线程</li>
+<li>没有超时机制</li>
+<li>任务队列没有大小限制</li>
+</ol>
+<p><strong>CachedThreadPool</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newCachedThreadPool</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> ThreadPoolExecutor(<span class="number">0</span>, Integer.MAX_VALUE,</span><br><span class="line">                                   <span class="number">60L</span>, TimeUnit.SECONDS,</span><br><span class="line">                                   <span class="keyword">new</span> SynchronousQueue&lt;Runnable&gt;());</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　CachedThreadPool 是一种<font color="red">线程数量不定</font>的线程池，它<font color="red">只有非核心线程</font>，并且其最大线程数为 Integer.MAX_VALUE 。由于 Integer.MAX_VALUE 是一个很大的数，实际上就相当于最大线程数可以任意大。当线程池中的线程都处于活动状态时，线程池会创建新的线程来处理新任务，否则就会利用空闲的线程来处理新任务。线程池中的空闲线程都有超时机制，这个超时时长为 60 秒，超过 60 秒闲置线程就会被回收。和 FixedThreadPool 不同的是， CacheedThreadPool 的任务队列其实相当于一个空集合，这将导致任何任务都会立即被执行，因为在这种场景下 SynchronousQueue 是无法插入任务的。从 CacheThreadPool 的特性来看，这类线程池比较适合<font color="red">执行大量的耗时较少的任务</font>。当整个线程池都处于闲置状态时，线程池中的线程都会超时而被停止，这个时候 CachedThreadPool 之中实际上是没有任何线程的，它几乎是不占用任何系统资源的。</p>
+<p>　　特点：</p>
+<ol>
+<li>线程数目不固定</li>
+<li>只有非核心线程</li>
+<li>最大线程数任意大</li>
+<li>有超时机制，闲置线程超过 60 秒就会被回收</li>
+<li>任务队列为空集合，任何任务都会立即被执行</li>
+</ol>
+<p>　　<strong>ScheduledThreadPool</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ScheduledExecutorService <span class="title">newScheduledThreadPool</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> ScheduledThreadPoolExecutor(corePoolSize);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ScheduledThreadPoolExecutor</span><span class="params">(<span class="keyword">int</span> corePoolSize)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(corePoolSize, Integer.MAX_VALUE, <span class="number">0</span>, NANOSECONDS,</span><br><span class="line">          <span class="keyword">new</span> DelayedWorkQueue());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　ScheduledThreadPool 的核心线程数量是固定的，而非核心线程数是没有限制的，并且当非核心线程闲置时会被立即回收。ScheduledThreadPool 这类线程池主要用于<font color="red">执行定时任务和具有固定周期的重复任务</font>。</p>
+<p>　　特点：</p>
+<ol>
+<li>核心线程固定</li>
+<li>非核心线程任意大</li>
+<li>有超时机制，闲置线程会被立即(0秒)回收</li>
+</ol>
+<p>　　<strong>SingleThreadExecutor</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ExecutorService <span class="title">newSingleThreadExecutor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> FinalizableDelegatedExecutorService</span><br><span class="line">        (<span class="keyword">new</span> ThreadPoolExecutor(<span class="number">1</span>, <span class="number">1</span>,</span><br><span class="line">                                <span class="number">0L</span>, TimeUnit.MILLISECONDS,</span><br><span class="line">                                <span class="keyword">new</span> LinkedBlockingQueue&lt;Runnable&gt;()));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>　　SingleThreadExecutor 线程池内部只有一个核心线程，它确保所有的任务都在同一个线程中按顺序执行。SingleThreadExecutor 的意义在于统一所有的外界任务到一个线程中，这使得在这些任务之间不需要处理线程同步的问题。</p>
+<p>　　特点：</p>
+<ol>
+<li>只有一个线程</li>
+</ol>
+<p>##测试小程序##</p>
+<p>Github地址：</p>
+<p><a href="https://github.com/YoungBear/JavaLearn/blob/master/src/com/example/executor/Test.java" target="_blank" rel="noopener">https://github.com/YoungBear/JavaLearn/blob/master/src/com/example/executor/Test.java</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">package</span> com.example.executor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.text.SimpleDateFormat;</span><br><span class="line"><span class="keyword">import</span> java.util.Date;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.Executors;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.ScheduledExecutorService;</span><br><span class="line"><span class="keyword">import</span> java.util.concurrent.TimeUnit;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> bearyang</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> args</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Runnable command = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                SimpleDateFormat format = <span class="keyword">new</span> SimpleDateFormat(<span class="string">"yyyy-MM-dd HH:mm:ss"</span>);</span><br><span class="line">                String timeString = format.format(<span class="keyword">new</span> Date());</span><br><span class="line">                System.out.println(<span class="string">"current: "</span> + timeString);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        ExecutorService fixedThreadPool = Executors.newFixedThreadPool(<span class="number">4</span>);</span><br><span class="line">        fixedThreadPool.execute(command);</span><br><span class="line"></span><br><span class="line">        ExecutorService cacheThreadPool = Executors.newCachedThreadPool();</span><br><span class="line">        cacheThreadPool.execute(command);</span><br><span class="line"></span><br><span class="line">        ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(<span class="number">4</span>);</span><br><span class="line">        <span class="comment">// 2000ms后执行command</span></span><br><span class="line">        scheduledExecutorService.schedule(command, <span class="number">2000</span>, TimeUnit.MILLISECONDS);</span><br><span class="line">        <span class="comment">// 延迟10s后，每隔1s执行一次command</span></span><br><span class="line">        scheduledExecutorService.scheduleAtFixedRate(command, <span class="number">10</span> * <span class="number">1000</span>, <span class="number">1000</span>, TimeUnit.MILLISECONDS);</span><br><span class="line"></span><br><span class="line">        ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();</span><br><span class="line">        singleThreadExecutor.execute(command);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/ThreadPool/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.385Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/handler_memory_leak/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.385Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/RxJava/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.384Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/Handler_Message_Looper_MessageQueue/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.383Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/AsyncTask/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.379Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/AndroidRuntimePermission/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.377Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/ActivityLaunchMode/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.307Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/Dagger/" class="archive-article-date">
-  	<time datetime="2019-07-28T07:50:31.580Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/Iterator-Pattern/" class="archive-article-date">
-  	<time datetime="2019-07-18T06:33:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/Iterator-Pattern/">IteratorPattern(迭代器模式)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/12/04/Acache/" class="archive-article-date">
-  	<time datetime="2018-12-04T01:46:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/04/Acache/">Acache</a>
-    </h1>
-  
+      </div>
+    </span>
+  </div>
+</div>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">第三方框架</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/28/ThreadPool/" alt="微信分享二维码">
+    </div>
+</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2019/07/28/handler_memory_leak/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -446,8 +398,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

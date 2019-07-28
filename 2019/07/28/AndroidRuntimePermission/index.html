@@ -6,15 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | 闫昊良的技术博客</title>
+  <title>闫昊良的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
+  <meta name="description" content="AndroidRuntimePermissionAndroid运行时权限官网文档： https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html https://developer.android.com/training/permissions/requesting.html?hl=zh-cn#">
+<meta property="og:type" content="article">
 <meta property="og:title" content="闫昊良的技术博客">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/07/28/AndroidRuntimePermission/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
+<meta property="og:description" content="AndroidRuntimePermissionAndroid运行时权限官网文档： https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html https://developer.android.com/training/permissions/requesting.html?hl=zh-cn#">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-07-28T11:55:19.646Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="闫昊良的技术博客">
+<meta name="twitter:description" content="AndroidRuntimePermissionAndroid运行时权限官网文档： https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html https://developer.android.com/training/permissions/requesting.html?hl=zh-cn#">
   
     <link rel="alternative" href="/atom.xml" title="闫昊良的技术博客" type="application/atom+xml">
   
@@ -150,279 +154,211 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-AndroidRuntimePermission" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="AndroidRuntimePermission"><a href="#AndroidRuntimePermission" class="headerlink" title="AndroidRuntimePermission"></a>AndroidRuntimePermission</h1><h1 id="Android运行时权限"><a href="#Android运行时权限" class="headerlink" title="Android运行时权限"></a>Android运行时权限</h1><p>官网文档：</p>
+<p><a href="https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html" target="_blank" rel="noopener">https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html</a></p>
+<p><a href="https://developer.android.com/training/permissions/requesting.html?hl=zh-cn#perm-request" target="_blank" rel="noopener">https://developer.android.com/training/permissions/requesting.html?hl=zh-cn#perm-request</a></p>
+<p><a href="https://developer.android.com/training/permissions/best-practices.html?hl=zh-cn#testing" target="_blank" rel="noopener">https://developer.android.com/training/permissions/best-practices.html?hl=zh-cn#testing</a></p>
+<p>对于Android 6.0（API 级别 23）或更高版本为目标平台的应用，请务必在<strong>运行时检查</strong>和<strong>请求权限</strong>。</p>
+<a id="more"></a>
+<p>其中，检查权限使用函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ContextCompat.checkSelfPermission() :</span><br><span class="line">public static int checkSelfPermission(@NonNull Context context, @NonNull String permission)</span><br></pre></td></tr></table></figure>
+
+<p>返回值为0或者1，其含义分别为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//PackageManager.java</span><br><span class="line">public static final int PERMISSION_GRANTED = 0;//同意</span><br><span class="line">public static final int PERMISSION_DENIED = -1;//拒绝</span><br></pre></td></tr></table></figure>
+
+<p>如果应用具有此权限，方法将返回 <code>PackageManager.PERMISSION_GRANTED</code>，并且应用可以<strong>继续</strong>操作。如果应用不具有此权限，方法将返回 <code>PackageManager.PERMISSION_DENIED</code>，且应用必须<strong>明确</strong>向用户要求权限。</p>
+<p><strong>注：</strong></p>
+<p>在Android 6.0 (API 23)以下，checkSelfPermission的方法返回为0(PERMISSION_GRANTED)，即默认授予权限。不过国内各大手机厂商可能会自定义一些权限管理，所以具体问题还需要去适配。</p>
+<h2 id="请求权限"><a href="#请求权限" class="headerlink" title="请求权限"></a>请求权限</h2><p>如果您的应用需要应用清单中列出的<strong>危险权限</strong>，那么，它必须<strong>要求用户授予</strong>该权限。Android 为您提供了多种权限请求方式。调用这些方法将显示一个标准的 Android 对话框，不过，您<strong>不能</strong>对它们进行自定义。</p>
+<h2 id="解释应用为什么需要权限"><a href="#解释应用为什么需要权限" class="headerlink" title="解释应用为什么需要权限"></a>解释应用为什么需要权限</h2><p>为了帮助查找用户可能需要解释的情形，Android 提供了一个实用程序方法，即 <code>shouldShowRequestPermissionRationale()</code>。如果应用<strong>之前请求过</strong>此权限<strong>但用户拒绝</strong>了请求，此方法将返回 true。</p>
+<p>注：如果用户在过去拒绝了权限请求，并在权限请求系统对话框中选择了 <code>Don&#39;t ask again</code> 选项，此方法将返回 false。如果设备规范禁止应用具有该权限，此方法也会返回 false。</p>
+<h1 id="请求您需要的权限"><a href="#请求您需要的权限" class="headerlink" title="请求您需要的权限"></a>请求您需要的权限</h1><p>如果应用尚无所需的权限，则应用必须调用一个 requestPermissions() 方法，以请求适当的权限。应用将传递其所需的权限，以及您指定用于识别此权限请求的整型请求代码。此方法异步运行：它会立即返回，并且在用户响应对话框之后，系统会使用结果调用应用的回调方法，将应用传递的相同请求代码传递到 requestPermissions()。</p>
+<p>以下代码可以检查应用是否具备读取用户联系人的权限，并根据需要请求该权限：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">// Here, thisActivity is the current activity</span><br><span class="line">if (ContextCompat.checkSelfPermission(thisActivity,</span><br><span class="line">                Manifest.permission.READ_CONTACTS)</span><br><span class="line">        != PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line"></span><br><span class="line">    // Should we show an explanation?</span><br><span class="line">    if (ActivityCompat.shouldShowRequestPermissionRationale(thisActivity,</span><br><span class="line">            Manifest.permission.READ_CONTACTS)) &#123;</span><br><span class="line"></span><br><span class="line">        // Show an expanation to the user *asynchronously* -- don&apos;t block</span><br><span class="line">        // this thread waiting for the user&apos;s response! After the user</span><br><span class="line">        // sees the explanation, try again to request the permission.</span><br><span class="line"></span><br><span class="line">    &#125; else &#123;</span><br><span class="line"></span><br><span class="line">        // No explanation needed, we can request the permission.</span><br><span class="line"></span><br><span class="line">        ActivityCompat.requestPermissions(thisActivity,</span><br><span class="line">                new String[]&#123;Manifest.permission.READ_CONTACTS&#125;,</span><br><span class="line">                MY_PERMISSIONS_REQUEST_READ_CONTACTS);</span><br><span class="line"></span><br><span class="line">        // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an</span><br><span class="line">        // app-defined int constant. The callback method gets the</span><br><span class="line">        // result of the request.</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注：当您的应用调用 requestPermissions() 时，系统将向用户显示一个标准对话框。您的应用<strong>无法配置</strong>或更改此对话框。如果您需要为用户提供任何信息或解释，您应在调用 <code>requestPermissions()</code> <strong>之前</strong>进行，如解释应用为什么需要权限中所述。</p>
+<h1 id="处理权限请求响应"><a href="#处理权限请求响应" class="headerlink" title="处理权限请求响应"></a>处理权限请求响应</h1><p>当应用请求权限时，系统将向用户显示一个对话框。当用户响应时，系统将调用应用的 <code>onRequestPermissionsResult()</code> 方法，向其传递用户响应。您的应用必须替换该方法，以了解是否已获得相应权限。回调会将您传递的相同请求代码传递给 requestPermissions()。例如，如果应用请求 READ_CONTACTS 访问权限，则它可能采用以下回调方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">@Override</span><br><span class="line">public void onRequestPermissionsResult(int requestCode,</span><br><span class="line">        String permissions[], int[] grantResults) &#123;</span><br><span class="line">    switch (requestCode) &#123;</span><br><span class="line">        case MY_PERMISSIONS_REQUEST_READ_CONTACTS: &#123;</span><br><span class="line">            // If request is cancelled, the result arrays are empty.</span><br><span class="line">            if (grantResults.length &gt; 0</span><br><span class="line">                &amp;&amp; grantResults[0] == PackageManager.PERMISSION_GRANTED) &#123;</span><br><span class="line"></span><br><span class="line">                // permission was granted, yay! Do the</span><br><span class="line">                // contacts-related task you need to do.</span><br><span class="line"></span><br><span class="line">            &#125; else &#123;</span><br><span class="line"></span><br><span class="line">                // permission denied, boo! Disable the</span><br><span class="line">                // functionality that depends on this permission.</span><br><span class="line">            &#125;</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        // other &apos;case&apos; lines to check for other</span><br><span class="line">        // permissions this app might request</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>系统显示的对话框说明了您的应用需要访问的权限组；它不会列出具体权限。例如，如果您请求 <code>READ_CONTACTS</code> 权限，系统对话框只显示您的应用需要访问设备的联系人。用户只需要为每个权限组授予一次权限。如果您的应用请求<strong>该组中的任何其他权限</strong>（已在您的应用清单中列出），系统将<strong>自动授予</strong>应用这些权限。当您请求此权限时，系统会调用您的 <code>onRequestPermissionsResult()</code> 回调方法，并传递 PERMISSION_GRANTED，如果用户已通过系统对话框明确同意您的权限请求，系统将采用相同方式操作。</p>
+<p><strong>注</strong>：您的应用仍需要明确请求其需要的每项权限，即使用户已向应用授予该权限组中的其他权限。此外，<strong>权限分组在将来的 Android 版本中可能会发生变化</strong>。您的代码不应依赖特定权限属于或不属于相同组这种假设。</p>
+<p>例如，假设您在应用清单中列出了 READ_CONTACTS 和 WRITE_CONTACTS。如果您请求 READ_CONTACTS 且用户授予了此权限，那么，当您请求 WRITE_CONTACTS 时，系统将立即授予您该权限，不会与用户交互。</p>
+<p>如果用户拒绝了某项权限请求，您的应用应采取适当的操作。例如，您的应用可能显示一个对话框，解释它为什么无法执行用户已经请求但需要该权限的操作。</p>
+<p>当系统要求用户授予权限时，用户可以选择指示系统不再要求提供该权限。这种情况下，无论应用在什么时候使用 requestPermissions() 再次要求该权限，系统都会立即拒绝此请求。系统会调用您的 onRequestPermissionsResult() 回调方法，并传递 PERMISSION_DENIED，如果用户再次明确拒绝了您的请求，系统将采用相同方式操作。这意味着当您调用 requestPermissions() 时，您不能假设已经发生与用户的任何直接交互。</p>
+<h1 id="权限最佳做法"><a href="#权限最佳做法" class="headerlink" title="权限最佳做法"></a>权限最佳做法</h1><p>用如果一味要求用户提供授权，可能会让用户无所适从。如果用户发现应用难以使用，或者担心应用会滥用其信息，他们可能不愿意使用该应用，甚至会将其完全卸载。以下最佳做法有助于避免此类糟糕的用户体验。</p>
+<h2 id="考虑使用-intent"><a href="#考虑使用-intent" class="headerlink" title="考虑使用 intent"></a>考虑使用 intent</h2><p>许多情况下，您可以使用以下两种方式之一来让您的应用执行某项任务。您可以将应用设置为要求提供权限才能执行操作。或者，您可以将应用设置为使用 intent，让其他应用来执行任务。</p>
+<p>例如，假设应用需要使用设备相机才能够拍摄照片。应用可以请求 CAMERA 权限，以便允许其直接访问相机。然后，应用将使用 Camera API 控制相机并拍摄照片。利用此方法，您的应用能够完全控制摄影过程，并支持您将相机 UI 整合至应用中。</p>
+<p>不过，如果您无需此类完全控制，则可以使用 ACTION_IMAGE_CAPTURE intent 来请求图像。发送该 intent 时，系统会提示用户选择相机应用（如果没有默认相机应用）。用户使用选定的相机应用拍摄照片，该相机应用会将照片返回给应用的 onActivityResult() 方法。</p>
+<p>同样，如果您需要拨打电话、访问用户的联系人或要执行其他操作，可以通过<strong>创建适当的 intent</strong> 来完成，或者您也可以请求相应的权限并直接访问相应的对象。每种方法各有优缺点。</p>
+<h3 id="两种方法的比较"><a href="#两种方法的比较" class="headerlink" title="两种方法的比较:"></a>两种方法的比较:</h3><p><strong>如果使用权限</strong>：</p>
+<ul>
+<li>您的应用可在您执行操作时完全控制用户体验。不过，如此广泛的控制会增加任务的复杂性，因为您需要设计适当的 UI。</li>
+<li>系统会在运行或安装应用时各提示用户提供一次权限（具体取决于用户的 Android 版本）。之后，应用即可执行操作，不再需要用户进行其他交互。不过，<strong>如果用户不授予权限（或稍后撤销权限），您的应用将根本无法执行操作</strong>。</li>
+</ul>
+<p><strong>如果使用 intent</strong>：</p>
+<ul>
+<li>您无需为操作设计 UI。处理 intent 的应用将提供 UI。不过，这意味着您无法控制用户体验。用户可能与您从未见过的应用交互。</li>
+<li>如果用户没有适用于操作的默认应用，则系统会提示用户选择一款应用。如果用户未指定默认处理程序，则他们每次执行此操作时都必须处理一个额外对话框。</li>
+</ul>
+<h2 id="仅要求您需要的权限"><a href="#仅要求您需要的权限" class="headerlink" title="仅要求您需要的权限"></a>仅要求您需要的权限</h2><p>每次您要求权限时，实际上是在强迫用户作出决定。您应尽量减少提出这些请求的次数。如果用户运行的是 Android 6.0（API 级别 23）或更高版本，则每次用户尝试要求提供权限的新应用功能时，应用都必须中断用户的操作并发起权限请求。如果用户运行的是较早版本的 Android，则在安装应用时需要为应用的每一权限请求给予授权；如果列表过长或看起来不合适，用户可能会决定不安装该应用。为此，您应尽量减少应用需要的权限数。</p>
+<p>例如，很多情况下应用可以通过使用 intent 来避免请求权限。如果某项功能并非应用的核心功能，不妨考虑将相关工作交给其他应用来执行，如考虑使用 intent 中所述。</p>
+<h2 id="不要让用户感到无所适从"><a href="#不要让用户感到无所适从" class="headerlink" title="不要让用户感到无所适从"></a>不要让用户感到无所适从</h2><p>如果用户运行的是 Android 6.0（API 级别 23）或更高版本，则用户<strong>必须在应用运行时为其授权</strong>。如果您的应用一次要求用户提供多项权限，用户可能会感到无所适从并因此退出应用。您应根据需要请求权限。</p>
+<p>某些情况下，一项或多项权限可能是应用所必需的。在这种情况下，合理的做法是，在应用启动之后立即要求提供这些权限。例如，如果您运行摄影应用，应用需要访问设备的相机。在用户首次启动应用时，他们不会对提供相机使用权限的要求感到惊讶。但是，如果同一应用还具备与用户联系人共享照片的功能，您不应在应用首次启动时要求用户提供 READ_CONTACTS 权限，而应等到用户尝试使用“共享”功能之后，再要求提供该权限。</p>
+<p>如果应用提供了教程，则合理的做法是，在教程结束时请求提供应用的必要权限。</p>
+<h2 id="解释需要权限的原因"><a href="#解释需要权限的原因" class="headerlink" title="解释需要权限的原因"></a>解释需要权限的原因</h2><p>系统在您调用 <code>requestPermissions()</code> 时显示的权限对话框将说明应用需要的权限，但不会解释为何需要这些权限。某些情况下，用户可能会感到困惑。因此，最好在调用 <code>requestPermissions()</code> <strong>之前</strong>向用户解释应用需要相应权限的原因。</p>
+<p>例如，摄影应用可能需要使用位置服务，以便能够为照片添加地理标签。通常，用户可能不了解照片能够包含位置信息，并且对摄影应用想要了解具体位置感到不解。因此在这种情况下，应用最好在调用 requestPermissions() 之前告知用户此功能的相关信息。</p>
+<p>告知用户的一种办法是将这些请求纳入应用教程。这样，教程可以依次显示应用的每项功能，并在显示每项功能时解释需要哪些相应的权限。例如，摄影应用的教程可以演示其“与您的联系人共享照片”功能，然后告知用户需要为应用授予权限才能查看用户的联系人。然后，应用可以调用 requestPermissions()，要求用户提供该访问权限。当然，并非所有用户都会按照教程操作，因此您仍需在应用的正常操作期间检查和请求权限。</p>
+<h2 id="测试两种权限模式"><a href="#测试两种权限模式" class="headerlink" title="测试两种权限模式"></a>测试两种权限模式</h2><p>从 Android 6.0（API 级别 23）开始，用户是在运行时而不是在应用安装时授予或撤销应用权限。因此，您应在多种不同条件下测试应用。在低于 Android 6.0 的版本中，您可以认为如果应用得到运行，它就可以得到在应用清单中声明的全部权限。在新的权限模式中，这一推断不再成立。</p>
+<p>以下提示可帮助您识别在运行 API 级别 23 或更高级别的设备上与权限有关的代码问题：</p>
+<ul>
+<li>识别应用的当前权限和相关的代码路径。</li>
+<li>在各种受权限保护的服务和数据中测试用户流程。</li>
+<li>使用授予或撤销权限的各种组合进行测试。例如，相机应用可能会在清单中列出 <code>CAMERA</code>、<code>READ_CONTACTS</code> 和 <code>ACCESS_FINE_LOCATION</code>。您应在测试应用时逐一打开和关闭这些权限，确保应用可以妥善处理所有权限配置。<strong>请记住，自 Android 6.0 起，用户可以打开或关闭任何应用的权限，即使面向 API 级别 22 或更低级别的应用也是如此</strong>。</li>
+<li>使用 adb 工具从命令行管理权限：<br>  按组列出权限和状态:<br>  <code>$ adb shell pm list permissions -d -g</code><br>  授予或撤销一项或多项权限：<br>  <code>$ adb shell pm [grant|revoke] &lt;permission-name&gt; ...</code></li>
+<li>针对使用权限的服务对应用进行分析。</li>
+</ul>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2019" class="archive-year">2019</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/ThreadPool/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.385Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/handler_memory_leak/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.385Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/RxJava/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.384Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/Handler_Message_Looper_MessageQueue/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.383Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/AsyncTask/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.379Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/AndroidRuntimePermission/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.377Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/ActivityLaunchMode/" class="archive-article-date">
-  	<time datetime="2019-07-28T11:49:54.307Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/28/Dagger/" class="archive-article-date">
-  	<time datetime="2019-07-28T07:50:31.580Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
-</a>
-        </div>
-    	 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2019/07/18/Iterator-Pattern/" class="archive-article-date">
-  	<time datetime="2019-07-18T06:33:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2019/07/18/Iterator-Pattern/">IteratorPattern(迭代器模式)</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">设计模式</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/12/04/Acache/" class="archive-article-date">
-  	<time datetime="2018-12-04T01:46:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-12-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/12/04/Acache/">Acache</a>
-    </h1>
-  
+      </div>
+    </span>
+  </div>
+</div>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">第三方框架</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2019/07/28/AndroidRuntimePermission/" alt="微信分享二维码">
+    </div>
+</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/07/28/AsyncTask/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2019/07/28/ActivityLaunchMode/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title"></div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="extend next" rel="next" href="/archives/page/2/">Next &raquo;</a>
-    </nav>
+  
+
+  
+
   
 
 
@@ -446,8 +382,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
