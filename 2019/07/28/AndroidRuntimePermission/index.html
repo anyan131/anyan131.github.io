@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="闫昊良的技术博客">
 <meta property="og:description" content="AndroidRuntimePermissionAndroid运行时权限官网文档： https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html https://developer.android.com/training/permissions/requesting.html?hl=zh-cn#">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-28T11:55:19.646Z">
+<meta property="og:updated_time" content="2019-07-28T12:02:00.438Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="闫昊良的技术博客">
 <meta name="twitter:description" content="AndroidRuntimePermissionAndroid运行时权限官网文档： https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html https://developer.android.com/training/permissions/requesting.html?hl=zh-cn#">
@@ -171,7 +171,7 @@
 <p>返回值为0或者1，其含义分别为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">//PackageManager.java</span><br><span class="line">public static final int PERMISSION_GRANTED = 0;//同意</span><br><span class="line">public static final int PERMISSION_DENIED = -1;//拒绝</span><br></pre></td></tr></table></figure>
 
-<p>如果应用具有此权限，方法将返回 <code>PackageManager.PERMISSION_GRANTED</code>，并且应用可以<strong>继续</strong>操作。如果应用不具有此权限，方法将返回 <code>PackageManager.PERMISSION_DENIED</code>，且应用必须<strong>明确</strong>向用户要求权限。</p>
+<p>如果应用具有此权限，方法将返回 <code>PackageManager.PERMISSION_GRANTED</code>，并且应用可以<strong>继续</strong>操作。如果应用不具有此权限，方法将返回 <code>PackageManager.PERMISSION_DENIED</code>，且应用必须<strong>明确</strong>向用户要求权限。s</p>
 <p><strong>注：</strong></p>
 <p>在Android 6.0 (API 23)以下，checkSelfPermission的方法返回为0(PERMISSION_GRANTED)，即默认授予权限。不过国内各大手机厂商可能会自定义一些权限管理，所以具体问题还需要去适配。</p>
 <h2 id="请求权限"><a href="#请求权限" class="headerlink" title="请求权限"></a>请求权限</h2><p>如果您的应用需要应用清单中列出的<strong>危险权限</strong>，那么，它必须<strong>要求用户授予</strong>该权限。Android 为您提供了多种权限请求方式。调用这些方法将显示一个标准的 Android 对话框，不过，您<strong>不能</strong>对它们进行自定义。</p>
