@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>闫昊良的技术博客</title>
+  <title>Handler内存泄漏 | 闫昊良的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#Handler内存泄漏 　　在Android常用编程中，Handler在进行异步操作并处理返回结果时经常被使用。通常我们的代码会这样实现：">
+  <meta name="description" content="在Android常用编程中，Handler在进行异步操作并处理返回结果时经常被使用。通常我们的代码会这样实现：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="闫昊良的技术博客">
+<meta property="og:title" content="Handler内存泄漏">
 <meta property="og:url" content="http://yoursite.com/2019/07/28/handler_memory_leak/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="#Handler内存泄漏 　　在Android常用编程中，Handler在进行异步操作并处理返回结果时经常被使用。通常我们的代码会这样实现：">
+<meta property="og:description" content="在Android常用编程中，Handler在进行异步操作并处理返回结果时经常被使用。通常我们的代码会这样实现：">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-28T11:55:13.667Z">
+<meta property="og:updated_time" content="2019-08-02T08:35:01.703Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闫昊良的技术博客">
-<meta name="twitter:description" content="#Handler内存泄漏 　　在Android常用编程中，Handler在进行异步操作并处理返回结果时经常被使用。通常我们的代码会这样实现：">
+<meta name="twitter:title" content="Handler内存泄漏">
+<meta name="twitter:description" content="在Android常用编程中，Handler在进行异步操作并处理返回结果时经常被使用。通常我们的代码会这样实现：">
   
     <link rel="alternative" href="/atom.xml" title="闫昊良的技术博客" type="application/atom+xml">
   
@@ -157,10 +157,24 @@
             <article id="post-handler_memory_leak" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Handler内存泄漏
+    </h1>
+  
+
+        
+        <a href="/2019/07/28/handler_memory_leak/" class="archive-article-date">
+  	<time datetime="2019-07-28T11:49:54.385Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Handler内存泄漏</p>
-<p>　　在Android常用编程中，Handler在进行异步操作并处理返回结果时经常被使用。通常我们的代码会这样实现：</p>
+        <p>　　在Android常用编程中，Handler在进行异步操作并处理返回结果时经常被使用。通常我们的代码会这样实现：</p>
 <a id="more"></a>
 
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class HandlerMemoryLeakActivity extends Activity &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected void onCreate(Bundle savedInstanceState) &#123;</span><br><span class="line">        super.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_handler_memory_leak);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private final Handler mHandler = new Handler() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void handleMessage(Message msg) &#123;</span><br><span class="line">            //...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
