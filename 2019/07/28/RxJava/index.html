@@ -6,23 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>闫昊良的技术博客</title>
+  <title>RxJava | 闫昊良的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#RxJava 参考：http://gank.io/post/560e15be2dca930e00da1083 ##异步">
+  <meta name="description" content="参考：http://gank.io/post/560e15be2dca930e00da1083异步">
 <meta property="og:type" content="article">
-<meta property="og:title" content="闫昊良的技术博客">
+<meta property="og:title" content="RxJava">
 <meta property="og:url" content="http://yoursite.com/2019/07/28/RxJava/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="#RxJava 参考：http://gank.io/post/560e15be2dca930e00da1083 ##异步">
+<meta property="og:description" content="参考：http://gank.io/post/560e15be2dca930e00da1083异步">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://ww3.sinaimg.cn/mw1024/52eb2279jw1f2rx4446ldj20ga03p74h.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/mw1024/52eb2279jw1f2rx46dspqj20gn04qaad.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw1024/52eb2279jw1f2rx4fitvfj20hw0ea0tg.jpg">
 <meta property="og:image" content="http://ww1.sinaimg.cn/mw1024/52eb2279jw1f2rx4i8da2j20hg0dydgx.jpg">
-<meta property="og:updated_time" content="2019-07-28T11:54:34.602Z">
+<meta property="og:updated_time" content="2019-08-02T08:39:33.141Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闫昊良的技术博客">
-<meta name="twitter:description" content="#RxJava 参考：http://gank.io/post/560e15be2dca930e00da1083 ##异步">
+<meta name="twitter:title" content="RxJava">
+<meta name="twitter:description" content="参考：http://gank.io/post/560e15be2dca930e00da1083异步">
 <meta name="twitter:image" content="http://ww3.sinaimg.cn/mw1024/52eb2279jw1f2rx4446ldj20ga03p74h.jpg">
   
     <link rel="alternative" href="/atom.xml" title="闫昊良的技术博客" type="application/atom+xml">
@@ -162,16 +162,29 @@
             <article id="post-RxJava" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RxJava
+    </h1>
+  
+
+        
+        <a href="/2019/07/28/RxJava/" class="archive-article-date">
+  	<time datetime="2019-07-28T11:49:54.384Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#RxJava</p>
-<p>参考：<a href="http://gank.io/post/560e15be2dca930e00da1083" target="_blank" rel="noopener">http://gank.io/post/560e15be2dca930e00da1083</a></p>
-<p>##异步</p>
+        <p>参考：<a href="http://gank.io/post/560e15be2dca930e00da1083" target="_blank" rel="noopener">http://gank.io/post/560e15be2dca930e00da1083</a><br><strong>异步</strong></p>
 <a id="more"></a>
 
-<p>###扩展的观察者模式<br>RxJava作为一个工具库，使用的是通用形式的观察者模式。如下图：</p>
+<p><strong>扩展的观察者模式</strong><br>RxJava作为一个工具库，使用的是通用形式的观察者模式。如下图：</p>
 <p><img src="http://ww3.sinaimg.cn/mw1024/52eb2279jw1f2rx4446ldj20ga03p74h.jpg" alt></p>
-<p>##RxJava的观察者模式</p>
+<p><strong>RxJava的观察者模式</strong></p>
 <p>RxJava的四个基本概念：</p>
 <ul>
 <li>Observable 可观察者，即被观察者</li>
@@ -187,23 +200,25 @@
 </ul>
 <p>RxJava的观察者模式大致如下图：</p>
 <p><img src="http://ww3.sinaimg.cn/mw1024/52eb2279jw1f2rx46dspqj20gn04qaad.jpg" alt></p>
-<p>###基本实现</p>
+<p><strong>基本实现</strong></p>
 <ol>
 <li>创建 Observer</li>
 <li>创建 Observable</li>
 <li>Subscribe (订阅)</li>
 </ol>
-<p>###线程控制 —— Scheduler</p>
-<p>###变换</p>
+<p><strong>线程控制 —— Scheduler</strong></p>
+<p><strong>变换</strong></p>
 <p>所谓变换，就是将事件序列中的对象或整个序列进行加工处理，转换成不同的事件或事件序列。</p>
-<h4 id="map-事件对象的直接变换。map-的示意图："><a href="#map-事件对象的直接变换。map-的示意图：" class="headerlink" title="map(): 事件对象的直接变换。map() 的示意图："></a>map(): 事件对象的直接变换。map() 的示意图：</h4><p><img src="http://ww1.sinaimg.cn/mw1024/52eb2279jw1f2rx4fitvfj20hw0ea0tg.jpg" alt></p>
-<h4 id="flatMap-返回一个Observable对象，并且这个-Observable-对象并不是被直接发送到了-Subscriber-的回调方法中。flatMap-的原理是这样的："><a href="#flatMap-返回一个Observable对象，并且这个-Observable-对象并不是被直接发送到了-Subscriber-的回调方法中。flatMap-的原理是这样的：" class="headerlink" title="flatMap(): 返回一个Observable对象，并且这个 Observable 对象并不是被直接发送到了 Subscriber 的回调方法中。flatMap() 的原理是这样的："></a>flatMap(): 返回一个Observable对象，并且这个 Observable 对象并不是被直接发送到了 Subscriber 的回调方法中。flatMap() 的原理是这样的：</h4><ol>
+<p>** map(): 事件对象的直接变换。map() 的示意图：**</p>
+<p><img src="http://ww1.sinaimg.cn/mw1024/52eb2279jw1f2rx4fitvfj20hw0ea0tg.jpg" alt></p>
+<p>** flatMap(): 返回一个Observable对象，并且这个 Observable 对象并不是被直接发送到了 Subscriber 的回调方法中。flatMap() 的原理是这样的：**</p>
+<ol>
 <li>使用传入的事件对象创建一个 Observable 对象；</li>
 <li>并不发送这个 Observable, 而是将它激活，于是它开始发送事件；</li>
 <li>每一个创建出来的 Observable 发送的事件，都被汇入同一个 Observable ，而这个 Observable 负责将这些事件统一交给 Subscriber 的回调方法。这三个步骤，把事件拆成了两级，通过一组新创建的 Observable 将初始的对象『铺平』之后通过统一路径分发了下去。而这个『铺平』就是 flatMap() 所谓的 flat。</li>
 </ol>
 <p><img src="http://ww1.sinaimg.cn/mw1024/52eb2279jw1f2rx4i8da2j20hg0dydgx.jpg" alt></p>
-<p>###变换的原理: lift()</p>
+<p><strong>变换的原理: lift()</strong></p>
 <p>变换的实质是，针对事件序列的处理和再发送。</p>
 
       
