@@ -152,30 +152,114 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-Fresco-与-Picasso-、Glide-的比较" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-ThreadPool" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/07/22/Fresco-与-Picasso-、Glide-的比较/">Fresco 与 Picasso 、Glide 的比较</a>
+      <a class="article-title" href="/2017/03/01/ThreadPool/">Android 线程和线程池</a>
     </h1>
   
 
         
-        <a href="/2018/07/22/Fresco-与-Picasso-、Glide-的比较/" class="archive-article-date">
-  	<time datetime="2018-07-22T00:46:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-22</time>
+        <a href="/2017/03/01/ThreadPool/" class="archive-article-date">
+  	<time datetime="2017-03-01T00:40:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-01</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="比较Picasso、Glide-和-Fresco-三种图片加载库"><a href="#比较Picasso、Glide-和-Fresco-三种图片加载库" class="headerlink" title="比较Picasso、Glide 和 Fresco 三种图片加载库"></a>比较Picasso、Glide 和 Fresco 三种图片加载库</h2><h3 id="比较-Picasso-与-Glide"><a href="#比较-Picasso-与-Glide" class="headerlink" title="比较 Picasso 与 Glide"></a>比较 Picasso 与 Glide</h3><p>总体来说二者极为相似，有着近乎相同的 API 的使用风格，但 Glide 在缓存策略和加载 gif 方面略胜一筹。</p>
-<h3 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h3><p>Glide 和 Picasso 非常相似，Glide 加载图片的方式和 Picasso 如出一辙。<br>虽然两者看起来一样，但 Glide 更易用，因为 Glide 的 with 方法不光接受 Context,还接受 Activity 和 Fragment,Context 会自动的从他们获取，同时将 Activity/Fragment 作为 with()参数的好处是：图片加载会和 Activity/Fragment 的生命周期保持一致，比如 Paused 状态在暂停加载，在 Resumed 的时候又自动重新加载。</p>
+        <p><strong>参考《Android 开发艺术探索》</strong></p>
+<p><strong>线程池的优点</strong></p>
+<ol>
+<li>重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销</li>
+<li>能有效控制线程池的最大并发数，避免大量的线程之间因互相抢占系统资源而导致的阻塞现象</li>
+<li>能够对线程进行简单的管理，并提供定时执行以及指定间隔循环执行等功能。</li>
+</ol>
         
-          <a class="article-more-a" href="/2018/07/22/Fresco-与-Picasso-、Glide-的比较/#more">more >></a>
+          <a class="article-more-a" href="/2017/03/01/ThreadPool/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">线程池</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/03/01/ThreadPool/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Handler_Message_Looper_MessageQueue" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/27/Handler_Message_Looper_MessageQueue/">Android异步消息处理机制</a>
+    </h1>
+  
+
+        
+        <a href="/2017/02/27/Handler_Message_Looper_MessageQueue/" class="archive-article-date">
+  	<time datetime="2017-02-27T00:40:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-27</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>　　Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。</p>
+<p>　　异步消息处理线程启动后，会进入一个无限的循环体中，每循环一次，从其内部的消息队列中取出一个消息，然后回调相应的消息处理函数，执行完一个消息后则继续训话。若消息队列为空，线程则会阻塞等待。</p>
+<p>　　Android 中Handler、Message、Looper和MessageQueue的关系：</p>
+<p>　　Looper负责创建一个MessageQueue,然后进入一个无限循环体中不断从该MessageQueue中读取消息，而消息的创建者就是一个或者多个Handler。</p>
+        
+          <a class="article-more-a" href="/2017/02/27/Handler_Message_Looper_MessageQueue/#more">more >></a>
         
       
 
@@ -199,7 +283,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/07/22/Fresco-与-Picasso-、Glide-的比较/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/02/27/Handler_Message_Looper_MessageQueue/">展开全文 >></a>
         </p>
       
 
@@ -229,30 +313,29 @@
 
 
   
-    <article id="post-Dagger" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-handler_memory_leak" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/20/Dagger/">Dagger2的使用</a>
+      <a class="article-title" href="/2017/02/25/handler_memory_leak/">Handler内存泄漏</a>
     </h1>
   
 
         
-        <a href="/2018/06/20/Dagger/" class="archive-article-date">
-  	<time datetime="2018-06-20T00:46:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-20</time>
+        <a href="/2017/02/25/handler_memory_leak/" class="archive-article-date">
+  	<time datetime="2017-02-25T00:40:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-25</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://dagger.dev" target="_blank" rel="noopener">Dager官网地址</a></p>
-<p>依赖注入对于刚接触到这个概念的同志们可能不太清楚什么意思，说起来也比较简单甚至我们每天都在编写这样的代码。</p>
+        <p>　　在Android常用编程中，Handler在进行异步操作并处理返回结果时经常被使用。通常我们的代码会这样实现：</p>
         
-          <a class="article-more-a" href="/2018/06/20/Dagger/#more">more >></a>
+          <a class="article-more-a" href="/2017/02/25/handler_memory_leak/#more">more >></a>
         
       
 
@@ -266,7 +349,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Dagger2</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Handler</a>
         		</li>
       		
 		</ul>
@@ -276,83 +359,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2018/06/20/Dagger/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-JAVA下实现多线程断点下载" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/07/JAVA下实现多线程断点下载/">JAVA下实现多线程断点下载</a>
-    </h1>
-  
-
-        
-        <a href="/2017/08/07/JAVA下实现多线程断点下载/" class="archive-article-date">
-  	<time datetime="2017-08-06T22:03:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-08-07</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="JAVA下实现多线程断点下载"><a href="#JAVA下实现多线程断点下载" class="headerlink" title="JAVA下实现多线程断点下载"></a>JAVA下实现多线程断点下载</h2><p><strong>多线程断点下载：顾名思义是用多线程实现的，断点是当第三方因素（断电、断网等）中断下载时，下次下载可以继续上次下载的地方下载</strong></p>
-        
-          <a class="article-more-a" href="/2017/08/07/JAVA下实现多线程断点下载/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">JAVA基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/08/07/JAVA下实现多线程断点下载/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/02/25/handler_memory_leak/">展开全文 >></a>
         </p>
       
 
@@ -389,13 +396,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/25/Android各个版本特性/">Android版本特性</a>
+      <a class="article-title" href="/2017/02/25/Android各个版本特性/">Android版本特性</a>
     </h1>
   
 
         
-        <a href="/2015/02/25/Android各个版本特性/" class="archive-article-date">
-  	<time datetime="2015-02-25T00:40:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2015-02-25</time>
+        <a href="/2017/02/25/Android各个版本特性/" class="archive-article-date">
+  	<time datetime="2017-02-25T00:40:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-25</time>
 </a>
         
       </header>
@@ -419,7 +426,7 @@
 </li>
 <li><p>Face unlock</p>
         
-          <a class="article-more-a" href="/2015/02/25/Android各个版本特性/#more">more >></a>
+          <a class="article-more-a" href="/2017/02/25/Android各个版本特性/#more">more >></a>
         
       
 
@@ -443,7 +450,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2015/02/25/Android各个版本特性/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/02/25/Android各个版本特性/">展开全文 >></a>
         </p>
       
 
@@ -570,6 +577,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">activity启动模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Android</a>
               </li>
              
@@ -578,11 +589,31 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Handler</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">rxjava</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">java面向对象</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Android权限</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">Dagger2</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">JAVA基础</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">线程池</a>
               </li>
              
               <li class="article-tag-list-item">
