@@ -6,23 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>闫昊良的技术博客</title>
+  <title>AsyncTask | 闫昊良的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#AsyncTask#">
+  <meta name="description" content="《Android开发艺术探索》 　　AsyncTask是一种轻量级的异步任务类，它可以在线程池中执行后台任务，然后把执行的进度和最终结果传递给主线程并在主线程更新UI。从实现上来说，AsyncTask封装了Thread和Handler，通过AsyncTask可以更加方便地执行后台任务以及在主线程访问UI。但是AsyncTask并不适合进行特别耗时的后台任务，对于特别耗时的任务来说，建议使用线程池。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="闫昊良的技术博客">
+<meta property="og:title" content="AsyncTask">
 <meta property="og:url" content="http://yoursite.com/2019/07/28/AsyncTask/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="#AsyncTask#">
+<meta property="og:description" content="《Android开发艺术探索》 　　AsyncTask是一种轻量级的异步任务类，它可以在线程池中执行后台任务，然后把执行的进度和最终结果传递给主线程并在主线程更新UI。从实现上来说，AsyncTask封装了Thread和Handler，通过AsyncTask可以更加方便地执行后台任务以及在主线程访问UI。但是AsyncTask并不适合进行特别耗时的后台任务，对于特别耗时的任务来说，建议使用线程池。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://img.blog.csdn.net/20160930235201458">
 <meta property="og:image" content="http://img.blog.csdn.net/20160930235336598">
 <meta property="og:image" content="http://img.blog.csdn.net/20160930235455552">
 <meta property="og:image" content="http://img.blog.csdn.net/20160930235559740">
-<meta property="og:updated_time" content="2019-07-28T11:55:04.834Z">
+<meta property="og:updated_time" content="2019-08-02T08:43:33.716Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闫昊良的技术博客">
-<meta name="twitter:description" content="#AsyncTask#">
+<meta name="twitter:title" content="AsyncTask">
+<meta name="twitter:description" content="《Android开发艺术探索》 　　AsyncTask是一种轻量级的异步任务类，它可以在线程池中执行后台任务，然后把执行的进度和最终结果传递给主线程并在主线程更新UI。从实现上来说，AsyncTask封装了Thread和Handler，通过AsyncTask可以更加方便地执行后台任务以及在主线程访问UI。但是AsyncTask并不适合进行特别耗时的后台任务，对于特别耗时的任务来说，建议使用线程池。">
 <meta name="twitter:image" content="http://img.blog.csdn.net/20160930235201458">
   
     <link rel="alternative" href="/atom.xml" title="闫昊良的技术博客" type="application/atom+xml">
@@ -162,13 +162,27 @@
             <article id="post-AsyncTask" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AsyncTask
+    </h1>
+  
+
+        
+        <a href="/2019/07/28/AsyncTask/" class="archive-article-date">
+  	<time datetime="2019-07-28T11:49:54.379Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#AsyncTask#</p>
+        <p>《Android开发艺术探索》</p>
+<p>　　AsyncTask是一种轻量级的异步任务类，它可以在线程池中执行后台任务，然后把执行的进度和最终结果传递给主线程并在主线程更新UI。从实现上来说，AsyncTask封装了Thread和Handler，通过AsyncTask可以更加方便地执行后台任务以及在主线程访问UI。但是AsyncTask并不适合进行特别耗时的后台任务，对于特别耗时的任务来说，建议使用线程池。</p>
 <a id="more"></a>
 
-<p>《Android开发艺术探索》</p>
-<p>　　AsyncTask是一种轻量级的异步任务类，它可以在线程池中执行后台任务，然后把执行的进度和最终结果传递给主线程并在主线程更新UI。从实现上来说，AsyncTask封装了Thread和Handler，通过AsyncTask可以更加方便地执行后台任务以及在主线程访问UI。但是AsyncTask并不适合进行特别耗时的后台任务，对于特别耗时的任务来说，建议使用线程池。</p>
 <p>　　AsyncTask是一个抽象的泛型类，它提供了Params、Progress和Result这三个泛型参数，其中Params表示参数的类型，Progress表示后台任务的执行进度的类型，而Result则表示后台任务的返回结果的类型，如果AsyncTask确实不需要传递具体的参数，那么这三个泛型参数可以用Void来代替。AsyncTask这个类的声明：</p>
 <p><code>public abstract class AsyncTask&lt;Params, Progress, Result&gt;</code></p>
 <p>　　AsyncTask提供了4个核心方法，它们的含义如下所示。</p>
@@ -395,14 +409,14 @@
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          (no title)
+          Android异步消息处理机制
         
       </div>
     </a>
   
   
     <a href="/2019/07/28/AndroidRuntimePermission/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+      <div class="article-nav-title">AndroidRuntimePermission</div>
       <i class="icon-circle-right"></i>
     </a>
   

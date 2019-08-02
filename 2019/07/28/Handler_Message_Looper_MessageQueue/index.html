@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>闫昊良的技术博客</title>
+  <title>Android异步消息处理机制 | 闫昊良的技术博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="#Android异步消息处理机制 　　Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。 　　异步消息处理线程启动后，会进入一个无限的循环体中，每循环">
+  <meta name="description" content="Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。 　　异步消息处理线程启动后，会进入一个无限的循环体中，每循环一次，从其内部的消息队列中取出一个">
 <meta property="og:type" content="article">
-<meta property="og:title" content="闫昊良的技术博客">
+<meta property="og:title" content="Android异步消息处理机制">
 <meta property="og:url" content="http://yoursite.com/2019/07/28/Handler_Message_Looper_MessageQueue/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="#Android异步消息处理机制 　　Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。 　　异步消息处理线程启动后，会进入一个无限的循环体中，每循环">
+<meta property="og:description" content="Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。 　　异步消息处理线程启动后，会进入一个无限的循环体中，每循环一次，从其内部的消息队列中取出一个">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-07-28T11:54:50.627Z">
+<meta property="og:updated_time" content="2019-08-02T08:44:04.200Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闫昊良的技术博客">
-<meta name="twitter:description" content="#Android异步消息处理机制 　　Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。 　　异步消息处理线程启动后，会进入一个无限的循环体中，每循环">
+<meta name="twitter:title" content="Android异步消息处理机制">
+<meta name="twitter:description" content="Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。 　　异步消息处理线程启动后，会进入一个无限的循环体中，每循环一次，从其内部的消息队列中取出一个">
   
     <link rel="alternative" href="/atom.xml" title="闫昊良的技术博客" type="application/atom+xml">
   
@@ -157,10 +157,24 @@
             <article id="post-Handler_Message_Looper_MessageQueue" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android异步消息处理机制
+    </h1>
+  
+
+        
+        <a href="/2019/07/28/Handler_Message_Looper_MessageQueue/" class="archive-article-date">
+  	<time datetime="2019-07-28T11:49:54.383Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Android异步消息处理机制</p>
-<p>　　Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。</p>
+        <p>　　Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。</p>
 <p>　　异步消息处理线程启动后，会进入一个无限的循环体中，每循环一次，从其内部的消息队列中取出一个消息，然后回调相应的消息处理函数，执行完一个消息后则继续训话。若消息队列为空，线程则会阻塞等待。</p>
 <p>　　Android 中Handler、Message、Looper和MessageQueue的关系：</p>
 <p>　　Looper负责创建一个MessageQueue,然后进入一个无限循环体中不断从该MessageQueue中读取消息，而消息的创建者就是一个或者多个Handler。</p>
@@ -343,7 +357,7 @@
   
   
     <a href="/2019/07/28/AsyncTask/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+      <div class="article-nav-title">AsyncTask</div>
       <i class="icon-circle-right"></i>
     </a>
   

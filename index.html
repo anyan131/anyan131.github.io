@@ -422,10 +422,24 @@
     <article id="post-Handler_Message_Looper_MessageQueue" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/28/Handler_Message_Looper_MessageQueue/">Android异步消息处理机制</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/28/Handler_Message_Looper_MessageQueue/" class="archive-article-date">
+  	<time datetime="2019-07-28T11:49:54.383Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#Android异步消息处理机制</p>
-<p>　　Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。</p>
+        <p>　　Android UI是线程不安全的，即只能在主线程(UI线程)对UI进行操作。一般的做法是，创建一个Message对象，使用Handler发送出去，然后在Handler的handleMessage()方法中获取刚才发送的Message对象，在这里进行UI操作。这就是Android的异步消息处理机制。</p>
 <p>　　异步消息处理线程启动后，会进入一个无限的循环体中，每循环一次，从其内部的消息队列中取出一个消息，然后回调相应的消息处理函数，执行完一个消息后则继续训话。若消息队列为空，线程则会阻塞等待。</p>
 <p>　　Android 中Handler、Message、Looper和MessageQueue的关系：</p>
 <p>　　Looper负责创建一个MessageQueue,然后进入一个无限循环体中不断从该MessageQueue中读取消息，而消息的创建者就是一个或者多个Handler。</p>
@@ -476,9 +490,25 @@
     <article id="post-AsyncTask" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/28/AsyncTask/">AsyncTask</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/28/AsyncTask/" class="archive-article-date">
+  	<time datetime="2019-07-28T11:49:54.379Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>#AsyncTask#</p>
+        <p>《Android开发艺术探索》</p>
+<p>　　AsyncTask是一种轻量级的异步任务类，它可以在线程池中执行后台任务，然后把执行的进度和最终结果传递给主线程并在主线程更新UI。从实现上来说，AsyncTask封装了Thread和Handler，通过AsyncTask可以更加方便地执行后台任务以及在主线程访问UI。但是AsyncTask并不适合进行特别耗时的后台任务，对于特别耗时的任务来说，建议使用线程池。</p>
         
           <a class="article-more-a" href="/2019/07/28/AsyncTask/#more">more >></a>
         
@@ -526,9 +556,25 @@
     <article id="post-AndroidRuntimePermission" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/28/AndroidRuntimePermission/">AndroidRuntimePermission</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/28/AndroidRuntimePermission/" class="archive-article-date">
+  	<time datetime="2019-07-28T11:49:54.377Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="AndroidRuntimePermission"><a href="#AndroidRuntimePermission" class="headerlink" title="AndroidRuntimePermission"></a>AndroidRuntimePermission</h1><h1 id="Android运行时权限"><a href="#Android运行时权限" class="headerlink" title="Android运行时权限"></a>Android运行时权限</h1><p>官网文档：</p>
+        <p><strong>Android运行时权限</strong></p>
+<p>官网文档：</p>
 <p><a href="https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html" target="_blank" rel="noopener">https://developer.android.com/about/versions/marshmallow/android-6.0-changes.html</a></p>
 <p><a href="https://developer.android.com/training/permissions/requesting.html?hl=zh-cn#perm-request" target="_blank" rel="noopener">https://developer.android.com/training/permissions/requesting.html?hl=zh-cn#perm-request</a></p>
 <p><a href="https://developer.android.com/training/permissions/best-practices.html?hl=zh-cn#testing" target="_blank" rel="noopener">https://developer.android.com/training/permissions/best-practices.html?hl=zh-cn#testing</a></p>
@@ -580,9 +626,24 @@
     <article id="post-ActivityLaunchMode" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/28/ActivityLaunchMode/">Android Activity 启动模式</a>
+    </h1>
+  
+
+        
+        <a href="/2019/07/28/ActivityLaunchMode/" class="archive-article-date">
+  	<time datetime="2019-07-28T11:49:54.307Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-28</time>
+</a>
+        
+      </header>
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Android-Activity-启动模式"><a href="#Android-Activity-启动模式" class="headerlink" title="Android Activity 启动模式"></a>Android Activity 启动模式</h1><p>说明，本文sample中使用的简写，launchMode分别为：</p>
+        <p>说明，本文sample中使用的简写，launchMode分别为：</p>
 <p>standard    在sample中用Activity A 来表示</p>
 <p>singleTop    在sample中用Activity B 来表示</p>
 <p>singleTask    在sample中用Activity C 来表示</p>
