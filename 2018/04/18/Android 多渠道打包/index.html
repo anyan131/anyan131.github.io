@@ -134,7 +134,7 @@
 
 <p>我们发现有3个渠道 xiaomi wandoujia yingyongbao</p>
 <p>还有flavorDimensions，这个是干嘛用的呢？<br>如果不加就会报：</p>
-<p>Error:All flavors must now belong to a named flavor dimension.Learn more at <a href="https://d.android.com/r/tools/flavorDimensions-missing-error-message.html" target="_blank" rel="noopener">https://d.android.com/r/tools/flavorDimensions-missing-error-message.html</a></p>
+<p>Error:All flavors must now belong to a named flavor dimension.Learn more at(<a href="https://d.android.com/r/tools/flavorDimensions-missing-error-message.html" target="_blank" rel="noopener">https://d.android.com/r/tools/flavorDimensions-missing-error-message.html</a>)</p>
 <p>大概意思是所有的flavors都要属于同一个规格。<br>点击链接地址后（要翻墙）：<br>Plugin 3.0.0 includes a new dependency mechanism that automatically matches variants when consuming a library. This means an app’s debug variant automatically consumes a library’s debug variant, and so on. It also works when using flavors—an app’s redDebug variant will consume a library’s redDebug variant. To make this work, the plugin now requires that all flavors belong to a named flavor dimension —even if you intend to use only a single dimension. Otherwise, you will get the following build error:</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error:All flavors must now belong to a named flavor dimension.</span><br><span class="line">The flavor <span class="string">'flavor_name'</span> is not assigned to a flavor dimension.</span><br></pre></td></tr></table></figure>
 
