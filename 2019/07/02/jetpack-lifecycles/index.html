@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Jetpack系列之Lifecycles | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Jetpack系列之Lifecycles</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 2, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Jetpack/">Jetpack</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component, such as activities and fragments. These components help you produce better-organized, and often lighter-weight code, that is easier to maintain.</p>
+<p>A common pattern is to implement the actions of the dependent components in the lifecycle methods of activities and fragments. However, this pattern leads to a poor organization of the code and to the proliferation of errors. By using lifecycle-aware components, you can move the code of dependent components out of the lifecycle methods and into the components themselves.</p>
+<a id="more"></a>
+
+<p>生命周期感知组件执行操作，以响应另一个组件生命周期状态的更改，例如Activity和Fragment。这些组件可以帮助您生成更有组织、更容易维护的轻量级代码。</p>
+<p>一个常见的模式是在Activity和Fragment的生命周期方法中实现依赖组件的操作。但是，这种模式会导致代码错误的增加。通过使用生命周期感知组件，您可以将依赖组件的代码从生命周期方法转移到组件本身。</p>
+<p>参考链接：<a href="https://developer.android.google.cn/topic/libraries/architecture/lifecycle" target="_blank" rel="noopener">https://developer.android.google.cn/topic/libraries/architecture/lifecycle</a></p>
+<p>Android中的大多数应用程序组件都具有生命周期,如：Activity/Service/Fragment等。生命周期由操作系统或Framwork管理。它们是Android工作原理的核心，应用程序必须遵守它们。不这样做可能会引发内存泄漏，甚至应用程序崩溃。</p>
+<p>可能我们之前的使用方法，如下代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyLocationListener</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyLocationListener</span><span class="params">(Context context, Callback callback)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// connect to system location service</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">stop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// disconnect from system location service</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> MyLocationListener myLocationListener;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(...)</span> </span>&#123;</span><br><span class="line">        myLocationListener = <span class="keyword">new</span> MyLocationListener(<span class="keyword">this</span>, (location) -&gt; &#123;</span><br><span class="line">            <span class="comment">// update UI</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart();</span><br><span class="line">        myLocationListener.start();</span><br><span class="line">        <span class="comment">// manage other components that need to respond</span></span><br><span class="line">        <span class="comment">// to the activity lifecycle</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStop();</span><br><span class="line">        myLocationListener.stop();</span><br><span class="line">        <span class="comment">// manage other components that need to respond</span></span><br><span class="line">        <span class="comment">// to the activity lifecycle</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><em>上面代码来源于<a href="https://developer.android.google.cn/topic/libraries/architecture/lifecycle" target="_blank" rel="noopener">https://developer.android.google.cn/topic/libraries/architecture/lifecycle</a></em></p>
+<p>尽管这个示例看起来很好，但是在实际应用程序中，最终会有太多的调用来管理UI和其他组件，以响应生命周期的当前状态。管理多个组件会在生命周期方法中放置大量的代码，比如onStart()和onStop()，这使得它们很难维护。此外，不能保证组件在活动或片段停止之前启动。如果我们需要执行长时间运行的操作，比如一些配置check in onStart()，这一点尤其重要。这可能会导致一个竞态条件，即onStop()方法在onStart()之前结束，从而使组件存活的时间超过所需的时间。</p>
+<p>Lifecycle是一个类，它保存关于组件(如Activity或Fragment)生命周期状态的信息，并允许其他对象观察这个状态。Lifecycle使用两个主要枚举来跟踪其关联组件的生命周期状态:</p>
+<p>Event<br>从框架和Lifecycle类发出的生命周期事件。这些事件映射到活动和片段中的回调事件。<br>State<br>声明生命周期对象跟踪的组件的当前状态。</p>
+<img src="jetpack-lifecycles/2019-07-04-08-59-54.png">
+上图演示了States与events的对应关系。
+
+
+<p>先看一下如下两个系统接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LifecycleOwner</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Returns the Lifecycle of the provider.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> The lifecycle of the provider.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@NonNull</span></span><br><span class="line">    <span class="function">Lifecycle <span class="title">getLifecycle</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LifecycleObserver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>一个Demo演示：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.databindingapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.Lifecycle;</span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.LifecycleObserver;</span><br><span class="line"><span class="keyword">import</span> android.arch.lifecycle.OnLifecycleEvent;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ActivityLifecycleObserver</span> <span class="keyword">implements</span> <span class="title">LifecycleObserver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> String TAG=ActivityLifecycleObserver.class.getSimpleName();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Lifecycle mLifecycle;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ActivityLifecycleObserver</span><span class="params">(Lifecycle lifecycle)</span> </span>&#123;</span><br><span class="line">        mLifecycle=lifecycle;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_START)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.d(TAG, <span class="string">"onStart: ..."</span>);</span><br><span class="line">        Log.d(TAG, <span class="string">"onStart: lifecycle="</span>+mLifecycle.getCurrentState().name());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_CREATE)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.d(TAG, <span class="string">"onCreate: ..."</span>);</span><br><span class="line">        Log.d(TAG, <span class="string">"onCreate: lifecycle="</span>+mLifecycle.getCurrentState().name());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_PAUSE)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span></span>&#123;</span><br><span class="line">        Log.d(TAG, <span class="string">"onPause: ..."</span>);</span><br><span class="line"></span><br><span class="line">        Log.d(TAG, <span class="string">"onPause: lifecycle="</span>+mLifecycle.getCurrentState().name());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>MainActivity的onCreate中将上面的Observer注册为观察者（典型的观察者模式）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getLifecycle().addObserver(<span class="keyword">new</span> ActivityLifecycleObserver(getLifecycle()));</span><br></pre></td></tr></table></figure>
+
+<p>我们看到注解 OnLifecycleEvent 即 我们上面提到的Event。再来看一下输出：<br><img src="jetpack-lifecycles/2019-07-04-13-15-00.png"><br>我们注意到上面的代码中，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Log.d(TAG, <span class="string">"onCreate: lifecycle="</span>+mLifecycle.getCurrentState().name());</span><br></pre></td></tr></table></figure>
+
+<p>打印了State信息。输出的State信息与我们上图中的State信息对应。</p>
+<p>如上就是我们用一个小demo演示了一下lifecycle的使用方法。</p>
+<p>可能大家看后还不清楚lifecycle究竟再我们实际工作开发中能帮我们处理什么问题，下面我给大家列举一个使用场景中的实际问题，如：<br>MVP架构这个大家应该都不陌生，Prestener层之前我们的管理代码片段如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> MyPresenter presenter;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(...)</span> </span>&#123;</span><br><span class="line">        presenter= <span class="keyword">new</span> MyPresenter ();</span><br><span class="line">        presenter.create();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        presenter.destory();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>相信如上代码段会出现在大家的工程项目中，这样的后果是导致相应生命周期中代码臃肿也不利于维护。<br>使用lifecycle可以解决如上问题，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IPresenter</span> <span class="keyword">extends</span> <span class="title">LifecycleObserver</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_CREATE)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(@NotNull LifecycleOwner owner)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_DESTROY)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">(@NotNull LifecycleOwner owner)</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_ANY)</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onLifecycleChanged</span><span class="params">(@NotNull LifecycleOwner owner,</span></span></span><br><span class="line"><span class="function"><span class="params">                            @NotNull Lifecycle.Event event)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样让我们的BasePresenter实现这个接口，在我们的Presenter中就可以感知到组件的生命周期，在接口方法中做业务处理即可。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/07/02/jetpack-lifecycles/">http://yoursite.com/2019/07/02/jetpack-lifecycles/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Jetpack/"># Jetpack</a>
+                    
+                        <a href="/tags/Lifecycles/"># Lifecycles</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/07/09/jetpack-viewmodel/">Jetpack系列之ViewModel</a>
+            
+            
+            <a class="next" rel="next" href="/2019/07/02/jetpack-room/">Jetpack系列之Room</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

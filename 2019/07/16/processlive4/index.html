@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Android 进程保活（四）使用“前台服务”保活 | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android 进程保活（四）使用“前台服务”保活</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 16, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Android进程保活/">Android进程保活</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>前台服务方式保活实际是利用了Android前台服务的一个漏洞。<br>即：<br>android api 在18之前的版本我们调用startForeground来提高应用程序的oom_adj值，在18版本后我们需要使用Service中启动一个InnerService两个服务同时startForeground并且绑定相同的ID，然后stop掉InnerService,这样做是将通知栏上的图标移除。</p>
+<p>关于oom_adj可参考：</p>
+<p><a href="http://www.zydeveloper.com/2019/07/15/processlive1/" target="_blank" rel="noopener">Android 进程保活（一）写在前面</a></p>
+<a id="more"></a>
+
+<p><strong>用Demo来演示一下</strong></p>
+<p>首先创建一个Demo</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.mvvmdemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Notification;</span><br><span class="line"><span class="keyword">import</span> android.app.NotificationManager;</span><br><span class="line"><span class="keyword">import</span> android.app.Service;</span><br><span class="line"><span class="keyword">import</span> android.content.Intent;</span><br><span class="line"><span class="keyword">import</span> android.os.Build;</span><br><span class="line"><span class="keyword">import</span> android.os.Handler;</span><br><span class="line"><span class="keyword">import</span> android.os.IBinder;</span><br><span class="line"><span class="keyword">import</span> android.support.annotation.RequiresApi;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NOTIFICATION_ID=<span class="number">0x11</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MyService</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> UnsupportedOperationException(<span class="string">"Not yet implemented"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        <span class="comment">//API Version 18以下</span></span><br><span class="line">        <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt;Build.VERSION_CODES.JELLY_BEAN_MR2) &#123;</span><br><span class="line">            startForeground(NOTIFICATION_ID, <span class="keyword">new</span> Notification());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">//API Version 18以上</span></span><br><span class="line">            Notification.Builder builder = <span class="keyword">new</span> Notification.Builder(<span class="keyword">this</span>);</span><br><span class="line">            builder.setSmallIcon(R.mipmap.ic_launcher);</span><br><span class="line">            startForeground(NOTIFICATION_ID, builder.build());</span><br><span class="line">            startService(<span class="keyword">new</span> Intent(<span class="keyword">this</span>, InnerService.class));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span>  <span class="keyword">static</span> <span class="class"><span class="keyword">class</span>  <span class="title">InnerService</span> <span class="keyword">extends</span> <span class="title">Service</span></span>&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="meta">@RequiresApi</span>(api = Build.VERSION_CODES.JELLY_BEAN)</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>.onCreate();</span><br><span class="line">            <span class="comment">//发送与上面服务中ID相同的Notification，然后将其取消并取消自己的前台显示</span></span><br><span class="line">            Notification.Builder builder = <span class="keyword">new</span> Notification.Builder(<span class="keyword">this</span>);</span><br><span class="line">            builder.setSmallIcon(R.mipmap.ic_launcher);</span><br><span class="line">            startForeground(NOTIFICATION_ID, builder.build());</span><br><span class="line">            <span class="keyword">new</span> Handler().postDelayed(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                    stopForeground(<span class="keyword">true</span>);</span><br><span class="line">                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);</span><br><span class="line">                    manager.cancel(NOTIFICATION_ID);</span><br><span class="line">                    stopSelf();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,<span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在没有使用这个服务前我们看看oom_adj的值变化，首先直接启动App，我们看一下oom_adj的值，如：<br><img src="processlive4/2019-07-16-09-31-53.png"><br>我这里面进行了2次操作，分别为打开App 点击了Home键<br>我们发现打开App时我们的oom_adj值为0<br>点击Home键后我们的oom_adj的值为6</p>
+<p>下面我们开启上面的服务在来验证一下oom_adj值的变化。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startService(<span class="keyword">new</span> Intent(<span class="keyword">this</span>,MyService.class));</span><br></pre></td></tr></table></figure>
+
+<img src="processlive4/2019-07-16-09-35-28.png">
+我们发现刚打开App时我们的oom_adj值是0，点击Home键后我们的oom_adj的值为1
+即使用这种方式确实提高了我们App的优先级提高了存活概率。
+
+<hr>
+<h3 id="Android-进程保活系列："><a href="#Android-进程保活系列：" class="headerlink" title="Android 进程保活系列："></a>Android 进程保活系列：</h3><p><a href="http://www.zydeveloper.com/2019/07/15/processlive1/" target="_blank" rel="noopener">Android 进程保活（一）写在前面</a><br><a href="http://www.zydeveloper.com/2019/07/15/processlive2/" target="_blank" rel="noopener">Android 进程保活（二）双服务进程包活</a><br><a href="http://www.zydeveloper.com/2019/07/15/processlive3/" target="_blank" rel="noopener">Adnroid 进程保活（三）1像素方案保活</a><br><a href="http://www.zydeveloper.com/2019/07/16/processlive4/" target="_blank" rel="noopener">Android 进程保活（四）使用“前台服务”保活</a><br><a href="http://www.zydeveloper.com/2019/07/16/processlive5/" target="_blank" rel="noopener">Android 进程保活（五）JobSheduler进程重生</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/07/16/processlive4/">http://yoursite.com/2019/07/16/processlive4/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Android/"># Android</a>
+                    
+                        <a href="/tags/进程保活/"># 进程保活</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/07/24/ResourceDynamicLoad/">Android插件化——动态资源加载</a>
+            
+            
+            <a class="next" rel="next" href="/2019/07/16/processlive5/">Android 进程保活（五）JobSheduler进程重生</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

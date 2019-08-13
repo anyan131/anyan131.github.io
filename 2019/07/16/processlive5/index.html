@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Android 进程保活（五）JobSheduler进程重生 | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android 进程保活（五）JobSheduler进程重生</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 16, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Android进程保活/">Android进程保活</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>JobSheduler在android 5.0以上版本可用，所以该方案适合5.0以上的系统版本。<br>关于JobService与JobSheduler不清楚的可参考官网API文档：</p>
+<p><a href="https://developer.android.google.cn/reference/android/app/job/JobService.html" target="_blank" rel="noopener">官网JobService</a></p>
+<p><a href="https://developer.android.google.cn/reference/android/app/job/JobScheduler.html" target="_blank" rel="noopener">官网JobScheduler</a></p>
+<p>JobScheduler是用于计划基于应用进程的多种类型任务的api接口。当任务执行时，系统会为应用持有WakeLock，所以应用不需要做多余的确保设备唤醒的工作。</p>
+<p>JobService继承自Service，是用于处理JobScheduler中规划的异步请求的特殊Service</p>
+<a id="more"></a>
+
+<p>使用JobService必须先在AndroidManifest.xml中声明service和权限</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">"MyJobService"</span> <span class="attr">android:permission</span>=<span class="string">"android.permission.BIND_JOB_SERVICE"</span>/ &gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们来实现一个JobService，代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.mvvmdemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.job.JobInfo;</span><br><span class="line"><span class="keyword">import</span> android.app.job.JobParameters;</span><br><span class="line"><span class="keyword">import</span> android.app.job.JobScheduler;</span><br><span class="line"><span class="keyword">import</span> android.app.job.JobService;</span><br><span class="line"><span class="keyword">import</span> android.content.ComponentName;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.os.Build;</span><br><span class="line"><span class="keyword">import</span> android.support.annotation.RequiresApi;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="meta">@RequiresApi</span>(api = Build.VERSION_CODES.LOLLIPOP)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyJobService</span> <span class="keyword">extends</span> <span class="title">JobService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        startJob();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 开启工作</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startJob</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        JobInfo.Builder builder = <span class="keyword">new</span> JobInfo.Builder(<span class="number">1001</span>, <span class="keyword">new</span> ComponentName(getPackageName(), MyJobService.class.getName()));</span><br><span class="line">        <span class="comment">//500毫秒调用一次</span></span><br><span class="line">        builder.setPeriodic(<span class="number">500</span>);</span><br><span class="line">        builder.setPersisted(<span class="keyword">true</span>);</span><br><span class="line">        JobScheduler jobScheduler = (JobScheduler) <span class="keyword">this</span>.getSystemService(Context.JOB_SCHEDULER_SERVICE);</span><br><span class="line">        jobScheduler.schedule(builder.build());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onStartJob</span><span class="params">(JobParameters params)</span> </span>&#123;</span><br><span class="line">        Log.d(<span class="string">"123"</span>, <span class="string">"onStartJob: ..."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onStopJob</span><span class="params">(JobParameters params)</span> </span>&#123;</span><br><span class="line">        Log.d(<span class="string">"123"</span>, <span class="string">"onStopJob: ..."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在Activity启动服务，如:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">startService(<span class="keyword">new</span> Intent(<span class="keyword">this</span>,MyJobService.class));</span><br></pre></td></tr></table></figure>
+
+<p>我们添加了一个JobService并在服务启动及停止时加入了日志输出。<br>使用JobScheduler来调度服务，每500毫秒调用一次。<br>我们启动App来观察服务启动log的打印情况，启动后每500毫秒打印一次。我们手动关闭所有进程，发现服务停止后有复活了，正常输出了log信息。</p>
+<p>注意：清单文件中加入相关权限。如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span> <span class="attr">android:name</span>=<span class="string">".MyJobService"</span> <span class="attr">android:permission</span>=<span class="string">"android.permission.BIND_JOB_SERVICE"</span>&gt;</span><span class="tag">&lt;/<span class="name">service</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="Android-进程保活系列："><a href="#Android-进程保活系列：" class="headerlink" title="Android 进程保活系列："></a>Android 进程保活系列：</h3><p><a href="http://www.zydeveloper.com/2019/07/15/processlive1/" target="_blank" rel="noopener">Android 进程保活（一）写在前面</a><br><a href="http://www.zydeveloper.com/2019/07/15/processlive2/" target="_blank" rel="noopener">Android 进程保活（二）双服务进程包活</a><br><a href="http://www.zydeveloper.com/2019/07/15/processlive3/" target="_blank" rel="noopener">Adnroid 进程保活（三）1像素方案保活</a><br><a href="http://www.zydeveloper.com/2019/07/16/processlive4/" target="_blank" rel="noopener">Android 进程保活（四）使用“前台服务”保活</a><br><a href="http://www.zydeveloper.com/2019/07/16/processlive5/" target="_blank" rel="noopener">Android 进程保活（五）JobSheduler进程重生</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/07/16/processlive5/">http://yoursite.com/2019/07/16/processlive5/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Android/"># Android</a>
+                    
+                        <a href="/tags/进程保活/"># 进程保活</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/07/16/processlive4/">Android 进程保活（四）使用“前台服务”保活</a>
+            
+            
+            <a class="next" rel="next" href="/2019/07/15/hotupdate/">Android 热修复</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

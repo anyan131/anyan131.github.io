@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Jetpack系列之Databinding | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Jetpack系列之Databinding</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 2, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Jetpack/">Jetpack</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>jetpack databinding<br><strong>数据绑定库</strong>是一种支持库，借助该库，您可以使用声明性格式（而非程序化地）将布局中的界面组件绑定到应用中的数据源。</p>
+<a id="more"></a>
+
+<p>jetpack官网地址：<a href="https://developer.android.google.cn/jetpack/" target="_blank" rel="noopener">https://developer.android.google.cn/jetpack/</a></p>
+<h2 id="什么是Android-Jetpack？"><a href="#什么是Android-Jetpack？" class="headerlink" title="什么是Android Jetpack？"></a>什么是Android Jetpack？</h2><p><em>官方定义如下：</em></p>
+<p><strong>Jetpack</strong> 是一套库、工具和指南，可帮助开发者更轻松地编写优质应用。这些组件可帮助您遵循最佳做法、让您摆脱编写样板代码的工作并简化复杂任务，以便您将精力集中放在所需的代码上。</p>
+<p><strong>Jetpack</strong> 包含与平台 API 解除捆绑的 androidx.* 软件包库。这意味着，它可以提供向后兼容性，且比 Android 平台的更新频率更高，以此确保您始终可以获取最新且最好的 Jetpack 组件版本。<br><img src="jetpack-databinding/2019-07-02-09-51-59.png"></p>
+<p>Jetpack 组件是库的集合，这些库是为协同工作而构建的，不过也可以单独采用，同时利用 Kotlin 语言功能帮助您提高工作效率。可全部使用，也可混合搭配！</p>
+<img src="jetpack-databinding/2019-07-02-10-29-17.png" style="margin:0px;border:0px;">
+<img src="jetpack-databinding/2019-07-02-10-30-02.png" style="margin:0px;border:0px;">
+
+
+<hr>
+<h1 id="Databinding"><a href="#Databinding" class="headerlink" title="Databinding"></a>Databinding</h1><h2 id="概念解释"><a href="#概念解释" class="headerlink" title="概念解释"></a>概念解释</h2><p>参考链接：<a href="https://developer.android.google.cn/topic/libraries/data-binding/" target="_blank" rel="noopener">https://developer.android.google.cn/topic/libraries/data-binding/</a></p>
+<p><strong>数据绑定库</strong>是一种支持库，借助该库，您可以使用声明性格式（而非程序化地）将布局中的界面组件绑定到应用中的数据源。</p>
+<p>比较一下Databinding给我们带来的不同之处。</p>
+<p>看一段我们之前的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">TextView textView = findViewById(R.id.tv_login_username);</span><br><span class="line">textView.setText(User.getUserName());</span><br></pre></td></tr></table></figure>
+
+<p>这段代码很简单，实现的逻辑是找到TextView控件并设置其Text属性值。再来看看Databinding的实现方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">        android:text=<span class="string">"@&#123;User.userName&#125;"</span> /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>我们发现Databinding方式并没有使用java代码就实现了控件查找并设置Text属性值。<br>带来的好处是其维护起来更简单、方便。还可以提高应用性能，并且有助于防止内存泄漏以及避免空指针异常。</p>
+<hr>
+<h3 id="Demo演示Databinding使用过程"><a href="#Demo演示Databinding使用过程" class="headerlink" title="Demo演示Databinding使用过程"></a>Demo演示Databinding使用过程</h3><h4 id="第一步-开启databinding"><a href="#第一步-开启databinding" class="headerlink" title="第一步 开启databinding"></a>第一步 开启databinding</h4><p>在工程build.gradle文件中开启databinding，如:<br><img src="jetpack-databinding/2019-07-02-19-58-28.png"></p>
+<hr>
+<h4 id="第二步-新建实体bean类-业务实体类"><a href="#第二步-新建实体bean类-业务实体类" class="headerlink" title="第二步 新建实体bean类\业务实体类"></a>第二步 新建实体bean类\业务实体类</h4><p>新建实体bean类，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.databindingapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.databinding.ObservableField;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentBean</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> ObservableField&lt;String&gt; name=<span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">StudentBean</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAddress</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAddress</span><span class="params">(String address)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.address = address;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>public ObservableField<string> name=new ObservableField&lt;&gt;();<br>这里有个很有趣的东西如上。<br>——ObservableFields一个类中的单独的字段做观察，如果数据有变动则会收到通知。<br>除了ObservableField，还有ObservableBoolean、ObservableInt…</string></p>
+<p><strong>另一种实现：</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">StudentBean</span> <span class="keyword">extends</span> <span class="title">BaseObservable</span></span>&#123;</span><br><span class="line">    <span class="meta">@Bindable</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> id;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.name = name;</span><br><span class="line">        notifyPropertyChanged(BR.name);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setId</span><span class="params">(<span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.id = id;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getAge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAge</span><span class="params">(<span class="keyword">int</span> age)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.age = age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAddress</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> address;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAddress</span><span class="params">(String address)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.address = address;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们发现了一些差异，首先继承了BaseObservable<br>参考链接：<a href="https://developer.android.google.cn/reference/android/databinding/BaseObservable" target="_blank" rel="noopener">https://developer.android.google.cn/reference/android/databinding/BaseObservable</a></p>
+<p>@Bindable 可以加到字段名上 也可以加载 get方法上 效果是一样</p>
+<p>set方法上手动调用notifyPropertyChanged通知数据更新，注意：参数要写BR.XX（这是一个坑）</p>
+<p><em>上面两处差异部分我们先记录下来，下面具体Demo演示时我们看具体有什么用处。</em></p>
+<p>新建响应点击事件业务处理类，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClickListener</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">btnClickListener</span><span class="params">(View view)</span></span>&#123;</span><br><span class="line">        studentBean.setName(<span class="string">"新名字"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="第三步-新建布局文件"><a href="#第三步-新建布局文件" class="headerlink" title="第三步 新建布局文件"></a>第三步 新建布局文件</h4><p>新建layout布局并设置绑定关系</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">layout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">data</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">variable</span></span></span><br><span class="line"><span class="tag">            <span class="attr">name</span>=<span class="string">"student"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">type</span>=<span class="string">"com.baweigame.databindingapplication.StudentBean"</span>&gt;</span><span class="tag">&lt;/<span class="name">variable</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">variable</span></span></span><br><span class="line"><span class="tag">            <span class="attr">name</span>=<span class="string">"clickHandler"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">type</span>=<span class="string">"com.baweigame.databindingapplication.MainActivity.ClickListener"</span>&gt;</span><span class="tag">&lt;/<span class="name">variable</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">data</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"@&#123;student.name&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"@&#123;String.valueOf(student.age)&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"@&#123;student.address&#125;"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">Button</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"点击"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"wrap_content"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:onClick</span>=<span class="string">"@&#123;clickHandler.btnClickListener&#125;"</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">layout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>首先我们看根节点变成了layout 并且下方为data节点 ，data节点中有包含了variable节点，这些节点都什么作用，下面我们一一说明：</p>
+<ul>
+<li>最外层用layout标签，databinding固定写法</li>
+<li>data标签就是一个让我们数据绑定的标签</li>
+<li>variable放置绑定的变量</li>
+<li>variable包含type和name属性</li>
+<li>type属性 标识变量类型，比如java.lang.String这就是String类型，com.baweigame.databindingapplication.StudentBean 这个就是一个定义的一个StudentBean类型<br>com.baweigame.databindingapplication.MainActivity.ClickListener是我定义用于处理事件的业务类型</li>
+<li>name属性 表示的就是我定义的一个变量名称，这个变量名称我们会在下方的布局和对应的java代码中用到 </li>
+</ul>
+<p>variable还有另一种写法如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">data</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--&lt;variable--&gt;</span></span><br><span class="line">            <span class="comment">&lt;!--name="student"--&gt;</span></span><br><span class="line">                <span class="comment">&lt;!--type="com.baweigame.databindingapplication.StudentBean"&gt;&lt;/variable&gt;--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">import</span> <span class="attr">type</span>=<span class="string">"com.baweigame.databindingapplication.StudentBean"</span></span></span><br><span class="line">        &lt;variable</span><br><span class="line">            name="student"</span><br><span class="line">            type="StudentBean"&gt;<span class="tag">&lt;/<span class="name">variable</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">variable</span></span></span><br><span class="line"><span class="tag">            <span class="attr">name</span>=<span class="string">"clickHandler"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">type</span>=<span class="string">"com.baweigame.databindingapplication.MainActivity.ClickListener"</span>&gt;</span><span class="tag">&lt;/<span class="name">variable</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">data</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中<strong>@{}</strong>就是我们绑定数据的写法。</p>
+<p>其中大家应该注意</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@&#123;String.valueOf(Student.age)&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="表达式"><a href="#表达式" class="headerlink" title="表达式"></a>表达式</h5><p>即可以嵌入表达式，可以在表达式语言中使用以下运算符和关键字：</p>
+<ol>
+<li>基本运算 + - / * %</li>
+<li>字符串连接 +</li>
+<li>逻辑表达式 &amp;&amp; ||</li>
+<li>二进制 &amp; | ^</li>
+<li>一元运算符 + - ! ~</li>
+<li>移位 &gt;&gt; &gt;&gt;&gt; &lt;&lt;</li>
+<li>比较运算 == &gt; &lt; &gt;= &lt;=</li>
+<li>instanceof</li>
+<li>分组 ()</li>
+<li>字面值 - 字符，字符串，数字， null</li>
+<li>强转</li>
+<li>方法调用</li>
+<li>属性访问</li>
+<li>数组访问 []</li>
+<li>三元运算符 ?:</li>
+</ol>
+<p>绑定处理事件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@&#123;clickHandler.btnClickListener&#125;</span><br></pre></td></tr></table></figure>
+
+<p>事件处理部分：(方法与butterknife处理事件类似)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">btnClickListener</span><span class="params">(View view)</span></span>&#123;</span><br><span class="line"><span class="comment">//            studentBean.name.set("新名字");</span></span><br><span class="line">            studentBean.setName(<span class="string">"新名字"</span>);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>大家注意到方法中我们修改了studentbean类中name值，这里面为什么修改name值ui上会同步更新就是因为上面我们的两种设置，如：<br>方法一：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> ObservableField&lt;String&gt; name=<span class="keyword">new</span> ObservableField&lt;&gt;();</span><br></pre></td></tr></table></figure>
+
+<p>方法二：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setName</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">this</span>.name = name;</span><br><span class="line">       notifyPropertyChanged(BR.name);</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="最后-设置Activity-content"><a href="#最后-设置Activity-content" class="headerlink" title="最后 设置Activity content"></a>最后 设置Activity content</h4><p>就是MainActivity中的setContentView处理，我们之前设置内容视图方法都是使用setContentView，在Databinding中我们需要如下设置方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> ActivityMainBinding dataBinding = DataBindingUtil.setContentView(<span class="keyword">this</span>, R.layout.activity_main);</span><br><span class="line"><span class="comment">//        studentBean.name.set("小明");</span></span><br><span class="line">        studentBean.setName(<span class="string">"小明"</span>);</span><br><span class="line">        studentBean.setAddress(<span class="string">"北京市朝阳区"</span>);</span><br><span class="line">        studentBean.setAge(<span class="number">20</span>);</span><br><span class="line">        studentBean.setId(<span class="number">1</span>);</span><br><span class="line">        dataBinding.setStudent(studentBean);</span><br><span class="line">        dataBinding.setClickHandler(<span class="keyword">new</span> ClickListener());</span><br></pre></td></tr></table></figure>
+
+<p>ActivityMainBinding即自动生成的绑定类，我们看这个类生成的类名是我们的layout名+Binding组成，即生成规则=layout名+Binding<br>当然你也可以自定义类名，方法如：<br><img src="jetpack-databinding/2019-07-02-21-27-13.png"></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MyStudent dataBinding = DataBindingUtil.setContentView(<span class="keyword">this</span>, R.layout.activity_main);</span><br></pre></td></tr></table></figure>
+
+<p>如果是<strong>Fragment、Listview、Recyclerview</strong> 使用则，需要使用inflate()绑定类或者DataBindingUtil类方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ListItemBinding binding = ListItemBinding.inflate(layoutInflater, viewGroup, <span class="keyword">false</span>);</span><br><span class="line">或者</span><br><span class="line">ListItemBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.list_item, viewGroup, <span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>如上即通过一个小Demo演示了DataBinding的具体使用方式。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/07/02/jetpack-databinding/">http://yoursite.com/2019/07/02/jetpack-databinding/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Jetpack/"># Jetpack</a>
+                    
+                        <a href="/tags/Databinding/"># Databinding</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/07/02/jetpack-livedata/">Jetpack系列之LiveData</a>
+            
+            
+            <a class="next" rel="next" href="/2019/07/02/mvvm/">Mvvm架构</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

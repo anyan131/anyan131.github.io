@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Android插件化——动态资源加载 | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android插件化——动态资源加载</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 24, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/Android插件化/">Android插件化</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>之前我们聊了一下Android插件化中的热修复，参考：（<a href="http://www.zydeveloper.com/2019/07/15/hotupdate/" target="_blank" rel="noopener">Android 热修复</a>），现在我们聊聊资源的动态加载。</p>
+<a id="more"></a>
+
+<p>顾名思义我们之前的热更新只是解决了代码的加载，对于外部资源我们还不能直接使用。我们工程的资源最终打包后都会放到R.java文件中，然后我们可以获取Resources然后通过类似resources.getDrawable(id);方式通过id来获取我们具体的资源。但对于外部资源也就是不在我们工程中没有被放到R.java文件中的资源我们如果使用呢？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Drawable drawable = resources.getDrawable(resId);</span><br></pre></td></tr></table></figure>
+
+<p>上面这种方式是我们平时获取资源的使用方式。</p>
+<p>我们使用Resources的getXXX 通过resId来获取资源。<br>那我们考虑考虑是否可以获取插件的Resources呢？如果可以我们是不是就可以实现资源的动态加载了呢？<br>答案是可以的！</p>
+<p>我们先来看看Activity是如何获取Resources的：<br>我们直接定位到代码，ContextThemeWrapper<br>继承关系，如</p>
+<p>ContextThemeWrapper &gt; ContextWrapper &gt; Context</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Resources <span class="title">getResources</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getResourcesInternal();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> Resources <span class="title">getResourcesInternal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mResources == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mOverrideConfiguration == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mResources = <span class="keyword">super</span>.getResources();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">final</span> Context resContext = createConfigurationContext(mOverrideConfiguration);</span><br><span class="line">            mResources = resContext.getResources();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> mResources;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们发现获取Resources的方法，再来看看Resources.java的构造函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">* Create a new Resources object on top of an existing set of assets in an</span></span><br><span class="line"><span class="comment">* AssetManager.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@deprecated</span> Resources should not be constructed by apps.</span></span><br><span class="line"><span class="comment">* See &#123;<span class="doctag">@link</span> android.content.Context#createConfigurationContext(Configuration)&#125;.</span></span><br><span class="line"><span class="comment">*</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> assets Previously created AssetManager.</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> metrics Current display metrics to consider when</span></span><br><span class="line"><span class="comment">*                selecting/computing resource values.</span></span><br><span class="line"><span class="comment">* <span class="doctag">@param</span> config Desired device configuration to consider when</span></span><br><span class="line"><span class="comment">*               selecting/computing resource values (optional).</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">@Deprecated</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Resources</span><span class="params">(AssetManager assets, DisplayMetrics metrics, Configuration config)</span> </span>&#123;</span><br><span class="line"><span class="keyword">this</span>(<span class="keyword">null</span>);</span><br><span class="line">mResourcesImpl = <span class="keyword">new</span> ResourcesImpl(assets, metrics, config, <span class="keyword">new</span> DisplayAdjustments());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们发现Resources是由AssetManager创建处理的。<br>再来分析一下AssetManger</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Provides access to an application's raw asset files; see &#123;<span class="doctag">@link</span> Resources&#125;</span></span><br><span class="line"><span class="comment"> * for the way most applications will want to retrieve their resource data.</span></span><br><span class="line"><span class="comment"> * This class presents a lower-level API that allows you to open and read raw</span></span><br><span class="line"><span class="comment"> * files that have been bundled with the application as a simple stream of</span></span><br><span class="line"><span class="comment"> * bytes.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">AssetManager</span> <span class="keyword">implements</span> <span class="title">AutoCloseable</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@deprecated</span> Use &#123;<span class="doctag">@link</span> #setApkAssets(ApkAssets[], boolean)&#125;</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@hide</span></span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addAssetPath</span><span class="params">(String path)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> addAssetPathInternal(path, <span class="keyword">false</span> <span class="comment">/*overlay*/</span>, <span class="keyword">false</span> <span class="comment">/*appAsLib*/</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们发现一个addAssetPath的方法，实际这个方法可以使我们传入的apk path为我们构建出AssetManager 然后通过AssetManager创建出Resources。如上是我们实现动态加载资源的初步思路。<br>下面实践一下是否可行？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.plugindemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Application;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageInfo;</span><br><span class="line"><span class="keyword">import</span> android.content.pm.PackageManager;</span><br><span class="line"><span class="keyword">import</span> android.content.res.AssetManager;</span><br><span class="line"><span class="keyword">import</span> android.content.res.Resources;</span><br><span class="line"><span class="keyword">import</span> android.os.Environment;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.File;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.InvocationTargetException;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> AssetManager assetManager;</span><br><span class="line">    <span class="keyword">private</span> Resources newResource;</span><br><span class="line">    <span class="keyword">private</span> Resources.Theme mTheme;</span><br><span class="line">    <span class="keyword">private</span> PackageInfo packageInfo;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">attachBaseContext</span><span class="params">(Context base)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.attachBaseContext(base);</span><br><span class="line">        <span class="comment">//创建我们自己的Resource</span></span><br><span class="line">        String apkPath = Environment.getExternalStorageDirectory().getAbsolutePath() + <span class="string">"/app-debug.apk"</span>;</span><br><span class="line">        packageInfo = getPackageInfo(apkPath);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">new</span> File(apkPath).exists())&#123;</span><br><span class="line">            loadOtherResource(apkPath);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadOtherResource</span><span class="params">(String apkPath)</span></span>&#123;</span><br><span class="line">        <span class="comment">//创建AssetManager</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            assetManager = AssetManager.class.newInstance();</span><br><span class="line">            Method addAssetPathMethod = assetManager.getClass().getDeclaredMethod(<span class="string">"addAssetPath"</span>, String.class);</span><br><span class="line">            addAssetPathMethod.setAccessible(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">            addAssetPathMethod.invoke(assetManager, apkPath);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            <span class="comment">//初始化AssetManager内部参数</span></span><br><span class="line">            Method ensureStringBlocks = AssetManager.class.getDeclaredMethod(<span class="string">"ensureStringBlocks"</span>);</span><br><span class="line">            ensureStringBlocks.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">            ensureStringBlocks.invoke(assetManager);</span><br><span class="line"></span><br><span class="line">            Resources supResource = getResources();</span><br><span class="line">            Log.e(<span class="string">"Main"</span>, <span class="string">"supResource = "</span> + supResource);</span><br><span class="line">            newResource = <span class="keyword">new</span> Resources(assetManager, supResource.getDisplayMetrics(), supResource.getConfiguration());</span><br><span class="line"></span><br><span class="line">            mTheme = newResource.newTheme();</span><br><span class="line">            mTheme.setTo(<span class="keyword">super</span>.getTheme());</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IllegalAccessException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InstantiationException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (NoSuchMethodException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (InvocationTargetException e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AssetManager <span class="title">getAssets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> assetManager==<span class="keyword">null</span>?<span class="keyword">super</span>.getAssets():assetManager;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Resources <span class="title">getResources</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> newResource==<span class="keyword">null</span>?<span class="keyword">super</span>.getResources():newResource;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Resources.<span class="function">Theme <span class="title">getTheme</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mTheme == <span class="keyword">null</span> ? <span class="keyword">super</span>.getTheme() : mTheme;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取apk包信息</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> resourcePath apk路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> PackageInfo <span class="title">getPackageInfo</span><span class="params">(String resourcePath)</span></span>&#123;</span><br><span class="line">        PackageInfo packageInfo=getPackageManager().getPackageArchiveInfo(resourcePath, PackageManager.GET_ACTIVITIES);</span><br><span class="line">        <span class="keyword">return</span> packageInfo;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取插件包名</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getPluginPackageName</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> packageInfo.packageName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面代码中，我们发现获取了内置存储中的app-debug.apk文件，因为是demo所以直接写死了。<br>下面我们来看看loadOtherResource这个方法都做了什么？<br>我们发现它主要利用反射来获取<br>assetManager<br>newResource<br>mTheme<br>3个主要对象，并将我们的apk通过“addAssetPath”添加到了manager中。</p>
+<p>然后重写了Application的3个方法getAssets、getResources、getTheme，用于替换成我们资源apk的资源。</p>
+<p>然后我们看看MainActivity中做了什么？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.plugindemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Activity;</span><br><span class="line"><span class="keyword">import</span> android.content.res.AssetManager;</span><br><span class="line"><span class="keyword">import</span> android.content.res.Resources;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.util.Log;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">Activity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        MyApplication application= (MyApplication) getApplication();</span><br><span class="line">        <span class="keyword">int</span> aa=application.getResources().getIdentifier(<span class="string">"activity_demo"</span>,<span class="string">"layout"</span>,application.getPluginPackageName());</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">            setContentView(aa);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">            Log.e(<span class="string">"123"</span>, <span class="string">"onCreate: "</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AssetManager <span class="title">getAssets</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(getApplication() != <span class="keyword">null</span> &amp;&amp; getApplication().getAssets() != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> getApplication().getAssets();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getAssets();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> Resources.<span class="function">Theme <span class="title">getTheme</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(getApplication() != <span class="keyword">null</span> &amp;&amp; getApplication().getTheme() != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> getApplication().getTheme();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getTheme();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Resources <span class="title">getResources</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(getApplication() != <span class="keyword">null</span> &amp;&amp; getApplication().getTheme() != <span class="keyword">null</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> getApplication().getResources();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">super</span>.getResources();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们发现实现了从资源apk中获取activity_demo布局文件然后设置给MainActivity。<br>注意我们要使用其他apk资源必须重写Activity中的getAssets、getTheme、getResources。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">application.getResources().getIdentifier(<span class="string">"activity_demo"</span>,<span class="string">"layout"</span>,application.getPluginPackageName());</span><br></pre></td></tr></table></figure>
+
+<p>这个方法用于获取指定资源，目前获取的是layout类型的activity_demo布局文件资源。<br>下面是我们加载的资源项目截图：</p>
+<img src="ResourceDynamicLoad/2019-07-30-20-51-10.png">
+
+<p>如上就是我们动态加载资源的简单实现。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/07/24/ResourceDynamicLoad/">http://yoursite.com/2019/07/24/ResourceDynamicLoad/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Android/"># Android</a>
+                    
+                        <a href="/tags/插件化/"># 插件化</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/07/30/Tinker/">Android 插件化 Tinker</a>
+            
+            
+            <a class="next" rel="next" href="/2019/07/16/processlive4/">Android 进程保活（四）使用“前台服务”保活</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Android 多渠道打包 | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android 多渠道打包</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">August 9, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/打包/">打包</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>我们的产品上线后会发布到不同的应用商店供用户下载，对于不同的应用商店上线的APP版本进行跟踪统计。<br>这时我们对于不同的应用上线应用商店划分不同的渠道，也就是我们所说的多渠道打包。</p>
+<a id="more"></a>
+
+<p>下面我们来介绍如何使用Gradle进行多渠道打包。</p>
+<p>使用Gradle多渠道打包主要使用<strong>ProductFlavors</strong>。</p>
+<h3 id="ProductFlavors"><a href="#ProductFlavors" class="headerlink" title="ProductFlavors"></a>ProductFlavors</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">android&#123;</span><br><span class="line">    flavorDimensions <span class="string">"channelpackage"</span></span><br><span class="line">    productFlavors&#123;</span><br><span class="line">        <span class="comment">//小米</span></span><br><span class="line">        xiaomi&#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//豌豆荚</span></span><br><span class="line">        wandoujia&#123;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//应用宝</span></span><br><span class="line">        yingyongbao&#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们发现有3个渠道xiaomi wandoujia yingyongbao。<br>还有flavorDimensions,这个是干嘛用的呢？<br>如果不加就会报：</p>
+<p>Error:All flavors must now belong to a named flavor dimension.Learn more at <a href="https://d.android.com/r/tools/flavorDimensions-missing-error-message.html" target="_blank" rel="noopener">https://d.android.com/r/tools/flavorDimensions-missing-error-message.html</a> </p>
+<p>大概意思是所有的flavors都要属于同一个规格。<br>点击链接地址后（要翻墙）：<br>Plugin 3.0.0 includes a new dependency mechanism that automatically matches variants when consuming a library. This means an app’s debug variant automatically consumes a library’s debug variant, and so on. It also works when using flavors—an app’s redDebug variant will consume a library’s redDebug variant. To make this work, the plugin now requires that all flavors belong to a named flavor dimension —even if you intend to use only a single dimension. Otherwise, you will get the following build error:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error:All flavors must now belong to a named flavor dimension.</span><br><span class="line">The flavor <span class="string">'flavor_name'</span> is not assigned to a flavor dimension.</span><br></pre></td></tr></table></figure>
+
+<p>To resolve this error, assign each flavor to a named dimension, as shown in the sample below. Because dependency matching is now taken care of by the plugin, you should name your flavor dimensions carefully. For example, if all your app and library modules use the foo dimension, you’ll have less control over which flavors are matched by the plugin.</p>
+<p>我们可以参考友盟的渠道包方式在清单文件中加入：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta-data</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">"MY_CHANNEL"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:value</span>=<span class="string">"$&#123;CHANNEL_VALUE&#125;"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>同时修改上面的Gradle为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">flavorDimensions <span class="string">"channelpackage"</span></span><br><span class="line">productFlavors&#123;</span><br><span class="line">    <span class="comment">//小米</span></span><br><span class="line">    xiaomi&#123;</span><br><span class="line">        manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"xiaomi"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//豌豆荚</span></span><br><span class="line">    wandoujia&#123;</span><br><span class="line">        manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"wandoujia"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//应用宝</span></span><br><span class="line">    yingyongbao&#123;</span><br><span class="line">        manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"yingyongbao"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置好后到工程的跟目录下执行：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assemble</span><br></pre></td></tr></table></figure>
+
+<p>打包成功后：<br><img src="ReleaseApp/2019-08-11-18-31-11.png"><br>在app下的output下就可以看看我们刚刚打的渠道包了。<br><img src="ReleaseApp/2019-08-11-18-32-50.png"><br>我们看到已经打包好了不同渠道的debug与release版本的APK。</p>
+<p>当然也可以指定打包：</p>
+<p><strong>只打release版本包</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assembleRelease</span><br></pre></td></tr></table></figure>
+
+<p><strong>只打debug版本包</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assembleDebug</span><br></pre></td></tr></table></figure>
+
+<p><strong>只打小米渠道包</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assemblexiaomi</span><br></pre></td></tr></table></figure>
+
+<p><strong>只打小米渠道Release包</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gradlew assemblexiaomiRelease</span><br></pre></td></tr></table></figure>
+
+<p>多渠道打包时我们可能还会加入一些其他设置如：</p>
+<p><strong>加入不同的APPID及版本号</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">def <span class="title">getTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Date().format(<span class="string">"yyyyMMdd"</span>, TimeZone.getTimeZone(<span class="string">"UTC"</span>))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android&#123;</span><br><span class="line">...</span><br><span class="line">flavorDimensions <span class="string">"channelpackage"</span></span><br><span class="line">productFlavors&#123;</span><br><span class="line">    <span class="comment">//小米</span></span><br><span class="line">    xiaomi&#123;</span><br><span class="line">        applicationId <span class="string">"com.channel.xiaomi.application"</span></span><br><span class="line">        versionCode <span class="number">1</span></span><br><span class="line">        versionName <span class="string">"1.0."</span>+getTime()</span><br><span class="line">        manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"xiaomi"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//豌豆荚</span></span><br><span class="line">    wandoujia&#123;</span><br><span class="line">        applicationId <span class="string">"com.channel.wandoujia.application"</span></span><br><span class="line">        versionCode <span class="number">1</span></span><br><span class="line">        versionName <span class="string">"1.0."</span>+getTime()</span><br><span class="line">        manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"wandoujia"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//应用宝</span></span><br><span class="line">    yingyongbao&#123;</span><br><span class="line">        applicationId <span class="string">"com.channel.yingyongbao.application"</span></span><br><span class="line">        versionCode <span class="number">1</span></span><br><span class="line">        versionName <span class="string">"1.0."</span>+getTime()</span><br><span class="line">        manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"yingyongbao"</span>]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重新打包后发现我们的applicationid与版本信息都定制化了。</p>
+<p><strong>manifestPlaceholders中也可以加入多个配置，如加入第三方的APPKEY</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">manifestPlaceholders = [CHANNEL_VALUE:<span class="string">"wandoujia"</span>,BaiduMapAPPKEY:<span class="string">"s9s87d7f9s6df6s78sd"</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>还可以不同的渠道引入不同的jar包</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    ...</span><br><span class="line">    implementation <span class="string">'com.github.leifzhang:IjkLib:0.4.3'</span></span><br><span class="line">    xiaomiImplementation <span class="string">'io.reactivex.rxjava2:rxandroid:2.1.1'</span></span><br><span class="line">    xiaomiImplementation <span class="string">'io.reactivex.rxjava2:rxjava:2.2.11'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>使用BuildConfig传递配置一些参数</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">flavorDimensions <span class="string">"channelpackage"</span></span><br><span class="line">productFlavors&#123;</span><br><span class="line">    <span class="comment">//小米</span></span><br><span class="line">    xiaomi&#123;</span><br><span class="line">        ...</span><br><span class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"buildparam"</span>,<span class="string">"\"xiaomi\""</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//豌豆荚</span></span><br><span class="line">    wandoujia&#123;</span><br><span class="line">        ...</span><br><span class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"buildparam"</span>,<span class="string">"\"wandoujia\""</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//应用宝</span></span><br><span class="line">    yingyongbao&#123;</span><br><span class="line">        ...</span><br><span class="line">        buildConfigField <span class="string">"String"</span>, <span class="string">"buildparam"</span>,<span class="string">"\"yingyongbao\""</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">代码中获取：</span><br><span class="line"><span class="keyword">if</span> (BuildConfig.buildparam.equals(<span class="string">"xiaomi"</span>))&#123;</span><br><span class="line">            </span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> (BuildConfig.buildparam.equals(<span class="string">"wandoujia"</span>))&#123;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span> <span class="keyword">if</span> (BuildConfig.buildparam.equals(<span class="string">"yingyongbao"</span>))&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>BuildConfig也有一些默认的配置属性：<br><img src="ReleaseApp/2019-08-13-10-35-45.png"></p>
+<p><strong>甚至还可以各渠道包使用不同的资源</strong>：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">sourceSets &#123;</span><br><span class="line">      main &#123;</span><br><span class="line">          java.srcDir <span class="string">"src/main/java"</span></span><br><span class="line">          res.srcDir <span class="string">"src/main/res"</span></span><br><span class="line">          jniLibs.srcDir <span class="string">"src/main/jniLibs"</span></span><br><span class="line">          manifest.srcFile <span class="string">"src/main/AndroidManifest.xml"</span></span><br><span class="line">          assets.srcDir <span class="string">"src/main/assets"</span></span><br><span class="line">      &#125;</span><br><span class="line">      xiaomi&#123;</span><br><span class="line">          java.srcDir <span class="string">"src/main/java"</span></span><br><span class="line">          res.srcDir <span class="string">"src/main/res"</span></span><br><span class="line">          jniLibs.srcDir <span class="string">"src/main/jniLibs"</span></span><br><span class="line">          manifest.srcFile <span class="string">"src/main/AndroidManifest.xml"</span></span><br><span class="line">          assets.srcDir <span class="string">"src/main/assets"</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      wandoujia&#123;</span><br><span class="line">          java.srcDir <span class="string">"src/main/java"</span></span><br><span class="line">          res.srcDir <span class="string">"src/main/res"</span></span><br><span class="line">          jniLibs.srcDir <span class="string">"src/main/jniLibs"</span></span><br><span class="line">          manifest.srcFile <span class="string">"src/main/AndroidManifest.xml"</span></span><br><span class="line">          assets.srcDir <span class="string">"src/main/assets"</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      yingyongbao&#123;</span><br><span class="line">          java.srcDir <span class="string">"src/main/java"</span></span><br><span class="line">          res.srcDir <span class="string">"src/main/res"</span></span><br><span class="line">          jniLibs.srcDir <span class="string">"src/main/jniLibs"</span></span><br><span class="line">          manifest.srcFile <span class="string">"src/main/AndroidManifest.xml"</span></span><br><span class="line">          assets.srcDir <span class="string">"src/main/assets"</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="可能遇到的问题？"><a href="#可能遇到的问题？" class="headerlink" title="可能遇到的问题？"></a>可能遇到的问题？</h3><p>问题1：<br>Android studio Error occurred during initialization of VM 问题解决</p>
+<img src="ReleaseApp/2019-08-11-18-08-52.png">
+
+
+<p>问题2：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Execution failed <span class="keyword">for</span> task <span class="string">':app:compileWandoujiaDebugJavaWithJavac'</span>.</span><br><span class="line">&gt; Could not find tools.jar. Please check that C:\<span class="function">Program <span class="title">Files</span> <span class="params">(x86)</span>\Java\jre1.8.0_211 contains a valid JDK installation.</span></span><br></pre></td></tr></table></figure>
+
+<p>环境变量中配置JAVA_HOME 指向jdk所在目录，path中加入%JAVA_HOME%\bin </p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/08/09/ReleaseApp/">http://yoursite.com/2019/08/09/ReleaseApp/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/多渠道打包/"># 多渠道打包</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/08/08/CustomAnnFramwork/">自实现页面注解框架</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>

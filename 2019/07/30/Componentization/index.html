@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Android 组件化开发 | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android 组件化开发</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 30, 2019&nbsp;&nbsp;0:00:00</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/架构/">架构</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h3 id="什么是组件化？"><a href="#什么是组件化？" class="headerlink" title="什么是组件化？"></a>什么是组件化？</h3><p>组件化是指解耦复杂系统时将多个功能模块拆分、重组的过程，有多种属性、状态反映其内部特性。<br>组件化是一种高效的处理复杂应用系统，更好的明确功能模块作用的方式。</p>
+<p>————百度百科</p>
+<a id="more"></a>
+
+<p>本人对于组件化的理解为是一种架构思想，与传统项目（一般指模块化）相比各个业务组件相互隔离，使各个组件可以单独运行单独测试，使用“壳工程”将其组装到一起。这样带来的好处是业务模块单独开发维护降低耦合性，使项目可测试性及可维护性提升。</p>
+<img src="Componentization/2019-07-03-15-15-40.png">
+
+<p><em>（该图片来源于互联网）</em></p>
+<p>上图很形象的描述了组件化各层级的结构。</p>
+<p>对于之前我们的项目大多是将业务模块与基础模块都放到一个app工程中开发维护，这样做的缺点是不易测试，耦合度高等问题显而易见。有的朋友可能会说我们使用了MVC MVP 甚至 MVVM架构不可以解耦吗？使用架构当然可以解耦，但与组件化还不在一个层面上，组件化更偏向于将业务功能模块拆分。</p>
+<h3 id="下面我们通过一个Demo来具体演示一下组件化该如何搭建？"><a href="#下面我们通过一个Demo来具体演示一下组件化该如何搭建？" class="headerlink" title="下面我们通过一个Demo来具体演示一下组件化该如何搭建？"></a>下面我们通过一个Demo来具体演示一下组件化该如何搭建？</h3><img src="Componentization/2019-08-01-08-49-47.png">
+例如我们要实现上图这样的一个咨询类app，我们的项目结构搭建如下：
+<img src="Componentization/2019-08-01-08-56-58.png">
+
+<p>app——壳工程<br>mainmodule——欢迎页面 启动页面 主页面模块<br>videomodule——视频模块<br>funnymodule——段子业务模块<br>usermodule——用户模块对应“我的”<br>messagemodule——系统消息模块<br>commonmodule——通用模块，主要放一下BaseActivity BaseFragment 网络框架等<br>customviewmodule——自定义View模块</p>
+<p>如上是我们对应该app拆分出的业务模块，其中还包括一些基础模块。</p>
+<p>下面我们来建立一个config.gradle来统一配置工程信息。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">ext&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 是否模块化</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    isCommonModule = <span class="keyword">true</span></span><br><span class="line">    isCustomModule = <span class="keyword">true</span></span><br><span class="line">    isFunnyModule  = <span class="keyword">true</span></span><br><span class="line">    isMainModule   = <span class="keyword">true</span></span><br><span class="line">    isMessageModule = <span class="keyword">true</span></span><br><span class="line">    isUserModule =<span class="keyword">true</span></span><br><span class="line">    isVideoModule = <span class="keyword">true</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*defaultConfig*/</span></span><br><span class="line">    compile_sdk_version = <span class="number">28</span></span><br><span class="line">    min_sdk_version = <span class="number">15</span></span><br><span class="line">    target_sdk_version = <span class="number">28</span></span><br><span class="line">    version_code = <span class="number">1</span></span><br><span class="line">    version_name = <span class="string">"1.0.0"</span></span><br><span class="line">    multiDexEnabled = <span class="keyword">true</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/*dependencies*/</span></span><br><span class="line">    android_support = <span class="string">"28.0.0"</span></span><br><span class="line">    retrofit = <span class="string">"2.4.0"</span></span><br><span class="line">    ok_http = <span class="string">"3.10.0"</span></span><br><span class="line">    rx_android = <span class="string">"2.0.2"</span></span><br><span class="line">    rx_java = <span class="string">"2.1.4"</span></span><br><span class="line">    dagger2 = <span class="string">"2.16"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后在project的build.gradle中引入config.gradle.<br><img src="Componentization/2019-08-01-09-12-43.png"></p>
+<p>这样在我们的module中就可以使用我们的配置信息了。<br>使用app的module build.gradle</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion compile_sdk_version</span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        applicationId <span class="string">"com.baweigame.componentdemoapplication"</span></span><br><span class="line">        minSdkVersion min_sdk_version</span><br><span class="line">        targetSdkVersion target_sdk_version</span><br><span class="line">        versionCode version_code</span><br><span class="line">        versionName version_name</span><br><span class="line">        testInstrumentationRunner <span class="string">"android.support.test.runner.AndroidJUnitRunner"</span></span><br><span class="line">    &#125;</span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="keyword">false</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android-optimize.txt'</span>)</span>, 'proguard-rules.pro'</span></span><br><span class="line"><span class="function">        &#125;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">dependencies </span>&#123;</span><br><span class="line">    <span class="function">implementation <span class="title">fileTree</span><span class="params">(include: [<span class="string">'*.jar'</span>], dir: <span class="string">'libs'</span>)</span></span></span><br><span class="line"><span class="function">    implementation "com.android.support:appcompat-v7:$android_support"</span></span><br><span class="line"><span class="function">    implementation 'com.android.support.constraint:constraint-layout:1.1.3'</span></span><br><span class="line"><span class="function">    testImplementation 'junit:junit:4.12'</span></span><br><span class="line"><span class="function">    androidTestImplementation 'com.android.support.test:runner:1.0.2'</span></span><br><span class="line"><span class="function">    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'</span></span><br><span class="line"><span class="function">    <span class="title">if</span> <span class="params">(isCommonModule.toBoolean()</span>)</span>&#123;</span><br><span class="line">        <span class="function">implementation <span class="title">project</span><span class="params">(<span class="string">':commonmodule'</span>)</span></span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">    <span class="title">if</span> <span class="params">(isCustomModule.toBoolean()</span>)</span>&#123;</span><br><span class="line">        <span class="function">implementation <span class="title">project</span><span class="params">(<span class="string">':customviewmodule'</span>)</span></span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">    <span class="title">if</span><span class="params">(isFunnyModule.toBoolean()</span>)</span>&#123;</span><br><span class="line">        <span class="function">implementation <span class="title">project</span><span class="params">(<span class="string">':funnymodule'</span>)</span></span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">    <span class="title">if</span> <span class="params">(isMainModule.toBoolean()</span>)</span>&#123;</span><br><span class="line">        <span class="function">implementation <span class="title">project</span><span class="params">(<span class="string">':mainmodule'</span>)</span></span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">    <span class="title">if</span> <span class="params">(isMessageModule.toBoolean()</span>)</span>&#123;</span><br><span class="line">        <span class="function">implementation <span class="title">project</span><span class="params">(<span class="string">':messagemodule'</span>)</span></span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">    <span class="title">if</span> <span class="params">(isUserModule.toBoolean()</span>)</span>&#123;</span><br><span class="line">        <span class="function">implementation <span class="title">project</span><span class="params">(<span class="string">':usermodule'</span>)</span></span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">    <span class="title">if</span> <span class="params">(isVideoModule.toBoolean()</span>)</span>&#123;</span><br><span class="line">        <span class="function">implementation <span class="title">project</span><span class="params">(<span class="string">':videomodule'</span>)</span></span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>多个模块build.gradle大多一样，所以使用mainmodule 举例，build.gradle：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (isMainModule.toBoolean())&#123;</span><br><span class="line">    apply plugin: <span class="string">'com.android.library'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">android &#123;</span><br><span class="line">    compileSdkVersion compile_sdk_version</span><br><span class="line"></span><br><span class="line">    <span class="comment">//限定命名前缀避免冲突</span></span><br><span class="line">    resourcePrefix <span class="string">"$&#123;project.name&#125;_"</span></span><br><span class="line"></span><br><span class="line">    defaultConfig &#123;</span><br><span class="line">        <span class="keyword">if</span> (!isMainModule.toBoolean())&#123;</span><br><span class="line">            applicationId <span class="string">"com.baweigame.mainmodule"</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        minSdkVersion min_sdk_version</span><br><span class="line">        targetSdkVersion target_sdk_version</span><br><span class="line">        versionCode version_code</span><br><span class="line">        versionName version_name</span><br><span class="line"></span><br><span class="line">        testInstrumentationRunner <span class="string">"android.support.test.runner.AndroidJUnitRunner"</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sourceSets &#123;</span><br><span class="line">        main &#123;</span><br><span class="line">            <span class="keyword">if</span> (isMainModule.toBoolean()) &#123;</span><br><span class="line">                manifest.srcFile module_Manifest</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                manifest.srcFile app_Manifest</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    buildTypes &#123;</span><br><span class="line">        release &#123;</span><br><span class="line">            minifyEnabled <span class="keyword">false</span></span><br><span class="line">            <span class="function">proguardFiles <span class="title">getDefaultProguardFile</span><span class="params">(<span class="string">'proguard-android-optimize.txt'</span>)</span>, 'proguard-rules.pro'</span></span><br><span class="line"><span class="function">        &#125;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">&#125;</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">dependencies </span>&#123;</span><br><span class="line">    <span class="function">implementation <span class="title">fileTree</span><span class="params">(dir: <span class="string">'libs'</span>, include: [<span class="string">'*.jar'</span>])</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">    implementation "com.android.support:appcompat-v7:$android_support"</span></span><br><span class="line"><span class="function">    implementation 'com.android.support.constraint:constraint-layout:1.1.3'</span></span><br><span class="line"><span class="function">    testImplementation 'junit:junit:4.12'</span></span><br><span class="line"><span class="function">    androidTestImplementation 'com.android.support.test:runner:1.0.2'</span></span><br><span class="line"><span class="function">    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>我们发现几处需要注意的地方：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (isMainModule.toBoolean())&#123;</span><br><span class="line">    apply plugin: <span class="string">'com.android.library'</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    apply plugin: <span class="string">'com.android.application'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果开启main模块模式，就设置该module为library模式，反之使用application模式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//限定命名前缀避免冲突</span></span><br><span class="line">resourcePrefix <span class="string">"$&#123;project.name&#125;_"</span></span><br></pre></td></tr></table></figure>
+
+<p>限定资源命名加前缀避免冲突</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sourceSets &#123;</span><br><span class="line">        main &#123;</span><br><span class="line">            <span class="keyword">if</span> (isMainModule.toBoolean()) &#123;</span><br><span class="line">                manifest.srcFile module_Manifest</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                manifest.srcFile app_Manifest</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们知道AnroidMainfest文件是android工程的必须文件，用于设置权限及四大组件注册声明等。<br>当我们module工程为application模式时我们之前的清单文件可以正常使用，但设置成module模式后我们的清单文件就需要合并到app工程中，这样我们源清单文件中的application设置及LAUNCHER的activity都会出现合并错误。</p>
+<p>所以我们采用使用两份清单文件提供给两种模式使用。<br>我们看看module模式下的清单文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">package</span>=<span class="string">"com.baweigame.mainmodule"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainModuleActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>在看看application模式下的清单文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">manifest</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">package</span>=<span class="string">"com.baweigame.mainmodule"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">activity</span> <span class="attr">android:name</span>=<span class="string">".MainModuleActivity"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"android.intent.action.MAIN"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.LAUNCHER"</span> /&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">activity</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">manifest</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!isMainModule.toBoolean())&#123;</span><br><span class="line">           applicationId <span class="string">"com.baweigame.mainmodule"</span></span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果不开启main模块模式就设置applicationId</p>
+<img src="Componentization/2019-08-01-10-36-19.png">
+当然还可以管理我们第三方的库版本。
+
+<h4 id="关于Applicaton-Context-获取问题？"><a href="#关于Applicaton-Context-获取问题？" class="headerlink" title="关于Applicaton Context 获取问题？"></a>关于Applicaton Context 获取问题？</h4><p>我们知道一个APP有且只有一个Application，我们在APP工程中获取Application Context很容易就能获取到，但是如果使用组件化方案时各业务组件获取Application Context就比较麻烦了。<br>那么我们如何解决这个问题呢？<br>我们还记得模块中有个Common业务模块吗？这个模块就是用于存放BaseApplcation BaseActivity的地方，也就是说我们可以让壳APP与各业务模块都依赖这个Common模块，然后壳App工程application实现Common模块中的BaseApplication。<br>如：<br>Common 模块中的BaseApplication。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.commonmodule;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.app.Application;</span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BaseApplication</span> <span class="keyword">extends</span> <span class="title">Application</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Context mContext;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">        mContext=<span class="keyword">this</span>.getApplicationContext();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Context <span class="title">getContext</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mContext;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>壳APP工程的MyApplication</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.componentdemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baweigame.commonmodule.BaseApplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyApplication</span> <span class="keyword">extends</span> <span class="title">BaseApplication</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然清单文件中要指定该Application。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:name</span>=<span class="string">".MyApplication"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">"false"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"@mipmap/ic_launcher"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">"@string/app_name"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:roundIcon</span>=<span class="string">"@mipmap/ic_launcher_round"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="Common模块"><a href="#Common模块" class="headerlink" title="Common模块"></a>Common模块</h4><p>下面来说说Common模块，该模块是所有业务模块的基础，不只单单放一下BaseXX,它还有如下用处：</p>
+<p>1、Common组件清单文件（AndroidMainfest.xml）声明了我们应用中用到的所有使用权限 uses-permission，放到这里是因为在组件开发模式下，所有业务组件就无需在自己的 AndroidManifest.xm 声明自己要用到的权限了。</p>
+<p>2、Common组件的 build.gradle 需要统一依赖第三方依赖库和jar包，例如我们用到的RXJava、Dagger2,Okhttp等等。</p>
+<p>3、Common组件中封装了Android应用的 Base类和网络请求工具、图片加载工具等等，公用的 widget控件也应该放在Common 组件中；业务组件中都用到的数据也应放于Common组件中，例如保存到 SharedPreferences 和 DataBase 中的登陆数据；</p>
+<p>4、Common组件的资源文件中需要放置项目公用的 Drawable、layout、sting、dimen、color和style 等等，另外项目中的 Activity 主题必须定义在 Common中，方便和 BaseActivity 配合保持整个Android应用的界面风格统一。</p>
+<p>如上引用至 <a href="https://www.cnblogs.com/ldq2016/p/9073105.html" target="_blank" rel="noopener">Android组件化方案</a></p>
+<p>上面我们就已经搭建了一个基础的组件结构。</p>
+<h4 id="主界面搭建"><a href="#主界面搭建" class="headerlink" title="主界面搭建"></a>主界面搭建</h4><p>下面我们使用该结构搭建一下主界面，如：<br><img src="Componentization/2019-08-01-15-02-44.png"><br>页面结构我们放到了app工程中，然后使用RadioGroup做底部导航，上面使用4个业务模块中的Fragment。（main video funny user）<br>在common中建立BaseFragment。<br>然后4个业务模块中的Fragment都集成BaseFragment。<br>如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">VideoModuleFragment</span> <span class="keyword">extends</span> <span class="title">BaseFragment</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Nullable</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> View <span class="title">onCreateView</span><span class="params">(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        View v=inflater.inflate(R.layout.videomodule_video_fragment,<span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">return</span> v;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span> <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:gravity</span>=<span class="string">"center"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">style</span>=<span class="string">"@style/TextViewStyle"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:text</span>=<span class="string">"视频 Fragment"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中的TextView style在common中设置如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"TextViewStyle"</span>&gt;</span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:textSize"</span>&gt;</span>35sp<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">       <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:textColor"</span>&gt;</span>@android:color/holo_green_light<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其他3个业务模块同上。<br>看一下app MainActivity</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">LinearLayout</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:app</span>=<span class="string">"http://schemas.android.com/apk/res-auto"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">xmlns:tools</span>=<span class="string">"http://schemas.android.com/tools"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">".MainActivity"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:orientation</span>=<span class="string">"vertical"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">FrameLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:id</span>=<span class="string">"@+id/fl_main"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"9"</span>&gt;</span><span class="tag">&lt;/<span class="name">FrameLayout</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">LinearLayout</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_weight</span>=<span class="string">"1"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">RadioGroup</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:id</span>=<span class="string">"@+id/rg_main"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_width</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:orientation</span>=<span class="string">"horizontal"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">RadioButton</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/rb_main"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">style</span>=<span class="string">"@style/RadioButtonStyle"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:text</span>=<span class="string">"主页"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">RadioButton</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/rb_video"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">style</span>=<span class="string">"@style/RadioButtonStyle"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:text</span>=<span class="string">"视频"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">RadioButton</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/rb_funney"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">style</span>=<span class="string">"@style/RadioButtonStyle"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:text</span>=<span class="string">"段子"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">RadioButton</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:id</span>=<span class="string">"@+id/rb_my"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">style</span>=<span class="string">"@style/RadioButtonStyle"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_weight</span>=<span class="string">"1"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:layout_height</span>=<span class="string">"match_parent"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">android:text</span>=<span class="string">"我的"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">RadioGroup</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">LinearLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中 style=”@style/RadioButtonStyle” 同样来自于common中设置，如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">name</span>=<span class="string">"RadioButtonStyle"</span>&gt;</span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:textSize"</span>&gt;</span>25sp<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:textColor"</span>&gt;</span>@color/commonmodule_radiobutton_textcolor_selector<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:background"</span>&gt;</span>@drawable/commonmodule_radiobutton_selecter<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:gravity"</span>&gt;</span>center<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">name</span>=<span class="string">"android:button"</span>&gt;</span>@null<span class="tag">&lt;/<span class="name">item</span>&gt;</span></span></span><br><span class="line"><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line">commonmodule_radiobutton_textcolor_selector</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">selector</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:state_checked</span>=<span class="string">"true"</span> <span class="attr">android:color</span>=<span class="string">"@android:color/white"</span>&gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:state_checked</span>=<span class="string">"false"</span> <span class="attr">android:color</span>=<span class="string">"@android:color/black"</span>&gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">selector</span>&gt;</span></span><br><span class="line"></span><br><span class="line">commonmodule_radiobutton_selecter</span><br><span class="line"></span><br><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">selector</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:state_checked</span>=<span class="string">"true"</span> <span class="attr">android:drawable</span>=<span class="string">"@android:color/holo_orange_dark"</span>&gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">item</span> <span class="attr">android:state_checked</span>=<span class="string">"false"</span> <span class="attr">android:drawable</span>=<span class="string">"@android:color/white"</span>&gt;</span><span class="tag">&lt;/<span class="name">item</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">selector</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.baweigame.componentdemoapplication;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.support.v4.app.Fragment;</span><br><span class="line"><span class="keyword">import</span> android.support.v7.app.AppCompatActivity;</span><br><span class="line"><span class="keyword">import</span> android.os.Bundle;</span><br><span class="line"><span class="keyword">import</span> android.widget.FrameLayout;</span><br><span class="line"><span class="keyword">import</span> android.widget.RadioGroup;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.baweigame.commonmodule.BaseFragment;</span><br><span class="line"><span class="keyword">import</span> com.baweigame.funnymodule.FunnyMainFragment;</span><br><span class="line"><span class="keyword">import</span> com.baweigame.mainmodule.MainModuleFragment;</span><br><span class="line"><span class="keyword">import</span> com.baweigame.usermodule.UserModuleFragment;</span><br><span class="line"><span class="keyword">import</span> com.baweigame.videomodule.VideoModuleFragment;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> FrameLayout flMain;</span><br><span class="line">    <span class="keyword">private</span> RadioGroup rgMain;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> BaseFragment mainFragment;</span><br><span class="line">    <span class="keyword">private</span> BaseFragment videoFragment;</span><br><span class="line">    <span class="keyword">private</span> BaseFragment funnyFragment;</span><br><span class="line">    <span class="keyword">private</span> BaseFragment myFragment;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        initView();</span><br><span class="line">        initListener();</span><br><span class="line"></span><br><span class="line">        replaceFragment(<span class="keyword">new</span> MainModuleFragment());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> &lt;T extends Fragment&gt; <span class="function"><span class="keyword">void</span> <span class="title">replaceFragment</span><span class="params">(T fragment)</span></span>&#123;</span><br><span class="line">        getSupportFragmentManager().beginTransaction().replace(R.id.fl_main,fragment).commit();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initListener</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        rgMain.setOnCheckedChangeListener(<span class="keyword">new</span> RadioGroup.OnCheckedChangeListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCheckedChanged</span><span class="params">(RadioGroup group, <span class="keyword">int</span> checkedId)</span> </span>&#123;</span><br><span class="line">                <span class="keyword">switch</span> (checkedId)&#123;</span><br><span class="line">                    <span class="keyword">case</span> R.id.rb_main:</span><br><span class="line">                        replaceFragment(<span class="keyword">new</span> MainModuleFragment());</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> R.id.rb_video:</span><br><span class="line">                        replaceFragment(<span class="keyword">new</span> VideoModuleFragment());</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> R.id.rb_funney:</span><br><span class="line">                        replaceFragment(<span class="keyword">new</span> FunnyMainFragment());</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                    <span class="keyword">case</span> R.id.rb_my:</span><br><span class="line">                        replaceFragment(<span class="keyword">new</span> UserModuleFragment());</span><br><span class="line">                        <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        flMain = (FrameLayout) findViewById(R.id.fl_main);</span><br><span class="line">        rgMain = (RadioGroup) findViewById(R.id.rg_main);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如上我们搭建了一下主界面。</p>
+<p>下一篇我们来使用阿里的ARouter来进行组件间的通信。</p>
+<p><a href="http://www.zydeveloper.com/2019/07/30/Arouter/" target="_blank" rel="noopener">Android 组件化 ARouter</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/07/30/Componentization/">http://yoursite.com/2019/07/30/Componentization/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Android/"># Android</a>
+                    
+                        <a href="/tags/组件化/"># 组件化</a>
+                    
+                        <a href="/tags/架构/"># 架构</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2019/07/30/RxJava/">RxJava使用</a>
+            
+            
+            <a class="next" rel="next" href="/2019/07/30/Tinker/">Android 插件化 Tinker</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
