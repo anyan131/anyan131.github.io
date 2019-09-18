@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>如何在1500ms(1.5秒)内，点击三次物理按键 | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">如何在1500ms(1.5秒)内，点击三次物理按键</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 18, 2019&nbsp;&nbsp;18:13:43</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>今天完善了一个小功能，需求是在1.5秒内点击三次物理按键开启警报，再在1.5秒内点击三次物理按键关闭警报<br>话不多说  贴代码。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (shortPress) &#123;</span><br><span class="line">               <span class="comment">//短按C要执行的代码</span></span><br><span class="line">               Log.e(<span class="string">"onKeyUp"</span>, <span class="string">"短按C"</span>);</span><br><span class="line">               <span class="comment">//按下的次数+1</span></span><br><span class="line">               timercount++;</span><br><span class="line">               <span class="keyword">if</span> (timercount == <span class="number">1</span>) &#123;</span><br><span class="line">                   <span class="comment">//获取第一次按下的时间</span></span><br><span class="line">                   startTimer = System.currentTimeMillis();</span><br><span class="line">                   Log.e(TAG, <span class="string">"按下第一次的时间"</span> + startTimer);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (timercount == <span class="number">3</span>) &#123;</span><br><span class="line">                   <span class="comment">//获取第三次按下的时间</span></span><br><span class="line">                   endTimer = System.currentTimeMillis();</span><br><span class="line">                   Log.e(TAG, <span class="string">"按下第一次的时间"</span> + endTimer);</span><br><span class="line">                   <span class="comment">//如果当前时间减去最后一次按下的时间，超过了1500ms，那就是超时了</span></span><br><span class="line">                   <span class="comment">//如果没有超过 就运行下面的逻辑运算</span></span><br><span class="line">                   <span class="keyword">if</span> ((System.currentTimeMillis() - startTimer) &lt; <span class="number">1500</span>) &#123;</span><br><span class="line">                       <span class="comment">//boolean进行一个取反</span></span><br><span class="line">                       timerFlag = !timerFlag;</span><br><span class="line">                       <span class="comment">//是true就开始报警</span></span><br><span class="line">                       <span class="keyword">if</span> (timerFlag) &#123;</span><br><span class="line">                           timercount = <span class="number">0</span>;</span><br><span class="line">                           Log.e(TAG, <span class="string">"onPreferenceClick: 开始报警"</span>);</span><br><span class="line">                           warmmingPresenter.getWarmming();</span><br><span class="line">                       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                           <span class="comment">//如果是false就取消报警</span></span><br><span class="line">                           timercount = <span class="number">0</span>;</span><br><span class="line">                           Log.e(TAG, <span class="string">"onPreferenceClick: 取消报警"</span>);</span><br><span class="line">                           <span class="comment">//重置MediaPlayer</span></span><br><span class="line">                           myMediaPlayer.pause();</span><br><span class="line">                           myMediaPlayer.reset();</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                       <span class="comment">//超过预定的1500ms</span></span><br><span class="line">                       timercount = <span class="number">0</span>;</span><br><span class="line">                       Log.e(TAG, <span class="string">"onPreferenceClick: 超过预定时间"</span>);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插旗</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> timerFlag = <span class="keyword">false</span>;</span><br><span class="line">  <span class="comment">//按下SOS键的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> timercount = <span class="number">0</span>;</span><br><span class="line">  <span class="comment">//第一次按下的时间与第三次按下的时间</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">long</span> startTimer, endTimer;</span><br></pre></td></tr></table></figure>
+
+<p>加油，明天会更好</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/09/18/TimerCount/">http://yoursite.com/2019/09/18/TimerCount/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/09/12/AskMe/">关于物理按键的事件与MediaPlayer</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
