@@ -7,7 +7,7 @@
 
 
 
-<title>Android 插件化 Tinker | 闫昊良的技术博客</title>
+<title>如何将自己的APP提升成为系统的APP | 闫昊良的技术博客</title>
 
 
 
@@ -103,73 +103,11 @@
             <div class="container">
     
     
-        <div class="post-toc">
-    <div class="tocbot-list">
-    </div>
-    <div class="tocbot-list-menu">
-        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
-        <a onclick="go_top()">Back to top</a>
-        <a onclick="go_bottom()">Go to bottom</a>
-    </div>
-</div>
-
-<script>
-    document.ready(
-        function () {
-            tocbot.init({
-                tocSelector: '.tocbot-list',
-                contentSelector: '.post-content',
-                headingSelector: 'h1, h2, h3, h4, h5',
-                collapseDepth: 1,
-                orderedList: false,
-                scrollSmooth: true,
-            })
-        }
-    )
-
-    function expand_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 6,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "collapse_toc()");
-        b.innerHTML = "Collapse all"
-    }
-
-    function collapse_toc() {
-        var b = document.querySelector(".tocbot-toc-expand");
-        tocbot.init({
-            tocSelector: '.tocbot-list',
-            contentSelector: '.post-content',
-            headingSelector: 'h1, h2, h3, h4, h5',
-            collapseDepth: 1,
-            orderedList: false,
-            scrollSmooth: true,
-        });
-        b.setAttribute("onclick", "expand_toc()");
-        b.innerHTML = "Expand all"
-    }
-
-    function go_top() {
-        window.scrollTo(0, 0);
-    }
-
-    function go_bottom() {
-        window.scrollTo(0, document.body.scrollHeight);
-    }
-
-</script>
-    
 
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Android 插件化 Tinker</h1>
+            <h1 class="post-title">如何将自己的APP提升成为系统的APP</h1>
             
                 <div class="post-meta">
                     
@@ -178,28 +116,19 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">July 30, 2019&nbsp;&nbsp;0:00:00</a>
+                        Date: <a href="#">September 25, 2019&nbsp;&nbsp;13:47:48</a>
                         </span>
                     
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/Android插件化/">Android插件化</a>
-                            
-                        </span>
                     
                 </div>
             
         </header>
 
         <div class="post-content">
-            <p><a href="http://www.tinkerpatch.com/" target="_blank" rel="noopener">Tinker 官网</a></p>
-<h3 id="什么是-Tinker？"><a href="#什么是-Tinker？" class="headerlink" title="什么是 Tinker？"></a>什么是 Tinker？</h3><p>Tinker 是一个开源项目(<a href="https://github.com/Tencent/tinker" target="_blank" rel="noopener">Github链接</a>)，它是微信官方的 Android 热补丁解决方案，它支持动态下发代码、So 库以及资源，让应用能够在不需要重新安装的情况下实现更新。</p>
-<a id="more"></a>
-
-<h3 id="为什么使用-Tinker？"><a href="#为什么使用-Tinker？" class="headerlink" title="为什么使用 Tinker？"></a>为什么使用 Tinker？</h3><p>当前市面的热补丁方案有很多，其中比较出名的有阿里的 AndFix、美团的 Robust 以及 QZone 的超级补丁方案。但它们都存在无法解决的问题，这也是正是推出 Tinker 的原因。<br><img src="Tinker/2019-07-30-21-00-31.png"></p>
-<p>Tinker热补丁方案不仅支持类、So 以及资源的替换，它还是2.X－7.X的全平台支持。利用Tinker我们不仅可以用做 bugfix,甚至可以替代功能的发布。<strong>Tinker 已运行在微信的数亿 Android 设备上，那么为什么你不使用 Tinker 呢？</strong></p>
+            <p><strong>我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。</strong></p>
+<p>首先，先拿到platform.pk8与platform.x509.pem这两个platform文件，<br>在 <code>build/target/product/security</code>  这个路径下,拿到两个platfrom文件，然后我们需要去网上下载一个jar包，名字就是signapk.jar<br>解压后，选择查看隐藏的文件，把两个.pk8和.pem文件 替换成你刚刚拿到的两个platform文件，里面会有一个.bat的文件，编辑这个bat文件 将.pem文件和.pk8的文件换成你刚刚拿到两个platform的文件名称 如:</p>
+<p><code>java -jar signapk.jar platform.x509.pem platform.pk8 release.apk %~n1_signed.apk</code></p>
+<p>然后把第一个apk的名字改成你要打包的apk，第二个apk的名字改成你要打包好的apk名称，如上，<strong>注意：记得把%~去掉！！</strong><br>然后我们Ctrl+s保存刚编辑好的bat文件，然后关闭并运行，运行前要注意，你的apk文件要在和bat的同级路径中，不然就会出现not found，<br>都弄好了我们就会发现黑窗口会出现请按任意键继续的字样，这就说明我们已经成功了，很好，现在我们关闭这个黑窗口，去看有没有新的apk文件<br>找到新的apk文件，打开cmd窗口，使用adb命令将你的apk push到/system/app目录下，(前提要获得root权限)如 <code>adb push D:\file.txt  /system/temp/</code><br>意思是将Windows下D盘根文件夹下的file.txt文件复制到手机或者平板的/system/temp/文件夹下。<br>但是你在运行这条命令时。可能会遇到failed to copy  ‘D:\file.xtxt’ to ‘/system/temp/‘ : Read-only file system 的报错信息。<br>怎么解决呢？非常easy，使用以下这条命令：先退出adb，再remount。！！<br> <code>adb remount</code>  他的意思就是将设备改为可读可写。 如下：<br> <code>adb remount    - remounts the /system partition on the device read-write</code><br> 看到remount succeeded后，就能够在此运行<code>adb push D:\file.txt  /system/temp/</code> 这样就能够成功了，就能够在小机的/system/temp/文件夹下看到file.txt文件了。<br> 这时候我们来adb reboot命令来重启设备，重启成功后，就可以看到你的app已经是一个系统级别的app了，是无法卸载的。这时候恭喜你，你已经成功了，切记此时已经不可以再去用AndroidStudio来编译这个APP了，因为你已经安装不上了，如果我们想要继续给这个APP加功能的话，需要去给他从/system/app中删除掉。然后再去把新的APP放进去，最后 adb reboot 重启设备，这样就好啦。</p>
 
         </div>
 
@@ -214,7 +143,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="http://yoursite.com/2019/07/30/Tinker/">http://yoursite.com/2019/07/30/Tinker/</a></span>
+                        <span><a href="http://yoursite.com/2019/09/25/将自己的APP提升至系统APP/">http://yoursite.com/2019/09/25/将自己的APP提升至系统APP/</a></span>
                     </p>
                 
                 
@@ -237,12 +166,6 @@
                 <span>Tag(s):</span>
                 <span class="tag">
                     
-                    
-                        <a href="/tags/插件化/"># 插件化</a>
-                    
-                        <a href="/tags/Tinker/"># Tinker</a>
-                    
-                        
                 </span>
             </div>
             <div>
@@ -253,10 +176,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/07/31/ActivityDynamicLoad/">Android 插件化 动态加载Activity</a>
             
-            
-            <a class="next" rel="next" href="/2019/07/30/Componentization/">Android 组件化开发</a>
+            <a class="next" rel="next" href="/2019/09/18/TimerCount/">如何在1500ms(1.5秒)内，点击三次物理按键</a>
             
         </section>
 
