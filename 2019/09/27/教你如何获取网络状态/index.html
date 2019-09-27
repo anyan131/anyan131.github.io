@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>教你如何获取网络状态 | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">教你如何获取网络状态</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">September 27, 2019&nbsp;&nbsp;16:03:25</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p><strong>我已经封装成了一个工具类，大家直接调用就可以。</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.example.equipmentapp.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.net.ConnectivityManager;</span><br><span class="line"><span class="keyword">import</span> android.net.NetworkInfo;</span><br><span class="line"><span class="keyword">import</span> android.telephony.TelephonyManager;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.equipmentapp.MyApplication;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用户获取当前网络类型的工具类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetWorkUtils</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_NONE = <span class="number">0</span>; <span class="comment">// 没有网络连接</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_WIFI = <span class="number">1</span>; <span class="comment">// wifi连接</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_2G = <span class="number">2</span>; <span class="comment">// 2G</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_3G = <span class="number">3</span>; <span class="comment">// 3G</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_4G = <span class="number">4</span>; <span class="comment">// 4G</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_MOBILE = <span class="number">5</span>; <span class="comment">// 手机流量</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取运营商名字</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> int</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getOperatorName</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * getSimOperatorName()就可以直接获取到运营商的名字</span></span><br><span class="line"><span class="comment">         * 也可以使用IMSI获取，getSimOperator()，然后根据返回值判断，例如"46000"为移动</span></span><br><span class="line"><span class="comment">         * IMSI相关链接：http://baike.baidu.com/item/imsi</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);</span><br><span class="line">        <span class="comment">// getSimOperatorName就可以直接获取到运营商的名字</span></span><br><span class="line">        <span class="keyword">return</span> telephonyManager.getSimOperatorName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取当前网络连接的类型</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> int</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getNetworkState</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE); <span class="comment">// 获取网络服务</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == connManager) &#123; <span class="comment">// 为空则认为无网络</span></span><br><span class="line">            <span class="keyword">return</span> NETWORK_NONE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 获取网络类型，如果为空，返回无网络</span></span><br><span class="line">        NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();</span><br><span class="line">        <span class="keyword">if</span> (activeNetInfo == <span class="keyword">null</span> || !activeNetInfo.isAvailable()) &#123;</span><br><span class="line">            <span class="keyword">return</span> NETWORK_NONE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 判断是否为WIFI</span></span><br><span class="line">        NetworkInfo wifiInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != wifiInfo) &#123;</span><br><span class="line">            NetworkInfo.State state = wifiInfo.getState();</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != state) &#123;</span><br><span class="line">                <span class="keyword">if</span> (state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING) &#123;</span><br><span class="line">                    <span class="keyword">return</span> NETWORK_WIFI;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 若不是WIFI，则去判断是2G、3G、4G网</span></span><br><span class="line">        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);</span><br><span class="line">        <span class="keyword">int</span> networkType = telephonyManager.getNetworkType();</span><br><span class="line">        <span class="keyword">switch</span> (networkType) &#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">             GPRS : 2G(2.5) General Packet Radia Service 114kbps</span></span><br><span class="line"><span class="comment">             EDGE : 2G(2.75G) Enhanced Data Rate for GSM Evolution 384kbps</span></span><br><span class="line"><span class="comment">             UMTS : 3G WCDMA 联通3G Universal Mobile Telecommunication System 完整的3G移动通信技术标准</span></span><br><span class="line"><span class="comment">             CDMA : 2G 电信 Code Division Multiple Access 码分多址</span></span><br><span class="line"><span class="comment">             EVDO_0 : 3G (EVDO 全程 CDMA2000 1xEV-DO) Evolution - Data Only (Data Optimized) 153.6kps - 2.4mbps 属于3G</span></span><br><span class="line"><span class="comment">             EVDO_A : 3G 1.8mbps - 3.1mbps 属于3G过渡，3.5G</span></span><br><span class="line"><span class="comment">             1xRTT : 2G CDMA2000 1xRTT (RTT - 无线电传输技术) 144kbps 2G的过渡,</span></span><br><span class="line"><span class="comment">             HSDPA : 3.5G 高速下行分组接入 3.5G WCDMA High Speed Downlink Packet Access 14.4mbps</span></span><br><span class="line"><span class="comment">             HSUPA : 3.5G High Speed Uplink Packet Access 高速上行链路分组接入 1.4 - 5.8 mbps</span></span><br><span class="line"><span class="comment">             HSPA : 3G (分HSDPA,HSUPA) High Speed Packet Access</span></span><br><span class="line"><span class="comment">             IDEN : 2G Integrated Dispatch Enhanced Networks 集成数字增强型网络 （属于2G，来自维基百科）</span></span><br><span class="line"><span class="comment">             EVDO_B : 3G EV-DO Rev.B 14.7Mbps 下行 3.5G</span></span><br><span class="line"><span class="comment">             LTE : 4G Long Term Evolution FDD-LTE 和 TDD-LTE , 3G过渡，升级版 LTE Advanced 才是4G</span></span><br><span class="line"><span class="comment">             EHRPD : 3G CDMA2000向LTE 4G的中间产物 Evolved High Rate Packet Data HRPD的升级</span></span><br><span class="line"><span class="comment">             HSPAP : 3G HSPAP 比 HSDPA 快些</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="comment">// 2G网络</span></span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_GPRS:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_CDMA:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EDGE:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_1xRTT:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_IDEN:</span><br><span class="line">                <span class="keyword">return</span> NETWORK_2G;</span><br><span class="line">            <span class="comment">// 3G网络</span></span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EVDO_A:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_UMTS:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EVDO_0:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_HSDPA:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_HSUPA:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_HSPA:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EVDO_B:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EHRPD:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_HSPAP:</span><br><span class="line">                <span class="keyword">return</span> NETWORK_3G;</span><br><span class="line">            <span class="comment">// 4G网络</span></span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_LTE:</span><br><span class="line">                <span class="keyword">return</span> NETWORK_4G;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> NETWORK_MOBILE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断网络是否连接</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> true/false</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isNetConnected</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);</span><br><span class="line">        <span class="keyword">if</span> (connectivity != <span class="keyword">null</span>) &#123;</span><br><span class="line">            NetworkInfo info = connectivity.getActiveNetworkInfo();</span><br><span class="line">            <span class="keyword">if</span> (info != <span class="keyword">null</span> &amp;&amp; info.isConnected()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (info.getState() == NetworkInfo.State.CONNECTED) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断是否wifi连接</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> true/false</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">isWifiConnected</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);</span><br><span class="line">        <span class="keyword">if</span> (connectivityManager != <span class="keyword">null</span>) &#123;</span><br><span class="line">            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();</span><br><span class="line">            <span class="keyword">if</span> (networkInfo != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> networkInfoType = networkInfo.getType();</span><br><span class="line">                <span class="keyword">if</span> (networkInfoType == ConnectivityManager.TYPE_WIFI || networkInfoType == ConnectivityManager.TYPE_ETHERNET) &#123;</span><br><span class="line">                    <span class="keyword">return</span> networkInfo.isConnected();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/09/27/教你如何获取网络状态/">http://yoursite.com/2019/09/27/教你如何获取网络状态/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/09/25/将自己的APP提升至系统APP/">如何将自己的APP提升成为系统的APP</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
