@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了， 在res下创建xml文件夹，创建file_paths.xml文件 123456&amp;lt;paths xmlns:android=&quot;http://schemas.android.com/a">
+<meta name="description" content="以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安卓7.0适配FileProvider">
 <meta property="og:url" content="http://yoursite.com/2019/11/20/安卓7.0适配/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了， 在res下创建xml文件夹，创建file_paths.xml文件 123456&amp;lt;paths xmlns:android=&quot;http://schemas.android.com/a">
+<meta property="og:description" content="以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了，">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-11-20T04:30:45.122Z">
+<meta property="og:updated_time" content="2019-11-20T04:36:13.591Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安卓7.0适配FileProvider">
-<meta name="twitter:description" content="以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了， 在res下创建xml文件夹，创建file_paths.xml文件 123456&amp;lt;paths xmlns:android=&quot;http://schemas.android.com/a">
+<meta name="twitter:description" content="以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了，">
 
 
 
@@ -300,6 +300,8 @@
 
       
         <p><strong>以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了，</strong></p>
+<a id="more"></a>
+
 <p><strong>在res下创建xml文件夹，创建file_paths.xml文件</strong></p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;paths xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span><br><span class="line">    &lt;files-path path=<span class="string">"Android/data/com.example.package.name/files/Pictures/OriPicture/"</span> name=<span class="string">"images"</span> /&gt;</span><br><span class="line">    &lt;external-path path=<span class="string">"Android/data/com.example.package.name/files/Pictures/OriPicture/"</span> name=<span class="string">"images"</span> /&gt;</span><br><span class="line">    &lt;external-files-path path=<span class="string">"files/Pictures/OriPicture"</span> name=<span class="string">"images"</span>/&gt;</span><br><span class="line">    &lt;root-path path=<span class="string">""</span> name=<span class="string">"images"</span>/&gt;</span><br><span class="line">&lt;/paths&gt;</span><br></pre></td></tr></table></figure>
 
@@ -341,8 +343,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/10/08/安卓7.0以后如何开启手电筒/" rel="next" title="安卓7.0以后如何开启手电筒">
-                <i class="fa fa-chevron-left"></i> 安卓7.0以后如何开启手电筒
+              <a href="/2019/10/18/设备APP流程/" rel="next" title="设备APP流程">
+                <i class="fa fa-chevron-left"></i> 设备APP流程
               </a>
             
           </div>
@@ -417,7 +419,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

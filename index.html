@@ -299,25 +299,137 @@
 
       
         
+          <p><strong>以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了，</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/11/20/安卓7.0适配/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/设备APP流程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫昊良">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闫昊良的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/10/18/设备APP流程/" itemprop="url">设备APP流程</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-18T23:38:21+08:00">
+                2019-10-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-            <p><strong>以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了，</strong></p>
-<p><strong>在res下创建xml文件夹，创建file_paths.xml文件</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;paths xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span><br><span class="line">    &lt;files-path path=<span class="string">"Android/data/com.example.package.name/files/Pictures/OriPicture/"</span> name=<span class="string">"images"</span> /&gt;</span><br><span class="line">    &lt;external-path path=<span class="string">"Android/data/com.example.package.name/files/Pictures/OriPicture/"</span> name=<span class="string">"images"</span> /&gt;</span><br><span class="line">    &lt;external-files-path path=<span class="string">"files/Pictures/OriPicture"</span> name=<span class="string">"images"</span>/&gt;</span><br><span class="line">    &lt;root-path path=<span class="string">""</span> name=<span class="string">"images"</span>/&gt;</span><br><span class="line">&lt;/paths&gt;</span><br></pre></td></tr></table></figure>
 
-<p><strong>并在Manifest中声明provider</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;provider</span><br><span class="line">            android:name=<span class="string">"androidx.core.content.FileProvider"</span></span><br><span class="line">            android:authorities=<span class="string">"com.example.askmeapplication.provider"</span></span><br><span class="line">            android:exported=<span class="string">"false"</span></span><br><span class="line">            android:grantUriPermissions=<span class="string">"true"</span>&gt;</span><br><span class="line">            &lt;meta-data</span><br><span class="line">                android:name=<span class="string">"android.support.FILE_PROVIDER_PATHS"</span></span><br><span class="line">                android:resource=<span class="string">"@xml/file_paths"</span>/&gt;</span><br><span class="line">        &lt;/provider&gt;</span><br></pre></td></tr></table></figure>
+          
+            
+          
 
-<p>这时我们就可以打开图库或文件管理了</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//TODO 打开图库</span></span><br><span class="line">                Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">                <span class="keyword">if</span> (android.os.Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">                    intent.setAction(Intent.ACTION_OPEN_DOCUMENT);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    intent.setAction(Intent.ACTION_GET_CONTENT);</span><br><span class="line">                    <span class="comment">//            intent.setAction(Intent.ACTION_PICK);</span></span><br><span class="line">                &#125;</span><br><span class="line">                intent.setType(<span class="string">"image/*"</span>);</span><br><span class="line">                startActivityForResult(intent, REQUEST_OPEN_GALLERY);</span><br></pre></td></tr></table></figure>
+          
+          
 
-<p>在onActivityResult中获取回调的方法</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">        <span class="keyword">if</span> (resultCode != RESULT_OK) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">            <span class="keyword">case</span> REQUEST_OPEN_GALLERY:</span><br><span class="line">                <span class="keyword">if</span> (data != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    Uri imgUriSel = data.getData();</span><br><span class="line">                    <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) &#123;</span><br><span class="line">                        <span class="comment">//相册会返回一个由相册安全策略定义的Uri</span></span><br><span class="line">                        <span class="comment">//formatUri会返回根据Uri解析出的真实路径</span></span><br><span class="line">                        String imgPathSel = UriUtils.formatUri(getHoldingActivity(), imgUriSel);</span><br><span class="line">                        Log.e(<span class="string">"AAA"</span>, <span class="string">"onActivityResult: imgUriSel"</span>+imgUriSel );</span><br><span class="line">                        <span class="comment">//根据真实路径转成File,然后通过应用程序重新安全化，再放入裁剪程序中才可以识别</span></span><br><span class="line">                        File file = <span class="keyword">new</span> File(imgPathSel);</span><br><span class="line">                        Log.e(<span class="string">"AAA"</span>, <span class="string">"onActivityResult: "</span>+file.getAbsolutePath() );</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        Log.e(<span class="string">"AAA"</span>, <span class="string">"onActivityResult: "</span>+imgUriSel );</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+          
 
-<p><strong><em>由于相册会返回一个由相册安全策略定义的Uri，此时这个Uri并不是真正的Uri还需要进行转换</em></strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据Uri的不同Scheme解析出在本机的路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> uri</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Uri的真实路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@TargetApi</span>(<span class="number">19</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatUri</span><span class="params">(Context context, Uri uri)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> isKitKat = Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT;</span><br><span class="line">        <span class="comment">// DocumentProvider</span></span><br><span class="line">        <span class="keyword">if</span> (isKitKat &amp;&amp; DocumentsContract.isDocumentUri(context, uri)) &#123;</span><br><span class="line">            <span class="comment">// ExternalStorageProvider</span></span><br><span class="line">            <span class="keyword">if</span> (isExternalStorageDocument(uri)) &#123;</span><br><span class="line">                <span class="keyword">final</span> String docId = DocumentsContract.getDocumentId(uri);</span><br><span class="line">                <span class="keyword">final</span> String[] split = docId.split(<span class="string">":"</span>);</span><br><span class="line">                <span class="keyword">final</span> String type = split[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (<span class="string">"primary"</span>.equalsIgnoreCase(type)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> Environment.getExternalStorageDirectory() + <span class="string">"/"</span></span><br><span class="line">                            + split[<span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// TODO handle non-primary volumes</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// DownloadsProvider</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (isDownloadsDocument(uri)) &#123;</span><br><span class="line">                <span class="keyword">final</span> String id = DocumentsContract.getDocumentId(uri);</span><br><span class="line">                <span class="keyword">final</span> Uri contentUri = ContentUris.withAppendedId(</span><br><span class="line">                        Uri.parse(<span class="string">"content://downloads/public_downloads"</span>),</span><br><span class="line">                        Long.valueOf(id));</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> getDataColumn(context, contentUri, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// MediaProvider</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (isMediaDocument(uri)) &#123;</span><br><span class="line">                <span class="keyword">final</span> String docId = DocumentsContract.getDocumentId(uri);</span><br><span class="line">                <span class="keyword">final</span> String[] split = docId.split(<span class="string">":"</span>);</span><br><span class="line">                <span class="keyword">final</span> String type = split[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">                Uri contentUri = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">"image"</span>.equals(type)) &#123;</span><br><span class="line">                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"video"</span>.equals(type)) &#123;</span><br><span class="line">                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"audio"</span>.equals(type)) &#123;</span><br><span class="line">                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">final</span> String selection = <span class="string">"_id=?"</span>;</span><br><span class="line">                <span class="keyword">final</span> String[] selectionArgs = <span class="keyword">new</span> String[]&#123;split[<span class="number">1</span>]&#125;;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> getDataColumn(context, contentUri, selection,</span><br><span class="line">                        selectionArgs);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// MediaStore (and general)</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"content"</span>.equalsIgnoreCase(uri.getScheme())) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Return the remote address</span></span><br><span class="line">            <span class="keyword">if</span> (isGooglePhotosUri(uri))</span><br><span class="line">                <span class="keyword">return</span> uri.getLastPathSegment();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> getDataColumn(context, uri, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// File</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"file"</span>.equalsIgnoreCase(uri.getScheme())) &#123;</span><br><span class="line">            <span class="keyword">return</span> uri.getPath();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+          
 
-<p>以上经过转换 就可以得到真正的Uri地址了</p>
-<p><strong>有些运行可能出现报错的 把 <code>android:authorities=&quot;com.example.application.provider&quot;</code> 改成你们自己的包名，就可以了</strong></p>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <a id="more"></a>
+
+<p><strong>启动流程</strong></p>
+<p>开机自动启动APP并开始请求后台，开始捕捉系统广播，系统广播分别有监听网络类型（4G或WIFI或断开无线网络，关机广播与开机广播（ps:利用捕捉开机广播启动APP）），开始获取设备ID请求成功并登录环信客户端同时持有weaklock并设置在该activity中并不让设备息屏，无论登录成功与否都进行语音播报，获取设备ID失败会五秒后自动重连并播报语音提示，重连失败三次会开始进入对讲机模式并语音播报通知用户，通过HTTP协议，每一分钟会发送一次信息包，服务器不需要应答，每十秒发送一次，发送佩戴状态与近电状态、设备ID与电量。服务器应答是否开启摄像头与是否开始下行告警，接收到下行告警会使用音乐播放器进行循环播放警报，按一次C键值取消告警每三秒向后台发送一次UDP协议的信息包，包含经纬度与高度的信息。每次进入到主界面都会想服务器发送请求，检查是否有新版本更新，如果发现有新版本，将新版本下载下来并发送自定义广播，通知另一个系统级别APP来进行该设备端APP的安装与卸载之前版本并运行新APP。当电池电量小于百分之20会进行语音播报，提示电池电量低。如果不需要提供差分数据，就由原生提供位置信息，基站定位无法获取到海拔值，如果需要提供差分数据，就开启千寻模块，从千寻模块中拿到数据并将GNGGA数据发送到千寻服务器，并将返回的数据发送至服务器。</p>
+<p>短按一次A开启录音功能，再短按一次结束录音并发送置环信端的群组中<br>短按一次B开启照相功能，通过串口开启红色激光灯，并伴随拍完照关闭<br>在1.5S内短按三次C，开启上行告警功能，如果在下行告警状态，短按一次C取消告警<br>短按一次D开启手电筒功能，再按一次关闭手电筒功能。</p>
+<p>长按A进行语音通话，上行告警功能可用，短按B结束通话<br>长按B进行录像并开启红色激光灯、再长按一次B关闭视频录制并发送至服务器，关闭红色激光灯<br>长按C进行视频通话，上行告警功能可用，短按B结束通话<br>长按C进入对讲机模式，并开启语音播报功能，</p>
 
           
         
@@ -436,15 +548,14 @@
 
       
         
-          
-            <p>安卓7.0以后应该如何打开手电筒，使用闪光灯？<br>来看一下代码：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> CameraManager manager = (CameraManager) getSystemService(Context.CAMERA_SERVICE);</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">                        String[] ids = manager.getCameraIdList();</span><br><span class="line">                        <span class="keyword">for</span> (String id : ids) &#123;</span><br><span class="line">                            CameraCharacteristics c = manager.getCameraCharacteristics(id);</span><br><span class="line">                            <span class="comment">//查询该摄像头组件是否包含闪光灯</span></span><br><span class="line">                            Boolean flashAvailable = c.get(CameraCharacteristics.FLASH_INFO_AVAILABLE);</span><br><span class="line">                            <span class="comment">/*</span></span><br><span class="line"><span class="comment">                             * 获取相机面对的方向</span></span><br><span class="line"><span class="comment">                             * CameraCharacteristics.LENS_FACING_FRONT 前置摄像头</span></span><br><span class="line"><span class="comment">                             * CameraCharacteristics.LENS_FACING_BACK 后只摄像头</span></span><br><span class="line"><span class="comment">                             * CameraCharacteristics.LENS_FACING_EXTERNAL 外部的摄像头</span></span><br><span class="line"><span class="comment">                             */</span></span><br><span class="line">                            Integer lensFacing = c.get(CameraCharacteristics.LENS_FACING);</span><br><span class="line">                            <span class="keyword">if</span> (flashAvailable != <span class="keyword">null</span> &amp;&amp; flashAvailable</span><br><span class="line">                                    &amp;&amp; lensFacing != <span class="keyword">null</span> &amp;&amp; lensFacing == CameraCharacteristics.LENS_FACING_BACK) &#123;</span><br><span class="line">                                <span class="comment">//打开或关闭手电筒</span></span><br><span class="line">                                <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.M) &#123;</span><br><span class="line">                                    manager.setTorchMode(id, <span class="keyword">true</span>);</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (CameraAccessException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>在7.0以后的版本中 再也不能像以前的版本的方法直接开启手电筒了，现在在开启手电筒之前要逐一检查，是否包含闪光灯和相机面对的方向，才能正确的开启手电筒，我们别忘了添加权限</strong></p>
-<figure class="highlight plain"><figcaption><span>android:name</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-feature android:name=&quot;android.hardware.camera.autofocus&quot; /&gt;</span><br></pre></td></tr></table></figure>
-
-
-          
+          <p>安卓7.0以后应该如何打开手电筒，使用闪光灯？<br>来看一下代码：</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/10/08/安卓7.0以后如何开启手电筒/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -561,15 +672,14 @@
 
       
         
-          
-            <p><strong>前言：</strong><br>获取摄像头的像素值，通过获取相机设置中支持拍照的最大宽度和最大高度就可以算到摄像头的像素值了，当然跟手机厂商标称的还是有一点差别的，比如标称200W的通过计算1200*1600 =1920000=192W≈200W.</p>
-<p><strong>定义CameraUtils类</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.List;</span><br><span class="line"><span class="keyword">import</span> android.hardware.Camera;</span><br><span class="line"><span class="keyword">import</span> android.hardware.Camera.CameraInfo;</span><br><span class="line"><span class="keyword">import</span> android.hardware.Camera.Size;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CameraUtils</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAMERA_FACING_BACK = <span class="number">0</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAMERA_FACING_FRONT = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> CAMERA_NONE = <span class="number">2</span>;</span><br><span class="line">	</span><br><span class="line">	 <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">HasBackCamera</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	  </span>&#123;</span><br><span class="line">		  <span class="keyword">int</span> numberOfCameras = Camera.getNumberOfCameras();  </span><br><span class="line">	        CameraInfo cameraInfo = <span class="keyword">new</span> CameraInfo();  </span><br><span class="line">	        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numberOfCameras; i++) &#123;  </span><br><span class="line">	            Camera.getCameraInfo(i, cameraInfo);  </span><br><span class="line">	            <span class="keyword">if</span> (cameraInfo.facing == CAMERA_FACING_BACK) &#123;  </span><br><span class="line">	                <span class="keyword">return</span> i;  </span><br><span class="line">	            &#125;  </span><br><span class="line">	        &#125;  </span><br><span class="line">	        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">	  &#125;</span><br><span class="line"> </span><br><span class="line">	  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">HasFrontCamera</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	  </span>&#123;</span><br><span class="line">		  <span class="keyword">int</span> numberOfCameras = Camera.getNumberOfCameras();  </span><br><span class="line">	        CameraInfo cameraInfo = <span class="keyword">new</span> CameraInfo();  </span><br><span class="line">	        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; numberOfCameras; i++) &#123;  </span><br><span class="line">	            Camera.getCameraInfo(i, cameraInfo);  </span><br><span class="line">	            <span class="keyword">if</span> (cameraInfo.facing == CAMERA_FACING_FRONT) &#123;  </span><br><span class="line">	                <span class="keyword">return</span> i;  </span><br><span class="line">	            &#125;  </span><br><span class="line">	        &#125;  </span><br><span class="line">	        <span class="keyword">return</span> <span class="number">2</span>;</span><br><span class="line">	  &#125;</span><br><span class="line"> </span><br><span class="line">	  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getCameraPixels</span><span class="params">(<span class="keyword">int</span> paramInt)</span></span></span><br><span class="line"><span class="function">	  </span>&#123;</span><br><span class="line">	    <span class="keyword">if</span> (paramInt == <span class="number">2</span>)</span><br><span class="line">	      <span class="keyword">return</span> <span class="string">"无"</span>;</span><br><span class="line">	    Camera localCamera = Camera.open(paramInt);</span><br><span class="line">	    Camera.Parameters localParameters = localCamera.getParameters();</span><br><span class="line">	    localParameters.set(<span class="string">"camera-id"</span>, <span class="number">1</span>);</span><br><span class="line">	    List&lt;Size&gt; localList = localParameters.getSupportedPictureSizes();</span><br><span class="line">	    <span class="keyword">if</span> (localList != <span class="keyword">null</span>)</span><br><span class="line">	    &#123;</span><br><span class="line">	    	<span class="keyword">int</span> heights[] = <span class="keyword">new</span> <span class="keyword">int</span>[localList.size()]; </span><br><span class="line">	    	<span class="keyword">int</span> widths[] = <span class="keyword">new</span> <span class="keyword">int</span>[localList.size()]; </span><br><span class="line">	    	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; localList.size(); i++) </span><br><span class="line">	    	&#123; </span><br><span class="line">	    	Size size = (Size) localList.get(i); </span><br><span class="line">	    	<span class="keyword">int</span> sizehieght = size.height; </span><br><span class="line">	    	<span class="keyword">int</span> sizewidth = size.width; </span><br><span class="line">	    	heights[i] = sizehieght; </span><br><span class="line">	    	widths[i] =sizewidth;	 </span><br><span class="line">	    	&#125;</span><br><span class="line">	    	<span class="keyword">int</span> pixels = getMaxNumber(heights) * getMaxNumber(widths);</span><br><span class="line">		    localCamera.release();</span><br><span class="line">		    <span class="keyword">return</span> String.valueOf(pixels / <span class="number">10000</span>) + <span class="string">" 万"</span>;</span><br><span class="line">	   </span><br><span class="line">	    &#125;</span><br><span class="line">	    <span class="keyword">else</span> <span class="keyword">return</span> <span class="string">"无"</span>;</span><br><span class="line">	   </span><br><span class="line">	  &#125;</span><br><span class="line"> </span><br><span class="line">	  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getMaxNumber</span><span class="params">(<span class="keyword">int</span>[] paramArray)</span></span></span><br><span class="line"><span class="function">	  </span>&#123;</span><br><span class="line">		  <span class="keyword">int</span> temp = paramArray[<span class="number">0</span>];</span><br><span class="line">		  <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;paramArray.length;i++)</span><br><span class="line">		  &#123;</span><br><span class="line">			  <span class="keyword">if</span>(temp &lt; paramArray[i])</span><br><span class="line">			  &#123;</span><br><span class="line">				  temp = paramArray[i];</span><br><span class="line">			  &#125;</span><br><span class="line">		  &#125;</span><br><span class="line">		  <span class="keyword">return</span> temp;</span><br><span class="line">	  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>调用：</strong></p>
-<p>String piexls = “\n前置摄像头: “+CameraUtils.getCameraPixels(CameraUtils.HasFrontCamera())<br>+”\n后置摄像头: “+CameraUtils.getCameraPixels(CameraUtils.HasBackCamera());</p>
-
-          
+          <p><strong>前言：</strong><br>获取摄像头的像素值，通过获取相机设置中支持拍照的最大宽度和最大高度就可以算到摄像头的像素值了，当然跟手机厂商标称的还是有一点差别的，比如标称200W的通过计算1200*1600 =1920000=192W≈200W.</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/29/获取相机像素/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -686,12 +796,14 @@
 
       
         
-          
-            <p><strong>我已经封装成了一个工具类，大家直接调用就可以。</strong></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">package</span> com.example.equipmentapp.utils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> android.content.Context;</span><br><span class="line"><span class="keyword">import</span> android.net.ConnectivityManager;</span><br><span class="line"><span class="keyword">import</span> android.net.NetworkInfo;</span><br><span class="line"><span class="keyword">import</span> android.telephony.TelephonyManager;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.example.equipmentapp.MyApplication;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用户获取当前网络类型的工具类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NetWorkUtils</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_NONE = <span class="number">0</span>; <span class="comment">// 没有网络连接</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_WIFI = <span class="number">1</span>; <span class="comment">// wifi连接</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_2G = <span class="number">2</span>; <span class="comment">// 2G</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_3G = <span class="number">3</span>; <span class="comment">// 3G</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_4G = <span class="number">4</span>; <span class="comment">// 4G</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NETWORK_MOBILE = <span class="number">5</span>; <span class="comment">// 手机流量</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取运营商名字</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> int</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getOperatorName</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">         * getSimOperatorName()就可以直接获取到运营商的名字</span></span><br><span class="line"><span class="comment">         * 也可以使用IMSI获取，getSimOperator()，然后根据返回值判断，例如"46000"为移动</span></span><br><span class="line"><span class="comment">         * IMSI相关链接：http://baike.baidu.com/item/imsi</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);</span><br><span class="line">        <span class="comment">// getSimOperatorName就可以直接获取到运营商的名字</span></span><br><span class="line">        <span class="keyword">return</span> telephonyManager.getSimOperatorName();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 获取当前网络连接的类型</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> int</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getNetworkState</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE); <span class="comment">// 获取网络服务</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> == connManager) &#123; <span class="comment">// 为空则认为无网络</span></span><br><span class="line">            <span class="keyword">return</span> NETWORK_NONE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 获取网络类型，如果为空，返回无网络</span></span><br><span class="line">        NetworkInfo activeNetInfo = connManager.getActiveNetworkInfo();</span><br><span class="line">        <span class="keyword">if</span> (activeNetInfo == <span class="keyword">null</span> || !activeNetInfo.isAvailable()) &#123;</span><br><span class="line">            <span class="keyword">return</span> NETWORK_NONE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 判断是否为WIFI</span></span><br><span class="line">        NetworkInfo wifiInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != wifiInfo) &#123;</span><br><span class="line">            NetworkInfo.State state = wifiInfo.getState();</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> != state) &#123;</span><br><span class="line">                <span class="keyword">if</span> (state == NetworkInfo.State.CONNECTED || state == NetworkInfo.State.CONNECTING) &#123;</span><br><span class="line">                    <span class="keyword">return</span> NETWORK_WIFI;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 若不是WIFI，则去判断是2G、3G、4G网</span></span><br><span class="line">        TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);</span><br><span class="line">        <span class="keyword">int</span> networkType = telephonyManager.getNetworkType();</span><br><span class="line">        <span class="keyword">switch</span> (networkType) &#123;</span><br><span class="line">            <span class="comment">/*</span></span><br><span class="line"><span class="comment">             GPRS : 2G(2.5) General Packet Radia Service 114kbps</span></span><br><span class="line"><span class="comment">             EDGE : 2G(2.75G) Enhanced Data Rate for GSM Evolution 384kbps</span></span><br><span class="line"><span class="comment">             UMTS : 3G WCDMA 联通3G Universal Mobile Telecommunication System 完整的3G移动通信技术标准</span></span><br><span class="line"><span class="comment">             CDMA : 2G 电信 Code Division Multiple Access 码分多址</span></span><br><span class="line"><span class="comment">             EVDO_0 : 3G (EVDO 全程 CDMA2000 1xEV-DO) Evolution - Data Only (Data Optimized) 153.6kps - 2.4mbps 属于3G</span></span><br><span class="line"><span class="comment">             EVDO_A : 3G 1.8mbps - 3.1mbps 属于3G过渡，3.5G</span></span><br><span class="line"><span class="comment">             1xRTT : 2G CDMA2000 1xRTT (RTT - 无线电传输技术) 144kbps 2G的过渡,</span></span><br><span class="line"><span class="comment">             HSDPA : 3.5G 高速下行分组接入 3.5G WCDMA High Speed Downlink Packet Access 14.4mbps</span></span><br><span class="line"><span class="comment">             HSUPA : 3.5G High Speed Uplink Packet Access 高速上行链路分组接入 1.4 - 5.8 mbps</span></span><br><span class="line"><span class="comment">             HSPA : 3G (分HSDPA,HSUPA) High Speed Packet Access</span></span><br><span class="line"><span class="comment">             IDEN : 2G Integrated Dispatch Enhanced Networks 集成数字增强型网络 （属于2G，来自维基百科）</span></span><br><span class="line"><span class="comment">             EVDO_B : 3G EV-DO Rev.B 14.7Mbps 下行 3.5G</span></span><br><span class="line"><span class="comment">             LTE : 4G Long Term Evolution FDD-LTE 和 TDD-LTE , 3G过渡，升级版 LTE Advanced 才是4G</span></span><br><span class="line"><span class="comment">             EHRPD : 3G CDMA2000向LTE 4G的中间产物 Evolved High Rate Packet Data HRPD的升级</span></span><br><span class="line"><span class="comment">             HSPAP : 3G HSPAP 比 HSDPA 快些</span></span><br><span class="line"><span class="comment">             */</span></span><br><span class="line">            <span class="comment">// 2G网络</span></span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_GPRS:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_CDMA:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EDGE:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_1xRTT:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_IDEN:</span><br><span class="line">                <span class="keyword">return</span> NETWORK_2G;</span><br><span class="line">            <span class="comment">// 3G网络</span></span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EVDO_A:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_UMTS:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EVDO_0:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_HSDPA:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_HSUPA:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_HSPA:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EVDO_B:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_EHRPD:</span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_HSPAP:</span><br><span class="line">                <span class="keyword">return</span> NETWORK_3G;</span><br><span class="line">            <span class="comment">// 4G网络</span></span><br><span class="line">            <span class="keyword">case</span> TelephonyManager.NETWORK_TYPE_LTE:</span><br><span class="line">                <span class="keyword">return</span> NETWORK_4G;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">return</span> NETWORK_MOBILE;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断网络是否连接</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> true/false</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isNetConnected</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);</span><br><span class="line">        <span class="keyword">if</span> (connectivity != <span class="keyword">null</span>) &#123;</span><br><span class="line">            NetworkInfo info = connectivity.getActiveNetworkInfo();</span><br><span class="line">            <span class="keyword">if</span> (info != <span class="keyword">null</span> &amp;&amp; info.isConnected()) &#123;</span><br><span class="line">                <span class="keyword">if</span> (info.getState() == NetworkInfo.State.CONNECTED) &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 判断是否wifi连接</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> true/false</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">isWifiConnected</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);</span><br><span class="line">        <span class="keyword">if</span> (connectivityManager != <span class="keyword">null</span>) &#123;</span><br><span class="line">            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();</span><br><span class="line">            <span class="keyword">if</span> (networkInfo != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">int</span> networkInfoType = networkInfo.getType();</span><br><span class="line">                <span class="keyword">if</span> (networkInfoType == ConnectivityManager.TYPE_WIFI || networkInfoType == ConnectivityManager.TYPE_ETHERNET) &#123;</span><br><span class="line">                    <span class="keyword">return</span> networkInfo.isConnected();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-          
+          <p><strong>我已经封装成了一个工具类，大家直接调用就可以。</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/27/教你如何获取网络状态/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -808,13 +920,14 @@
 
       
         
-          
-            <p><strong>我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。</strong></p>
-<p>首先，先拿到platform.pk8与platform.x509.pem这两个platform文件，<br>在 <code>build/target/product/security</code>  这个路径下,拿到两个platfrom文件，然后我们需要去网上下载一个jar包，名字就是signapk.jar<br>解压后，选择查看隐藏的文件，把两个.pk8和.pem文件 替换成你刚刚拿到的两个platform文件，里面会有一个.bat的文件，编辑这个bat文件 将.pem文件和.pk8的文件换成你刚刚拿到两个platform的文件名称 如:</p>
-<p><code>java -jar signapk.jar platform.x509.pem platform.pk8 release.apk %~n1_signed.apk</code></p>
-<p>然后把第一个apk的名字改成你要打包的apk，第二个apk的名字改成你要打包好的apk名称，如上，<strong>注意：记得把%~去掉！！</strong><br>然后我们Ctrl+s保存刚编辑好的bat文件，然后关闭并运行，运行前要注意，你的apk文件要在和bat的同级路径中，不然就会出现not found，<br>都弄好了我们就会发现黑窗口会出现请按任意键继续的字样，这就说明我们已经成功了，很好，现在我们关闭这个黑窗口，去看有没有新的apk文件<br>找到新的apk文件，打开cmd窗口，使用adb命令将你的apk push到/system/app目录下，(前提要获得root权限)如 <code>adb push D:\file.txt  /system/temp/</code><br>意思是将Windows下D盘根文件夹下的file.txt文件复制到手机或者平板的/system/temp/文件夹下。<br>但是你在运行这条命令时。可能会遇到failed to copy  ‘D:\file.xtxt’ to ‘/system/temp/‘ : Read-only file system 的报错信息。<br>怎么解决呢？非常easy，使用以下这条命令：先退出adb，再remount。！！<br> <code>adb remount</code>  他的意思就是将设备改为可读可写。 如下：<br> <code>adb remount    - remounts the /system partition on the device read-write</code><br> 看到remount succeeded后，就能够在此运行<code>adb push D:\file.txt  /system/temp/</code> 这样就能够成功了，就能够在小机的/system/temp/文件夹下看到file.txt文件了。<br> 这时候我们来adb reboot命令来重启设备，重启成功后，就可以看到你的app已经是一个系统级别的app了，是无法卸载的。这时候恭喜你，你已经成功了，切记此时已经不可以再去用AndroidStudio来编译这个APP了，因为你已经安装不上了，如果我们想要继续给这个APP加功能的话，需要去给他从/system/app中删除掉。然后再去把新的APP放进去，最后 adb reboot 重启设备，这样就好啦。</p>
-
-          
+          <p><strong>我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/25/将自己的APP提升至系统APP/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -931,15 +1044,14 @@
 
       
         
-          
-            <p>今天完善了一个小功能，需求是在1.5秒内点击三次物理按键开启警报，再在1.5秒内点击三次物理按键关闭警报<br>话不多说  贴代码。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (shortPress) &#123;</span><br><span class="line">               <span class="comment">//短按C要执行的代码</span></span><br><span class="line">               Log.e(<span class="string">"onKeyUp"</span>, <span class="string">"短按C"</span>);</span><br><span class="line">               <span class="comment">//按下的次数+1</span></span><br><span class="line">               timercount++;</span><br><span class="line">               <span class="keyword">if</span> (timercount == <span class="number">1</span>) &#123;</span><br><span class="line">                   <span class="comment">//获取第一次按下的时间</span></span><br><span class="line">                   startTimer = System.currentTimeMillis();</span><br><span class="line">                   Log.e(TAG, <span class="string">"按下第一次的时间"</span> + startTimer);</span><br><span class="line">               &#125;</span><br><span class="line">               <span class="keyword">if</span> (timercount == <span class="number">3</span>) &#123;</span><br><span class="line">                   <span class="comment">//获取第三次按下的时间</span></span><br><span class="line">                   endTimer = System.currentTimeMillis();</span><br><span class="line">                   Log.e(TAG, <span class="string">"按下第一次的时间"</span> + endTimer);</span><br><span class="line">                   <span class="comment">//如果当前时间减去最后一次按下的时间，超过了1500ms，那就是超时了</span></span><br><span class="line">                   <span class="comment">//如果没有超过 就运行下面的逻辑运算</span></span><br><span class="line">                   <span class="keyword">if</span> ((System.currentTimeMillis() - startTimer) &lt; <span class="number">1500</span>) &#123;</span><br><span class="line">                       <span class="comment">//boolean进行一个取反</span></span><br><span class="line">                       timerFlag = !timerFlag;</span><br><span class="line">                       <span class="comment">//是true就开始报警</span></span><br><span class="line">                       <span class="keyword">if</span> (timerFlag) &#123;</span><br><span class="line">                           timercount = <span class="number">0</span>;</span><br><span class="line">                           Log.e(TAG, <span class="string">"onPreferenceClick: 开始报警"</span>);</span><br><span class="line">                           warmmingPresenter.getWarmming();</span><br><span class="line">                       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                           <span class="comment">//如果是false就取消报警</span></span><br><span class="line">                           timercount = <span class="number">0</span>;</span><br><span class="line">                           Log.e(TAG, <span class="string">"onPreferenceClick: 取消报警"</span>);</span><br><span class="line">                           <span class="comment">//重置MediaPlayer</span></span><br><span class="line">                           myMediaPlayer.pause();</span><br><span class="line">                           myMediaPlayer.reset();</span><br><span class="line">                       &#125;</span><br><span class="line">                   &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                       <span class="comment">//超过预定的1500ms</span></span><br><span class="line">                       timercount = <span class="number">0</span>;</span><br><span class="line">                       Log.e(TAG, <span class="string">"onPreferenceClick: 超过预定时间"</span>);</span><br><span class="line">                   &#125;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//插旗</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> timerFlag = <span class="keyword">false</span>;</span><br><span class="line">  <span class="comment">//按下SOS键的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> timercount = <span class="number">0</span>;</span><br><span class="line">  <span class="comment">//第一次按下的时间与第三次按下的时间</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">long</span> startTimer, endTimer;</span><br></pre></td></tr></table></figure>
-
-<p>加油，明天会更好</p>
-
-          
+          <p>今天完善了一个小功能，需求是在1.5秒内点击三次物理按键开启警报，再在1.5秒内点击三次物理按键关闭警报<br>话不多说  贴代码。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/18/TimerCount/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1056,28 +1168,14 @@
 
       
         
-          
-            <p><strong>目前写公司的项目用到了与硬件之间的交互，首先这几个物理按键弄的我很是头疼，总结了以下几点，对以后会有帮助的</strong></p>
-<p>在activity中重写三个方法：</p>
-<p><code>onKeyLongPress</code>,<code>onKeyDown</code>,<code>onKeyUp</code></p>
-<p>这三个分别对应着长按事件，按下事件，与抬起事件，但是这里要注意的一点，如果我们正常使用长按事件时，他是默认走了很多遍onKeyDown事件，并不能真正的执行长按事件，所以我们先pass掉onKeyDown事件，只能从onKeyUp事件来入手，onKeyUp也就是我们的抬起事件，下面贴一部分代码</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抬起事件</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onKeyUp</span><span class="params">(<span class="keyword">int</span> keyCode, KeyEvent event)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_A) &#123;</span><br><span class="line">        <span class="keyword">if</span> (shortPress) &#123;</span><br><span class="line">            <span class="comment">//短按A要执行的代码</span></span><br><span class="line">            Log.e(<span class="string">"onKeyUp"</span>, <span class="string">"onKeyUp"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        shortPress = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_B) &#123;</span><br><span class="line">        <span class="keyword">if</span> (shortPress) &#123;</span><br><span class="line">            <span class="comment">//短按B要执行的代码</span></span><br><span class="line">            Log.e(<span class="string">"onKeyUp"</span>, <span class="string">"onKeyUp"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        shortPress = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_C) &#123;</span><br><span class="line">        <span class="keyword">if</span> (shortPress) &#123;</span><br><span class="line">            <span class="comment">//短按C要执行的代码</span></span><br><span class="line">            Log.e(<span class="string">"onKeyUp"</span>, <span class="string">"onKeyUp"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        shortPress = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_D) &#123;</span><br><span class="line">        <span class="keyword">if</span> (shortPress) &#123;</span><br><span class="line">            <span class="comment">//短按D要执行的代码</span></span><br><span class="line">            Log.e(<span class="string">"onKeyUp"</span>, <span class="string">"onKeyUp"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        shortPress = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onKeyUp(keyCode, event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>如代码所示，我们可以通过keyCode值来进行判断我们按下的物理按键，我们也同样要在onKeyDown中声明一下</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//按下事件</span></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onKeyDown</span><span class="params">(<span class="keyword">int</span> keyCode, KeyEvent event)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_A) &#123;</span><br><span class="line">          <span class="keyword">if</span> (event.getAction() == KeyEvent.ACTION_DOWN) &#123;</span><br><span class="line">              event.startTracking(); <span class="comment">//只有执行了这行代码才会调用onKeyLongPress的；</span></span><br><span class="line">              <span class="keyword">if</span> (event.getRepeatCount() == <span class="number">0</span>) &#123;</span><br><span class="line">                  shortPress = <span class="keyword">true</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_B) &#123;</span><br><span class="line">          <span class="keyword">if</span> (event.getAction() == KeyEvent.ACTION_DOWN) &#123;</span><br><span class="line">              event.startTracking(); <span class="comment">//只有执行了这行代码才会调用onKeyLongPress的；</span></span><br><span class="line">              <span class="keyword">if</span> (event.getRepeatCount() == <span class="number">0</span>) &#123;</span><br><span class="line">                  shortPress = <span class="keyword">true</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_C) &#123;</span><br><span class="line">          <span class="keyword">if</span> (event.getAction() == KeyEvent.ACTION_DOWN) &#123;</span><br><span class="line">              event.startTracking(); <span class="comment">//只有执行了这行代码才会调用onKeyLongPress的；</span></span><br><span class="line">              <span class="keyword">if</span> (event.getRepeatCount() == <span class="number">0</span>) &#123;</span><br><span class="line">                  shortPress = <span class="keyword">true</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_D) &#123;</span><br><span class="line">          <span class="keyword">if</span> (event.getAction() == KeyEvent.ACTION_DOWN) &#123;</span><br><span class="line">              event.startTracking(); <span class="comment">//只有执行了这行代码才会调用onKeyLongPress的；</span></span><br><span class="line">              <span class="keyword">if</span> (event.getRepeatCount() == <span class="number">0</span>) &#123;</span><br><span class="line">                  shortPress = <span class="keyword">true</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">super</span>.onKeyDown(keyCode, event);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-
-<p>这个意思就是 按下了之后不执行操作，把事件交给负责抬起的方法中来使用，这就是我们的短按事件，我们现在开始长按事件</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//长按事件</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onKeyLongPress</span><span class="params">(<span class="keyword">int</span> keyCode, KeyEvent event)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_A) &#123;</span><br><span class="line">        shortPress = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//长按A要执行的代码</span></span><br><span class="line">        Log.e(<span class="string">"onKeyLongPress"</span>, <span class="string">"onKeyLongPress"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_B) &#123;</span><br><span class="line">        shortPress = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//长按B要执行的代码</span></span><br><span class="line">        Log.e(<span class="string">"onKeyLongPress"</span>, <span class="string">"onKeyLongPress"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_C) &#123;</span><br><span class="line">        shortPress = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//长按C要执行的代码</span></span><br><span class="line">        Log.e(<span class="string">"onKeyLongPress"</span>, <span class="string">"onKeyLongPress"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_D) &#123;</span><br><span class="line">        shortPress = <span class="keyword">false</span>;</span><br><span class="line">        <span class="comment">//长按D要执行的代码</span></span><br><span class="line">        Log.e(<span class="string">"onKeyLongPress"</span>, <span class="string">"onKeyLongPress"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>看完了之后是不是觉得很简单，别忘了声明这个变量<code>private boolean shortPress = false;</code><br>下面我们来配合一段MediaPlayer来使用吧，首先来看MediaPlayer怎么播放数据的，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">AudioManager mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);</span><br><span class="line">       <span class="keyword">int</span> maxVolume = mAudioManager</span><br><span class="line">               .getStreamMaxVolume(AudioManager.STREAM_MUSIC);<span class="comment">// 获取最大声音</span></span><br><span class="line">       mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, maxVolume, <span class="number">0</span>); <span class="comment">// 设置为最大声音，可通过SeekBar更改音量大小</span></span><br><span class="line">       AssetFileDescriptor fileDescriptor;</span><br><span class="line">       <span class="keyword">try</span> &#123;</span><br><span class="line">           fileDescriptor = MainActivity.<span class="keyword">this</span>.getAssets().openFd(<span class="string">"xxx.mp3"</span>);</span><br><span class="line">           myMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);</span><br><span class="line">           myMediaPlayer.setDataSource(fileDescriptor.getFileDescriptor(),</span><br><span class="line">                   fileDescriptor.getStartOffset(),</span><br><span class="line">                   fileDescriptor.getLength());</span><br><span class="line">           myMediaPlayer.prepare();</span><br><span class="line">           myMediaPlayer.start();</span><br><span class="line">           myMediaPlayer.setLooping(<span class="keyword">true</span>);</span><br><span class="line">       &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">           e.printStackTrace();</span><br><span class="line">       &#125;</span><br></pre></td></tr></table></figure>
-
-<p>这是用来播放一个assets目录文件夹下的MP3文件的方法，现在是可以正常播放的，下面来搭配我们的onKeyUp事件来使用，</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//抬起事件</span></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onKeyUp</span><span class="params">(<span class="keyword">int</span> keyCode, KeyEvent event)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (keyCode == KeyEvent.KEYCODE_C) &#123;</span><br><span class="line">        <span class="keyword">if</span> (shortPress) &#123;</span><br><span class="line">            <span class="comment">//短按C要执行的代码</span></span><br><span class="line">            Log.e(<span class="string">"onKeyUp"</span>, <span class="string">"onKeyUp"</span>);</span><br><span class="line">            <span class="comment">//按一次 次数+1</span></span><br><span class="line">            count++;</span><br><span class="line">            <span class="comment">//如果音乐播放器没有在播放并且播放次数为3</span></span><br><span class="line">            <span class="keyword">if</span> ((!myMediaPlayer.isPlaying()) &amp;&amp; count == <span class="number">3</span>) &#123;</span><br><span class="line">                <span class="comment">//调用此方法开始播放</span></span><br><span class="line">                warmmingPresenter.getWarmming();</span><br><span class="line">                <span class="comment">//重置次数</span></span><br><span class="line">                count = <span class="number">0</span>;</span><br><span class="line">            &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                <span class="comment">//如果音乐播放器正在播放 并且次数为3</span></span><br><span class="line">                <span class="keyword">if</span> (myMediaPlayer.isPlaying() &amp;&amp; count == <span class="number">3</span>)&#123;</span><br><span class="line">                    Log.e(TAG, <span class="string">"取消报警"</span>);</span><br><span class="line">                    <span class="comment">//暂停并且重置</span></span><br><span class="line">                    myMediaPlayer.pause();</span><br><span class="line">                    myMediaPlayer.reset();</span><br><span class="line">                    <span class="comment">//重置次数</span></span><br><span class="line">                    count = <span class="number">0</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        shortPress = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.onKeyUp(keyCode, event);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样就可以播放了，别忘记声明一个int类型的值，这是用来标记点击按钮的次数。<br><code>private int count = 0;</code></p>
-
-          
+          <p><strong>目前写公司的项目用到了与硬件之间的交互，首先这几个物理按键弄的我很是头疼，总结了以下几点，对以后会有帮助的</strong></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/12/AskMe/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1381,152 +1479,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/08/CustomAnnFramwork/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="闫昊良">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="闫昊良的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/08/08/CustomAnnFramwork/" itemprop="url">自实现页面注解框架</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-08-08T00:00:00+08:00">
-                2019-08-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android第三方框架/" itemprop="url" rel="index">
-                    <span itemprop="name">Android第三方框架</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>闲来无事使用自定义注解+反射实现一个简单的页面注解框架，离项目中使用还有很大距离，纯属练习使用。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/08/08/CustomAnnFramwork/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1577,7 +1529,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

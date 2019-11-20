@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="闫昊良的技术博客">
-<meta property="og:url" content="http://yoursite.com/tags/多渠道打包/index.html">
+<meta name="description" content="启动流程 开机自动启动APP并开始请求后台，开始捕捉系统广播，系统广播分别有监听网络类型（4G或WIFI或断开无线网络，关机广播与开机广播（ps:利用捕捉开机广播启动APP）），开始获取设备ID请求成功并登录环信客户端同时持有weaklock并设置在该activity中并不让设备息屏，无论登录成功与否都进行语音播报，获取设备ID失败会五秒后自动重连并播报语音提示，重连失败三次会开始进入对讲机模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设备APP流程">
+<meta property="og:url" content="http://yoursite.com/2019/10/18/设备APP流程/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
+<meta property="og:description" content="启动流程 开机自动启动APP并开始请求后台，开始捕捉系统广播，系统广播分别有监听网络类型（4G或WIFI或断开无线网络，关机广播与开机广播（ps:利用捕捉开机广播启动APP）），开始获取设备ID请求成功并登录环信客户端同时持有weaklock并设置在该activity中并不让设备息屏，无论登录成功与否都进行语音播报，获取设备ID失败会五秒后自动重连并播报语音提示，重连失败三次会开始进入对讲机模">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-11-20T04:37:45.420Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="闫昊良的技术博客">
+<meta name="twitter:title" content="设备APP流程">
+<meta name="twitter:description" content="启动流程 开机自动启动APP并开始请求后台，开始捕捉系统广播，系统广播分别有监听网络类型（4G或WIFI或断开无线网络，关机广播与开机广播（ps:利用捕捉开机广播启动APP）），开始获取设备ID请求成功并登录环信客户端同时持有weaklock并设置在该activity中并不让设备息屏，无论登录成功与否都进行语音播报，获取设备ID失败会五秒后自动重连并播报语音提示，重连失败三次会开始进入对讲机模">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/多渠道打包/">
+  <link rel="canonical" href="http://yoursite.com/2019/10/18/设备APP流程/">
 
 
 
 
 
-  <title>Tag: 多渠道打包 | 闫昊良的技术博客</title>
+  <title>设备APP流程 | 闫昊良的技术博客</title>
   
 
 
@@ -140,7 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -214,52 +218,150 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>多渠道打包<small>Tag</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/设备APP流程/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫昊良">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闫昊良的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/08/09/ReleaseApp/" itemprop="url">
-              
-                <span itemprop="name">Android 多渠道打包</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">设备APP流程</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-08-09T00:00:00+08:00" content="2019-08-09">
-          08-09
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-10-18T23:38:21+08:00">
+                2019-10-18
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <a id="more"></a>
+
+<p><strong>启动流程</strong></p>
+<p>开机自动启动APP并开始请求后台，开始捕捉系统广播，系统广播分别有监听网络类型（4G或WIFI或断开无线网络，关机广播与开机广播（ps:利用捕捉开机广播启动APP）），开始获取设备ID请求成功并登录环信客户端同时持有weaklock并设置在该activity中并不让设备息屏，无论登录成功与否都进行语音播报，获取设备ID失败会五秒后自动重连并播报语音提示，重连失败三次会开始进入对讲机模式并语音播报通知用户，通过HTTP协议，每一分钟会发送一次信息包，服务器不需要应答，每十秒发送一次，发送佩戴状态与近电状态、设备ID与电量。服务器应答是否开启摄像头与是否开始下行告警，接收到下行告警会使用音乐播放器进行循环播放警报，按一次C键值取消告警每三秒向后台发送一次UDP协议的信息包，包含经纬度与高度的信息。每次进入到主界面都会想服务器发送请求，检查是否有新版本更新，如果发现有新版本，将新版本下载下来并发送自定义广播，通知另一个系统级别APP来进行该设备端APP的安装与卸载之前版本并运行新APP。当电池电量小于百分之20会进行语音播报，提示电池电量低。如果不需要提供差分数据，就由原生提供位置信息，基站定位无法获取到海拔值，如果需要提供差分数据，就开启千寻模块，从千寻模块中拿到数据并将GNGGA数据发送到千寻服务器，并将返回的数据发送至服务器。</p>
+<p>短按一次A开启录音功能，再短按一次结束录音并发送置环信端的群组中<br>短按一次B开启照相功能，通过串口开启红色激光灯，并伴随拍完照关闭<br>在1.5S内短按三次C，开启上行告警功能，如果在下行告警状态，短按一次C取消告警<br>短按一次D开启手电筒功能，再按一次关闭手电筒功能。</p>
+<p>长按A进行语音通话，上行告警功能可用，短按B结束通话<br>长按B进行录像并开启红色激光灯、再长按一次B关闭视频录制并发送至服务器，关闭红色激光灯<br>长按C进行视频通话，上行告警功能可用，短按B结束通话<br>长按C进入对讲机模式，并开启语音播报功能，</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/08/安卓7.0以后如何开启手电筒/" rel="next" title="安卓7.0以后如何开启手电筒">
+                <i class="fa fa-chevron-left"></i> 安卓7.0以后如何开启手电筒
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/20/安卓7.0适配/" rel="prev" title="安卓7.0适配FileProvider">
+                安卓7.0适配FileProvider <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -267,6 +369,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -481,6 +587,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。 首先，先拿到platform.pk8与platform.x509.pem这两个platform文件，在 build/target/product/security  这个路径下,拿到两个platfrom文件，然后我们需要去网上">
+<meta name="description" content="我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何将自己的APP提升成为系统的APP">
 <meta property="og:url" content="http://yoursite.com/2019/09/25/将自己的APP提升至系统APP/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。 首先，先拿到platform.pk8与platform.x509.pem这两个platform文件，在 build/target/product/security  这个路径下,拿到两个platfrom文件，然后我们需要去网上">
+<meta property="og:description" content="我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-25T05:52:38.186Z">
+<meta property="og:updated_time" content="2019-11-20T04:36:52.546Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何将自己的APP提升成为系统的APP">
-<meta name="twitter:description" content="我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。 首先，先拿到platform.pk8与platform.x509.pem这两个platform文件，在 build/target/product/security  这个路径下,拿到两个platfrom文件，然后我们需要去网上">
+<meta name="twitter:description" content="我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。">
 
 
 
@@ -300,6 +300,7 @@
 
       
         <p><strong>我们通常在AndroidStudio中安装的APP都安装在应用层，属于第三方应用，是可以卸载的，但是怎么将自己写的APP装在系统中，使其成为系统应用，下面来为大家讲解一下。</strong></p>
+<a id="more"></a>
 <p>首先，先拿到platform.pk8与platform.x509.pem这两个platform文件，<br>在 <code>build/target/product/security</code>  这个路径下,拿到两个platfrom文件，然后我们需要去网上下载一个jar包，名字就是signapk.jar<br>解压后，选择查看隐藏的文件，把两个.pk8和.pem文件 替换成你刚刚拿到的两个platform文件，里面会有一个.bat的文件，编辑这个bat文件 将.pem文件和.pk8的文件换成你刚刚拿到两个platform的文件名称 如:</p>
 <p><code>java -jar signapk.jar platform.x509.pem platform.pk8 release.apk %~n1_signed.apk</code></p>
 <p>然后把第一个apk的名字改成你要打包的apk，第二个apk的名字改成你要打包好的apk名称，如上，<strong>注意：记得把%~去掉！！</strong><br>然后我们Ctrl+s保存刚编辑好的bat文件，然后关闭并运行，运行前要注意，你的apk文件要在和bat的同级路径中，不然就会出现not found，<br>都弄好了我们就会发现黑窗口会出现请按任意键继续的字样，这就说明我们已经成功了，很好，现在我们关闭这个黑窗口，去看有没有新的apk文件<br>找到新的apk文件，打开cmd窗口，使用adb命令将你的apk push到/system/app目录下，(前提要获得root权限)如 <code>adb push D:\file.txt  /system/temp/</code><br>意思是将Windows下D盘根文件夹下的file.txt文件复制到手机或者平板的/system/temp/文件夹下。<br>但是你在运行这条命令时。可能会遇到failed to copy  ‘D:\file.xtxt’ to ‘/system/temp/‘ : Read-only file system 的报错信息。<br>怎么解决呢？非常easy，使用以下这条命令：先退出adb，再remount。！！<br> <code>adb remount</code>  他的意思就是将设备改为可读可写。 如下：<br> <code>adb remount    - remounts the /system partition on the device read-write</code><br> 看到remount succeeded后，就能够在此运行<code>adb push D:\file.txt  /system/temp/</code> 这样就能够成功了，就能够在小机的/system/temp/文件夹下看到file.txt文件了。<br> 这时候我们来adb reboot命令来重启设备，重启成功后，就可以看到你的app已经是一个系统级别的app了，是无法卸载的。这时候恭喜你，你已经成功了，切记此时已经不可以再去用AndroidStudio来编译这个APP了，因为你已经安装不上了，如果我们想要继续给这个APP加功能的话，需要去给他从/system/app中删除掉。然后再去把新的APP放进去，最后 adb reboot 重启设备，这样就好啦。</p>
@@ -407,7 +408,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

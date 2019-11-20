@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="目前写公司的项目用到了与硬件之间的交互，首先这几个物理按键弄的我很是头疼，总结了以下几点，对以后会有帮助的 在activity中重写三个方法： onKeyLongPress,onKeyDown,onKeyUp 这三个分别对应着长按事件，按下事件，与抬起事件，但是这里要注意的一点，如果我们正常使用长按事件时，他是默认走了很多遍onKeyDown事件，并不能真正的执行长按事件，所以我们先pass掉on">
+<meta name="description" content="目前写公司的项目用到了与硬件之间的交互，首先这几个物理按键弄的我很是头疼，总结了以下几点，对以后会有帮助的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于物理按键的事件与MediaPlayer">
 <meta property="og:url" content="http://yoursite.com/2019/09/12/AskMe/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="目前写公司的项目用到了与硬件之间的交互，首先这几个物理按键弄的我很是头疼，总结了以下几点，对以后会有帮助的 在activity中重写三个方法： onKeyLongPress,onKeyDown,onKeyUp 这三个分别对应着长按事件，按下事件，与抬起事件，但是这里要注意的一点，如果我们正常使用长按事件时，他是默认走了很多遍onKeyDown事件，并不能真正的执行长按事件，所以我们先pass掉on">
+<meta property="og:description" content="目前写公司的项目用到了与硬件之间的交互，首先这几个物理按键弄的我很是头疼，总结了以下几点，对以后会有帮助的">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-09-12T06:02:08.934Z">
+<meta property="og:updated_time" content="2019-11-20T04:38:37.411Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于物理按键的事件与MediaPlayer">
-<meta name="twitter:description" content="目前写公司的项目用到了与硬件之间的交互，首先这几个物理按键弄的我很是头疼，总结了以下几点，对以后会有帮助的 在activity中重写三个方法： onKeyLongPress,onKeyDown,onKeyUp 这三个分别对应着长按事件，按下事件，与抬起事件，但是这里要注意的一点，如果我们正常使用长按事件时，他是默认走了很多遍onKeyDown事件，并不能真正的执行长按事件，所以我们先pass掉on">
+<meta name="twitter:description" content="目前写公司的项目用到了与硬件之间的交互，首先这几个物理按键弄的我很是头疼，总结了以下几点，对以后会有帮助的">
 
 
 
@@ -300,6 +300,7 @@
 
       
         <p><strong>目前写公司的项目用到了与硬件之间的交互，首先这几个物理按键弄的我很是头疼，总结了以下几点，对以后会有帮助的</strong></p>
+<a id="more"></a>
 <p>在activity中重写三个方法：</p>
 <p><code>onKeyLongPress</code>,<code>onKeyDown</code>,<code>onKeyUp</code></p>
 <p>这三个分别对应着长按事件，按下事件，与抬起事件，但是这里要注意的一点，如果我们正常使用长按事件时，他是默认走了很多遍onKeyDown事件，并不能真正的执行长按事件，所以我们先pass掉onKeyDown事件，只能从onKeyUp事件来入手，onKeyUp也就是我们的抬起事件，下面贴一部分代码</p>
@@ -422,7 +423,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
