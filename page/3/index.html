@@ -229,7 +229,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/15/hotupdate/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/16/processlive5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闫昊良">
@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2019/07/15/hotupdate/" itemprop="url">Android 热修复</a></h1>
+                <a class="post-title-link" href="/2019/07/16/processlive5/" itemprop="url">Android 进程保活（五）JobSheduler进程重生</a></h1>
         
 
         <div class="post-meta">
@@ -260,154 +260,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-15T00:00:00+08:00">
-                2019-07-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Android插件化/" itemprop="url" rel="index">
-                    <span itemprop="name">Android插件化</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <img src="hotupdate/2019-07-15-18-06-52.png">
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/07/15/hotupdate/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/15/processlive3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="闫昊良">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="闫昊良的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/15/processlive3/" itemprop="url">Android 进程保活（三）1像素方案保活</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-15T00:00:00+08:00">
-                2019-07-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-16T00:00:00+08:00">
+                2019-07-16
               </time>
             
 
@@ -467,10 +321,14 @@
 
       
         
-          <p>1像素保活方案坊间流传是手机QQ的保活的方案。什么意思呢？就是我们在手机锁屏时开启一个Activity，为了不让用户有感知，让这个Activity大小为1像素并设置透明无切换动画。在开启屏幕时把这个Activity关掉。</p>
+          <p>JobSheduler在android 5.0以上版本可用，所以该方案适合5.0以上的系统版本。<br>关于JobService与JobSheduler不清楚的可参考官网API文档：</p>
+<p><a href="https://developer.android.google.cn/reference/android/app/job/JobService.html" target="_blank" rel="noopener">官网JobService</a></p>
+<p><a href="https://developer.android.google.cn/reference/android/app/job/JobScheduler.html" target="_blank" rel="noopener">官网JobScheduler</a></p>
+<p>JobScheduler是用于计划基于应用进程的多种类型任务的api接口。当任务执行时，系统会为应用持有WakeLock，所以应用不需要做多余的确保设备唤醒的工作。</p>
+<p>JobService继承自Service，是用于处理JobScheduler中规划的异步请求的特殊Service</p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/07/15/processlive3/#more" rel="contents">
+            <a class="btn" href="/2019/07/16/processlive5/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -667,6 +525,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/15/hotupdate/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫昊良">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闫昊良的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/15/hotupdate/" itemprop="url">Android 热修复</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-15T00:00:00+08:00">
+                2019-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android插件化/" itemprop="url" rel="index">
+                    <span itemprop="name">Android插件化</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <img src="hotupdate/2019-07-15-18-06-52.png">
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/15/hotupdate/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/15/processlive2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -813,6 +817,152 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/15/processlive3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫昊良">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闫昊良的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/15/processlive3/" itemprop="url">Android 进程保活（三）1像素方案保活</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-15T00:00:00+08:00">
+                2019-07-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Android进程保活/" itemprop="url" rel="index">
+                    <span itemprop="name">Android进程保活</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>1像素保活方案坊间流传是手机QQ的保活的方案。什么意思呢？就是我们在手机锁屏时开启一个Activity，为了不让用户有感知，让这个Activity大小为1像素并设置透明无切换动画。在开启屏幕时把这个Activity关掉。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/15/processlive3/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/09/jetpack-viewmodel/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -909,300 +1059,6 @@
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/07/09/jetpack-viewmodel/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/02/jetpack-lifecycles/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="闫昊良">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="闫昊良的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/02/jetpack-lifecycles/" itemprop="url">Jetpack系列之Lifecycles</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-02T00:00:00+08:00">
-                2019-07-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Jetpack/" itemprop="url" rel="index">
-                    <span itemprop="name">Jetpack</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component, such as activities and fragments. These components help you produce better-organized, and often lighter-weight code, that is easier to maintain.</p>
-<p>A common pattern is to implement the actions of the dependent components in the lifecycle methods of activities and fragments. However, this pattern leads to a poor organization of the code and to the proliferation of errors. By using lifecycle-aware components, you can move the code of dependent components out of the lifecycle methods and into the components themselves.</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/07/02/jetpack-lifecycles/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/02/jetpack-livedata/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="闫昊良">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="闫昊良的技术博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/07/02/jetpack-livedata/" itemprop="url">Jetpack系列之LiveData</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-02T00:00:00+08:00">
-                2019-07-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Jetpack/" itemprop="url" rel="index">
-                    <span itemprop="name">Jetpack</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><strong>LiveData</strong>是一个可观察的数据持有者类。与常规的可观察对象不同，LiveData是生命周期感知的，这意味着它尊重其他应用程序组件的生命周期，比如Activity、Fragment或Service。这种意识确保LiveData只更新处于活动生命周期状态的应用程序组件观察者。</p>
-<p>LiveData认为，如果一个观察者的生命周期处于STARTED或RESUMED状态，那么这个观察者(由observer类表示)就处于活动状态。LiveData只将更新通知活动观察者。注册为监视LiveData对象的非活动观察者不会收到有关更改的通知。您可以注册一个与实现LifecycleOwner接口的对象配对的观察者。当相应的生命周期对象的状态更改为 DESTROYED时，此关系允许删除观察者。这对于Activity和Fragment尤其有用，因为它们可以安全地观察LiveData对象，而不用担心泄漏，当Activity和Fragment的生命周期被破坏时，它们会立即取消订阅。<br><img src="jetpack-livedata/2019-07-12-10-41-45.png"></p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/07/02/jetpack-livedata/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
@@ -1547,7 +1403,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/04/Acache/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/02/jetpack-livedata/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闫昊良">
@@ -1566,7 +1422,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/04/Acache/" itemprop="url">Acache</a></h1>
+                <a class="post-title-link" href="/2019/07/02/jetpack-livedata/" itemprop="url">Jetpack系列之LiveData</a></h1>
         
 
         <div class="post-meta">
@@ -1578,8 +1434,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-12-04T09:46:06+08:00">
-                2018-12-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-02T00:00:00+08:00">
+                2019-07-02
               </time>
             
 
@@ -1588,6 +1444,28 @@
             
           </span>
 
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Jetpack/" itemprop="url" rel="index">
+                    <span itemprop="name">Jetpack</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -1617,28 +1495,165 @@
 
       
         
-          <p>##官方介绍</p>
-<p>ASimpleCache 是一个为android制定的 轻量级的 开源缓存框架。轻量到只有一个java文件（由十几个类精简而来）。</p>
-<h3 id="它可以缓存什么东西？"><a href="#它可以缓存什么东西？" class="headerlink" title="它可以缓存什么东西？"></a>它可以缓存什么东西？</h3><p>普通的字符串、JsonObject、JsonArray、Bitmap、Drawable、序列化的java对象，和 byte数据。</p>
-<h3 id="它有什么特色？"><a href="#它有什么特色？" class="headerlink" title="它有什么特色？"></a>它有什么特色？</h3><p>特色主要是： </p>
-<ol>
-<li><p>轻，轻到只有一个JAVA文件。 </p>
-</li>
-<li><p>可配置，可以配置缓存路径，缓存大小，缓存数量等。 </p>
-</li>
-<li><p>可以设置缓存超时时间，缓存超时自动失效，并被删除。 </p>
-</li>
-<li><p>支持多进程。</p>
+          <p><strong>LiveData</strong>是一个可观察的数据持有者类。与常规的可观察对象不同，LiveData是生命周期感知的，这意味着它尊重其他应用程序组件的生命周期，比如Activity、Fragment或Service。这种意识确保LiveData只更新处于活动生命周期状态的应用程序组件观察者。</p>
+<p>LiveData认为，如果一个观察者的生命周期处于STARTED或RESUMED状态，那么这个观察者(由observer类表示)就处于活动状态。LiveData只将更新通知活动观察者。注册为监视LiveData对象的非活动观察者不会收到有关更改的通知。您可以注册一个与实现LifecycleOwner接口的对象配对的观察者。当相应的生命周期对象的状态更改为 DESTROYED时，此关系允许删除观察者。这对于Activity和Fragment尤其有用，因为它们可以安全地观察LiveData对象，而不用担心泄漏，当Activity和Fragment的生命周期被破坏时，它们会立即取消订阅。<br><img src="jetpack-livedata/2019-07-12-10-41-45.png"></p>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/12/04/Acache/#more" rel="contents">
+            <a class="btn" href="/2019/07/02/jetpack-livedata/#more" rel="contents">
               Read more &raquo;
             </a>
           </div>
           <!--/noindex-->
         
       
-    </li></ol></div>
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/02/jetpack-lifecycles/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫昊良">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闫昊良的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/07/02/jetpack-lifecycles/" itemprop="url">Jetpack系列之Lifecycles</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-07-02T00:00:00+08:00">
+                2019-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Jetpack/" itemprop="url" rel="index">
+                    <span itemprop="name">Jetpack</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Lifecycle-aware components perform actions in response to a change in the lifecycle status of another component, such as activities and fragments. These components help you produce better-organized, and often lighter-weight code, that is easier to maintain.</p>
+<p>A common pattern is to implement the actions of the dependent components in the lifecycle methods of activities and fragments. However, this pattern leads to a poor organization of the code and to the proliferation of errors. By using lifecycle-aware components, you can move the code of dependent components out of the lifecycle methods and into the components themselves.</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/07/02/jetpack-lifecycles/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
     
     
     
@@ -1719,7 +1734,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">46</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

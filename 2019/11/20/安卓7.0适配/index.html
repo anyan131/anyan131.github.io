@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了， 在res下创建xml文件夹，创建file_paths.xml文件 123456&amp;lt;paths xmlns:android=&quot;http://schemas.android.com/a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安卓7.0适配FileProvider">
+<meta property="og:url" content="http://yoursite.com/2019/11/20/安卓7.0适配/index.html">
+<meta property="og:site_name" content="闫昊良的技术博客">
+<meta property="og:description" content="以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了， 在res下创建xml文件夹，创建file_paths.xml文件 123456&amp;lt;paths xmlns:android=&quot;http://schemas.android.com/a">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-11-20T04:30:45.122Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="安卓7.0适配FileProvider">
+<meta name="twitter:description" content="以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了， 在res下创建xml文件夹，创建file_paths.xml文件 123456&amp;lt;paths xmlns:android=&quot;http://schemas.android.com/a">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/11/20/安卓7.0适配/">
+
+
+
+
+
+  <title>安卓7.0适配FileProvider | 闫昊良的技术博客</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">闫昊良的技术博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/20/安卓7.0适配/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="闫昊良">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="闫昊良的技术博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">安卓7.0适配FileProvider</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2019-11-20T11:44:13+08:00">
+                2019-11-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>以前做安卓开发，访问系统相册时都会通过FileUri来访问，但是在经过安卓7.0之后，这些权限被Google拿捏的死死的，原来的那种老方法已经不适合我们做开发了，现在要通过FileProvider来访问系统图库了，</strong></p>
+<p><strong>在res下创建xml文件夹，创建file_paths.xml文件</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;paths xmlns:android=<span class="string">"http://schemas.android.com/apk/res/android"</span>&gt;</span><br><span class="line">    &lt;files-path path=<span class="string">"Android/data/com.example.package.name/files/Pictures/OriPicture/"</span> name=<span class="string">"images"</span> /&gt;</span><br><span class="line">    &lt;external-path path=<span class="string">"Android/data/com.example.package.name/files/Pictures/OriPicture/"</span> name=<span class="string">"images"</span> /&gt;</span><br><span class="line">    &lt;external-files-path path=<span class="string">"files/Pictures/OriPicture"</span> name=<span class="string">"images"</span>/&gt;</span><br><span class="line">    &lt;root-path path=<span class="string">""</span> name=<span class="string">"images"</span>/&gt;</span><br><span class="line">&lt;/paths&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>并在Manifest中声明provider</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;provider</span><br><span class="line">            android:name=<span class="string">"androidx.core.content.FileProvider"</span></span><br><span class="line">            android:authorities=<span class="string">"com.example.askmeapplication.provider"</span></span><br><span class="line">            android:exported=<span class="string">"false"</span></span><br><span class="line">            android:grantUriPermissions=<span class="string">"true"</span>&gt;</span><br><span class="line">            &lt;meta-data</span><br><span class="line">                android:name=<span class="string">"android.support.FILE_PROVIDER_PATHS"</span></span><br><span class="line">                android:resource=<span class="string">"@xml/file_paths"</span>/&gt;</span><br><span class="line">        &lt;/provider&gt;</span><br></pre></td></tr></table></figure>
+
+<p>这时我们就可以打开图库或文件管理了</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//TODO 打开图库</span></span><br><span class="line">                Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">                <span class="keyword">if</span> (android.os.Build.VERSION.SDK_INT &gt;= android.os.Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">                    intent.setAction(Intent.ACTION_OPEN_DOCUMENT);</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    intent.setAction(Intent.ACTION_GET_CONTENT);</span><br><span class="line">                    <span class="comment">//            intent.setAction(Intent.ACTION_PICK);</span></span><br><span class="line">                &#125;</span><br><span class="line">                intent.setType(<span class="string">"image/*"</span>);</span><br><span class="line">                startActivityForResult(intent, REQUEST_OPEN_GALLERY);</span><br></pre></td></tr></table></figure>
+
+<p>在onActivityResult中获取回调的方法</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onActivityResult</span><span class="params">(<span class="keyword">int</span> requestCode, <span class="keyword">int</span> resultCode, Intent data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onActivityResult(requestCode, resultCode, data);</span><br><span class="line">        <span class="keyword">if</span> (resultCode != RESULT_OK) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">switch</span> (requestCode) &#123;</span><br><span class="line">            <span class="keyword">case</span> REQUEST_OPEN_GALLERY:</span><br><span class="line">                <span class="keyword">if</span> (data != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    Uri imgUriSel = data.getData();</span><br><span class="line">                    <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.N) &#123;</span><br><span class="line">                        <span class="comment">//相册会返回一个由相册安全策略定义的Uri</span></span><br><span class="line">                        <span class="comment">//formatUri会返回根据Uri解析出的真实路径</span></span><br><span class="line">                        String imgPathSel = UriUtils.formatUri(getHoldingActivity(), imgUriSel);</span><br><span class="line">                        Log.e(<span class="string">"AAA"</span>, <span class="string">"onActivityResult: imgUriSel"</span>+imgUriSel );</span><br><span class="line">                        <span class="comment">//根据真实路径转成File,然后通过应用程序重新安全化，再放入裁剪程序中才可以识别</span></span><br><span class="line">                        File file = <span class="keyword">new</span> File(imgPathSel);</span><br><span class="line">                        Log.e(<span class="string">"AAA"</span>, <span class="string">"onActivityResult: "</span>+file.getAbsolutePath() );</span><br><span class="line">                    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                        Log.e(<span class="string">"AAA"</span>, <span class="string">"onActivityResult: "</span>+imgUriSel );</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong><em>由于相册会返回一个由相册安全策略定义的Uri，此时这个Uri并不是真正的Uri还需要进行转换</em></strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 根据Uri的不同Scheme解析出在本机的路径</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> context</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> uri</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> Uri的真实路径</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@TargetApi</span>(<span class="number">19</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">formatUri</span><span class="params">(Context context, Uri uri)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> isKitKat = Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT;</span><br><span class="line">        <span class="comment">// DocumentProvider</span></span><br><span class="line">        <span class="keyword">if</span> (isKitKat &amp;&amp; DocumentsContract.isDocumentUri(context, uri)) &#123;</span><br><span class="line">            <span class="comment">// ExternalStorageProvider</span></span><br><span class="line">            <span class="keyword">if</span> (isExternalStorageDocument(uri)) &#123;</span><br><span class="line">                <span class="keyword">final</span> String docId = DocumentsContract.getDocumentId(uri);</span><br><span class="line">                <span class="keyword">final</span> String[] split = docId.split(<span class="string">":"</span>);</span><br><span class="line">                <span class="keyword">final</span> String type = split[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (<span class="string">"primary"</span>.equalsIgnoreCase(type)) &#123;</span><br><span class="line">                    <span class="keyword">return</span> Environment.getExternalStorageDirectory() + <span class="string">"/"</span></span><br><span class="line">                            + split[<span class="number">1</span>];</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="comment">// TODO handle non-primary volumes</span></span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// DownloadsProvider</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (isDownloadsDocument(uri)) &#123;</span><br><span class="line">                <span class="keyword">final</span> String id = DocumentsContract.getDocumentId(uri);</span><br><span class="line">                <span class="keyword">final</span> Uri contentUri = ContentUris.withAppendedId(</span><br><span class="line">                        Uri.parse(<span class="string">"content://downloads/public_downloads"</span>),</span><br><span class="line">                        Long.valueOf(id));</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> getDataColumn(context, contentUri, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// MediaProvider</span></span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span> (isMediaDocument(uri)) &#123;</span><br><span class="line">                <span class="keyword">final</span> String docId = DocumentsContract.getDocumentId(uri);</span><br><span class="line">                <span class="keyword">final</span> String[] split = docId.split(<span class="string">":"</span>);</span><br><span class="line">                <span class="keyword">final</span> String type = split[<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">                Uri contentUri = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">"image"</span>.equals(type)) &#123;</span><br><span class="line">                    contentUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"video"</span>.equals(type)) &#123;</span><br><span class="line">                    contentUri = MediaStore.Video.Media.EXTERNAL_CONTENT_URI;</span><br><span class="line">                &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"audio"</span>.equals(type)) &#123;</span><br><span class="line">                    contentUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">final</span> String selection = <span class="string">"_id=?"</span>;</span><br><span class="line">                <span class="keyword">final</span> String[] selectionArgs = <span class="keyword">new</span> String[]&#123;split[<span class="number">1</span>]&#125;;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">return</span> getDataColumn(context, contentUri, selection,</span><br><span class="line">                        selectionArgs);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// MediaStore (and general)</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"content"</span>.equalsIgnoreCase(uri.getScheme())) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Return the remote address</span></span><br><span class="line">            <span class="keyword">if</span> (isGooglePhotosUri(uri))</span><br><span class="line">                <span class="keyword">return</span> uri.getLastPathSegment();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> getDataColumn(context, uri, <span class="keyword">null</span>, <span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// File</span></span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (<span class="string">"file"</span>.equalsIgnoreCase(uri.getScheme())) &#123;</span><br><span class="line">            <span class="keyword">return</span> uri.getPath();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>以上经过转换 就可以得到真正的Uri地址了</p>
+<p><strong>有些运行可能出现报错的 把 <code>android:authorities=&quot;com.example.application.provider&quot;</code> 改成你们自己的包名，就可以了</strong></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/10/08/安卓7.0以后如何开启手电筒/" rel="next" title="安卓7.0以后如何开启手电筒">
+                <i class="fa fa-chevron-left"></i> 安卓7.0以后如何开启手电筒
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">闫昊良</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">categories</span>
+                
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">闫昊良</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
