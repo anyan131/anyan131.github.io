@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="先来看看一个原始的 RecyclerViewAdapter 是怎么写的 12345678910111213141516171819202122232425RecyclerView.Adapter adapter = new RecyclerView.Adapter() &amp;#123;            @Override            public RecyclerView.View">
+<meta name="description" content="先来看看一个原始的 RecyclerViewAdapter 是怎么写的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="RecyclerView.Adapter的封装思想">
-<meta property="og:url" content="http://yoursite.com/2019/11/21/封装RecyclerViewAdapter/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/11/21/分装RecyclerViewAdapter/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="先来看看一个原始的 RecyclerViewAdapter 是怎么写的 12345678910111213141516171819202122232425RecyclerView.Adapter adapter = new RecyclerView.Adapter() &amp;#123;            @Override            public RecyclerView.View">
+<meta property="og:description" content="先来看看一个原始的 RecyclerViewAdapter 是怎么写的">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-11-21T07:07:53.931Z">
+<meta property="og:updated_time" content="2019-11-21T07:11:10.416Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RecyclerView.Adapter的封装思想">
-<meta name="twitter:description" content="先来看看一个原始的 RecyclerViewAdapter 是怎么写的 12345678910111213141516171819202122232425RecyclerView.Adapter adapter = new RecyclerView.Adapter() &amp;#123;            @Override            public RecyclerView.View">
+<meta name="twitter:description" content="先来看看一个原始的 RecyclerViewAdapter 是怎么写的">
 
 
 
@@ -119,7 +119,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/11/21/封装RecyclerViewAdapter/">
+  <link rel="canonical" href="http://yoursite.com/2019/11/21/分装RecyclerViewAdapter/">
 
 
 
@@ -232,7 +232,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/21/封装RecyclerViewAdapter/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/21/分装RecyclerViewAdapter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="闫昊良">
@@ -299,9 +299,8 @@
       
 
       
-        <a id="more"></a>
-
-<p><strong>先来看看一个原始的 RecyclerViewAdapter 是怎么写的</strong></p>
+        <p><strong>先来看看一个原始的 RecyclerViewAdapter 是怎么写的</strong></p>
+<a id="more"></a>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">RecyclerView.Adapter adapter = <span class="keyword">new</span> RecyclerView.Adapter() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> RecyclerView.<span class="function">ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">                View itemView = LayoutInflater.from(context).inflate(layoutId, parent, <span class="keyword">false</span>);</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">new</span> Holder(itemView);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(RecyclerView.ViewHolder viewHolder, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">                Holder holder = (Holder) viewHolder;</span><br><span class="line"></span><br><span class="line">                holder.textView.setText(dataSource.get(position));</span><br><span class="line">                holder.button.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                        <span class="comment">//TODO</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">return</span> dataSource.size();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Holder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> TextView textView;</span><br><span class="line">        <span class="keyword">public</span> Button button;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Holder</span><span class="params">(View itemView)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(itemView);</span><br><span class="line">            textView = itemView.findViewById(textViewId);</span><br><span class="line">            button = itemView.findViewById(buttonId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
@@ -347,8 +346,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/11/20/安卓7.0适配/" rel="next" title="安卓7.0适配FileProvider">
-                <i class="fa fa-chevron-left"></i> 安卓7.0适配FileProvider
+              <a href="/2019/11/21/封装RecyclerViewAdapter/" rel="next" title="RecyclerView.Adapter的封装思想">
+                <i class="fa fa-chevron-left"></i> RecyclerView.Adapter的封装思想
               </a>
             
           </div>
@@ -356,10 +355,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/11/21/分装RecyclerViewAdapter/" rel="prev" title="RecyclerView.Adapter的封装思想">
-                RecyclerView.Adapter的封装思想 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
