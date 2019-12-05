@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="我们在安卓开发的过程中、多多少少都会与相机打交道，我们自定义相机进行拍照或录像时，拍出来的方向是不一样的，那么该如何解决这个问题呢，下面给出代码 123456789101112131415161718192021222324private final class TakePictureCallback implements Camera.PictureCallback &amp;#123;      @O">
+<meta name="description" content="我们在安卓开发的过程中、多多少少都会与相机打交道，我们自定义相机进行拍照或录像时，拍出来的方向是不一样的，那么该如何解决这个问题呢，下面给出代码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="安卓拍照时，相机的角度问题">
 <meta property="og:url" content="http://yoursite.com/2019/12/05/安卓Camera问题/index.html">
 <meta property="og:site_name" content="闫昊良的技术博客">
-<meta property="og:description" content="我们在安卓开发的过程中、多多少少都会与相机打交道，我们自定义相机进行拍照或录像时，拍出来的方向是不一样的，那么该如何解决这个问题呢，下面给出代码 123456789101112131415161718192021222324private final class TakePictureCallback implements Camera.PictureCallback &amp;#123;      @O">
+<meta property="og:description" content="我们在安卓开发的过程中、多多少少都会与相机打交道，我们自定义相机进行拍照或录像时，拍出来的方向是不一样的，那么该如何解决这个问题呢，下面给出代码">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-12-05T06:57:25.358Z">
+<meta property="og:updated_time" content="2019-12-05T06:58:47.287Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="安卓拍照时，相机的角度问题">
-<meta name="twitter:description" content="我们在安卓开发的过程中、多多少少都会与相机打交道，我们自定义相机进行拍照或录像时，拍出来的方向是不一样的，那么该如何解决这个问题呢，下面给出代码 123456789101112131415161718192021222324private final class TakePictureCallback implements Camera.PictureCallback &amp;#123;      @O">
+<meta name="twitter:description" content="我们在安卓开发的过程中、多多少少都会与相机打交道，我们自定义相机进行拍照或录像时，拍出来的方向是不一样的，那么该如何解决这个问题呢，下面给出代码">
 
 
 
@@ -300,6 +300,8 @@
 
       
         <p><strong>我们在安卓开发的过程中、多多少少都会与相机打交道，我们自定义相机进行拍照或录像时，拍出来的方向是不一样的，那么该如何解决这个问题呢，下面给出代码</strong></p>
+<a id="more"></a>
+
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">TakePictureCallback</span> <span class="keyword">implements</span> <span class="title">Camera</span>.<span class="title">PictureCallback</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">      <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPictureTaken</span><span class="params">(<span class="keyword">byte</span>[] data, Camera camera)</span> </span>&#123;</span><br><span class="line">          <span class="comment">// TODO Auto-generated method stub</span></span><br><span class="line">          Bitmap image = BitmapFactory.decodeByteArray(data, <span class="number">0</span>, data.length); <span class="comment">//解码data数据成图片</span></span><br><span class="line">          Matrix matrix = <span class="keyword">new</span> Matrix();</span><br><span class="line">        <span class="comment">//  matrix.setRotate(90);//将图片翻转成垂直状态，默认是水平的。</span></span><br><span class="line">          image = Bitmap.createBitmap(image,<span class="number">0</span>, <span class="number">0</span>, image.getWidth(), image.getHeight(), matrix, <span class="keyword">true</span>);</span><br><span class="line">          FileOutputStream os;</span><br><span class="line">          <span class="keyword">try</span> &#123;</span><br><span class="line">              os = <span class="keyword">new</span> FileOutputStream(file); <span class="comment">//新建输出流</span></span><br><span class="line">              image.compress(Bitmap.CompressFormat.JPEG, <span class="number">100</span>, os);<span class="comment">//将图片输出到手机上</span></span><br><span class="line">              os.flush();</span><br><span class="line">              os.close();</span><br><span class="line">              takePhotoSuccess(file);</span><br><span class="line">              <span class="comment">// camera.startPreview();//在回调中加入开始预览，主要是为了在用户照完一张后，相机自动进入下一次预览</span></span><br><span class="line">          &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">              <span class="comment">// TODO Auto-generated catch block</span></span><br><span class="line">              e.printStackTrace();</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 
 <p>这样 我们旋转一下图片的角度， 就可以获取到正常方向的照片啦。</p>
