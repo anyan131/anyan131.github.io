@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Android CPU 架构详解 | 闫昊良的技术博客</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">闫昊良</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">闫昊良</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Android CPU 架构详解</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">闫昊良</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">August 18, 2020&nbsp;&nbsp;9:20:21</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <a id="more"></a>
+
+<ol>
+<li><strong>ABI 定义</strong></li>
+</ol>
+<p>Android 设备的<code>CPU</code>类型 通常称为 <code>ABIs</code>，看下Google老大哥是怎么介绍的ABI的，翻译官方文档：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">同 Android 手机使用不同的 CPU，因此支持不同的指令集</span><br><span class="line">CPU 与指令集的每种组合都有其自己的应用二进制界面（或 ABI）</span><br><span class="line">ABI 可以非常精确地定义应用的机器代码在运行时如何与系统交互</span><br><span class="line">您必须为应用要使用的每个 CPU 架构指定 ABI</span><br></pre></td></tr></table></figure>
+
+<p>早期的 <code>Android</code> 系统几乎只支持 <code>ARMv5</code> 的 <code>CPU</code> 架构，你知道现在它支持多少种吗？7 种！</p>
+<p><code>Android</code> 系统目前支持以下七种不同的 <code>CPU</code> 架构：</p>
+<p>-（+*）armeabi/ARMv5<br>第5代、第6代的ARM处理器，早期的手机用的比较多</p>
+<p>-（+*）ARMv7 (从2010年起)<br>第7代及以上的 ARM 处理器。2011年15月以后的生产的大部分Android设备都使用它</p>
+<p>-（+*）MIPS (从2012年起)<br>arm64-v8a: 第8代、64位ARM处理器，很少设备，三星 Galaxy S6是其中之一</p>
+<p>-（+*）x86<br>从2011年起, 平板、模拟器用得比较多</p>
+<p>-（+*）x86_64<br>从2014年起, 64位的平板</p>
+<p>-（+*）MIPS64</p>
+<p>每一种都关联着一个相应的 ABI. 应用程序二进制接口（Application Binary Interface）定义了二进制文件（尤其是.so文件）如何运行在相应的系统平台上，从使用的指令集，内存对齐到可用的系统函数库。在Android 系统上，每一个CPU架构对应一个ABI：armeabi，armeabi-v7a，x86，mips，arm64- v8a，mips64，x86_64。</p>
+<p>ABI 和支持的指令集：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/4816610-157018b95ecae095?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="avatar"></p>
+<ol start="2">
+<li><strong>不同 CPU 架构对 APK 性能的影响</strong></li>
+</ol>
+<p>看完 <code>Google</code> 文档，就明白了：不同的 <code>CPU</code> 支持不同的指令集。当我们需要我们 <code>APP</code> 支持尽可能多的不同 <code>CPU</code> 的时候，只需要将不同版本的 <code>.so</code> 文件放置在不同的目录下，<code>APK</code> 安装运行的时候会根据自己需要而自己选取</p>
+<p><strong>但是这样却带来一个问题，APK文件较大，影响用户下载。</strong></p>
+<p>那我们是否可以只放置一些呢？必然可以！</p>
+<p>我们继续看 <code>Google</code> 是怎么说的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">为实现最佳性能，应直接针对主要 ABI 进行编译。例如，基于 ARMv5TE 的典型设备只会定义主要 ABI：armeabi</span><br><span class="line">相反，基于 ARMv7 的典型设备将主要 ABI 定义为 armeabi-v7a，而将辅助 ABI 为 armeabi，因为它可以运行为每个 ABI 生成的应用原生二进制文件</span><br><span class="line">许多基于 x86 的设备也可行 armeabi-v7a 和 armeabi NDK 二进制文件</span><br><span class="line">对于这些设备，主要 ABI 将是 x86，辅助 ABI 是 armeabi-v7a</span><br><span class="line">基于 MIPS 的典型设备只定义主要 ABI：mips</span><br><span class="line">安装应用时，软件包管理器服务将扫描APK，查找以下形式的任何共享库：</span><br><span class="line">lib/&lt;primary-abi&gt;/lib&lt;name&gt;.so</span><br><span class="line">如果未找到，并且您已定义辅助 ABI，该服务将扫描以下形式的共享库：</span><br><span class="line">lib/&lt;secondary-abi&gt;/lib&lt;name&gt;.so</span><br><span class="line">找到所需的库时，软件包管理器会将它们复制到应用的 data 目录 (data/data/&lt;package_name&gt;/lib/) 下的/lib/lib&lt;name&gt;.so</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>.so 文件相关及一些建议</strong></li>
+</ol>
+<p>具体可以惨开博客： <a href="https://zhuanlan.zhihu.com/p/21359984" target="_blank" rel="noopener">《与 .so 有关的一个长年大坑 》</a></p>
+<p><code>.so库又是什么鬼？ NDK 编译出来的动态链接库</code></p>
+<p>一些重要的加密算法或者核心协议一般都用c写然后给java调用。这样可以避免反编译后查看到应用的源码。</p>
+<p><code>so库又该如何存放？</code></p>
+<p>-（+<em>）为了减小 apk 体积，只保留 armeabi 和 armeabi-v7a 两个文件夹，并保证这两个文件夹中 .so 数量一致<br>-（+</em>）对只提供 armeabi 版本的第三方 .so，原样复制一份到 armeabi-v7a 文件夹</p>
+<p><code>.so文件时有一条简单却并不知名的重要法则</code></p>
+<p>你应该尽可能的提供专为每个ABI优化过的.so文件，但要么全部支持，要么都不支持：你不应该混合着使用。你应该为每个ABI目录提供对应的.so文件</p>
+<ol start="4">
+<li><strong>ABI 兼容性</strong></li>
+</ol>
+<p>-（+<em>）armeabi-v7a ：armeabi-v7a向下兼容 armeabi<br>-（+</em>）arm64-v8a ： 能兼容 armeabi-v7a 和 armeabi<br>-（+<em>）x86_64 ： 兼容 x86<br>-（+</em>）mips64 ： 兼容 mips</p>
+<ol start="5">
+<li><strong>分析主流 app Apk 所用的 ABI</strong></li>
+</ol>
+<p>-（+<em>）仅有 <code>armeabi</code>： 微博，今日头条，淘宝，QQ，微信<br>-（+</em>）<code>armeabi</code>与 <code>armeabi-v7a</code>： UC 浏览器，Facebook、Twitter<br>-（+<em>）<code>armeabi</code>，<code>armeabi-v7a</code>，<code>armeabi-x86</code>：优酷，哔哩哔哩动画。<br>-（+</em>）7种类型全有：知乎</p>
+<p>(<a href="https://upload-images.jianshu.io/upload_images/4816610-0e18f596f45e6a37.jpeg?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp" target="_blank" rel="noopener">https://upload-images.jianshu.io/upload_images/4816610-0e18f596f45e6a37.jpeg?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp</a>)</p>
+<ol start="6">
+<li><strong>各版本使用情况分析</strong></li>
+</ol>
+<p>-（+<em>）<code>mips / mips64</code>: 极少用于手机可以忽略<br>-（+</em>）<code>x86 / x86_64</code>: <code>x86</code> 架构的手机都会包含由 <code>Intel</code> 提供的称为 <code>Houdini</code> 的指令集动态转码工具，实现 对 <code>arm</code> <code>.so</code> 的兼容，再考虑<code>x86</code> <code>1%</code> 以下的市场占有率，x86 相关的两个 <code>.so</code> 也是可以忽略的<br>-（+<em>）<code>armeabi</code>: <code>ARM v5</code> 这是相当老旧的一个版本，缺少对浮点数计算的硬件支持，在需要大量计算时有性能瓶颈<br>-（+</em>）<code>armeabi-v7a</code>:<code>ARM v7</code> 目前主流版本<br>-（+*）<code>arm64-v8a</code>: 64位支持</p>
+<p><code>ARMv8</code> 是一套不错的指令集，它既支持64位程序，也向下兼容现有32位程序。所以你不用担心兼容性问题。</p>
+<ol start="7">
+<li><strong>参考链接：</strong></li>
+</ol>
+<p><a href="https://blog.csdn.net/u012400885/article/details/52923765" target="_blank" rel="noopener">https://blog.csdn.net/u012400885/article/details/52923765</a></p>
+<p><a href="https://blog.csdn.net/ouyang_peng/article/details/51168072?utm_source=blogxgwz2" target="_blank" rel="noopener">重点： https://blog.csdn.net/ouyang_peng/article/details/51168072?utm_source=blogxgwz2</a></p>
+<p>本文转载自: <a href="https://www.jianshu.com/p/44650eaceb18" target="_blank" rel="noopener">https://www.jianshu.com/p/44650eaceb18</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>闫昊良</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2020/08/18/安卓CPU架构详解/">http://yoursite.com/2020/08/18/安卓CPU架构详解/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2020/07/09/集成阿里热修复遇到的问题/">导入阿里热修复框架冲突问题</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© 闫昊良 | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
