@@ -135,15 +135,23 @@
 
 <p>早期的 <code>Android</code> 系统几乎只支持 <code>ARMv5</code> 的 <code>CPU</code> 架构，你知道现在它支持多少种吗？7 种！</p>
 <p><code>Android</code> 系统目前支持以下七种不同的 <code>CPU</code> 架构：</p>
-<p>-（+*）armeabi/ARMv5<br>第5代、第6代的ARM处理器，早期的手机用的比较多</p>
-<p>-（+*）ARMv7 (从2010年起)<br>第7代及以上的 ARM 处理器。2011年15月以后的生产的大部分Android设备都使用它</p>
-<p>-（+*）MIPS (从2012年起)<br>arm64-v8a: 第8代、64位ARM处理器，很少设备，三星 Galaxy S6是其中之一</p>
-<p>-（+*）x86<br>从2011年起, 平板、模拟器用得比较多</p>
-<p>-（+*）x86_64<br>从2014年起, 64位的平板</p>
-<p>-（+*）MIPS64</p>
+<ul>
+<li><p>armeabi/ARMv5<br>第5代、第6代的ARM处理器，早期的手机用的比较多</p>
+</li>
+<li><p>ARMv7 (从2010年起)<br>第7代及以上的 ARM 处理器。2011年15月以后的生产的大部分Android设备都使用它</p>
+</li>
+<li><p>MIPS (从2012年起)<br>arm64-v8a: 第8代、64位ARM处理器，很少设备，三星 Galaxy S6是其中之一</p>
+</li>
+<li><p>x86<br>从2011年起, 平板、模拟器用得比较多</p>
+</li>
+<li><p>x86_64<br>从2014年起, 64位的平板</p>
+</li>
+<li><p>MIPS64</p>
+</li>
+</ul>
 <p>每一种都关联着一个相应的 ABI. 应用程序二进制接口（Application Binary Interface）定义了二进制文件（尤其是.so文件）如何运行在相应的系统平台上，从使用的指令集，内存对齐到可用的系统函数库。在Android 系统上，每一个CPU架构对应一个ABI：armeabi，armeabi-v7a，x86，mips，arm64- v8a，mips64，x86_64。</p>
 <p>ABI 和支持的指令集：</p>
-<p><img src="https://upload-images.jianshu.io/upload_images/4816610-157018b95ecae095?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="avatar"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/4816610-157018b95ecae095?imageMogr2/auto-orient/strip%7CimageView2/2/format/webp" alt="photo"></p>
 <ol start="2">
 <li><strong>不同 CPU 架构对 APK 性能的影响</strong></li>
 </ol>
@@ -160,22 +168,41 @@
 <p><code>.so库又是什么鬼？ NDK 编译出来的动态链接库</code></p>
 <p>一些重要的加密算法或者核心协议一般都用c写然后给java调用。这样可以避免反编译后查看到应用的源码。</p>
 <p><code>so库又该如何存放？</code></p>
-<p>-（+<em>）为了减小 apk 体积，只保留 armeabi 和 armeabi-v7a 两个文件夹，并保证这两个文件夹中 .so 数量一致<br>-（+</em>）对只提供 armeabi 版本的第三方 .so，原样复制一份到 armeabi-v7a 文件夹</p>
+<ul>
+<li>为了减小 apk 体积，只保留 armeabi 和 armeabi-v7a 两个文件夹，并保证这两个文件夹中 .so 数量一致</li>
+<li>对只提供 armeabi 版本的第三方 .so，原样复制一份到 armeabi-v7a 文件夹</li>
+</ul>
 <p><code>.so文件时有一条简单却并不知名的重要法则</code></p>
 <p>你应该尽可能的提供专为每个ABI优化过的.so文件，但要么全部支持，要么都不支持：你不应该混合着使用。你应该为每个ABI目录提供对应的.so文件</p>
 <ol start="4">
 <li><strong>ABI 兼容性</strong></li>
 </ol>
-<p>-（+<em>）armeabi-v7a ：armeabi-v7a向下兼容 armeabi<br>-（+</em>）arm64-v8a ： 能兼容 armeabi-v7a 和 armeabi<br>-（+<em>）x86_64 ： 兼容 x86<br>-（+</em>）mips64 ： 兼容 mips</p>
+<ul>
+<li>armeabi-v7a ：armeabi-v7a向下兼容 armeabi</li>
+<li>arm64-v8a ： 能兼容 armeabi-v7a 和 armeabi</li>
+<li>x86_64 ： 兼容 x86</li>
+<li>mips64 ： 兼容 mips</li>
+</ul>
 <ol start="5">
 <li><strong>分析主流 app Apk 所用的 ABI</strong></li>
 </ol>
-<p>-（+<em>）仅有 <code>armeabi</code>： 微博，今日头条，淘宝，QQ，微信<br>-（+</em>）<code>armeabi</code>与 <code>armeabi-v7a</code>： UC 浏览器，Facebook、Twitter<br>-（+<em>）<code>armeabi</code>，<code>armeabi-v7a</code>，<code>armeabi-x86</code>：优酷，哔哩哔哩动画。<br>-（+</em>）7种类型全有：知乎</p>
-<p>(<a href="https://upload-images.jianshu.io/upload_images/4816610-0e18f596f45e6a37.jpeg?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp" target="_blank" rel="noopener">https://upload-images.jianshu.io/upload_images/4816610-0e18f596f45e6a37.jpeg?imageMogr2/auto-orient/strip|imageView2/2/w/1200/format/webp</a>)</p>
+<ul>
+<li>仅有 <code>armeabi</code>： 微博，今日头条，淘宝，QQ，微信</li>
+<li><code>armeabi</code>与 <code>armeabi-v7a</code>： UC 浏览器，Facebook、Twitter</li>
+<li><code>armeabi</code>，<code>armeabi-v7a</code>，<code>armeabi-x86</code>：优酷，哔哩哔哩动画。</li>
+<li>7种类型全有：知乎</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/4816610-0e18f596f45e6a37.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="photo"></p>
 <ol start="6">
 <li><strong>各版本使用情况分析</strong></li>
 </ol>
-<p>-（+<em>）<code>mips / mips64</code>: 极少用于手机可以忽略<br>-（+</em>）<code>x86 / x86_64</code>: <code>x86</code> 架构的手机都会包含由 <code>Intel</code> 提供的称为 <code>Houdini</code> 的指令集动态转码工具，实现 对 <code>arm</code> <code>.so</code> 的兼容，再考虑<code>x86</code> <code>1%</code> 以下的市场占有率，x86 相关的两个 <code>.so</code> 也是可以忽略的<br>-（+<em>）<code>armeabi</code>: <code>ARM v5</code> 这是相当老旧的一个版本，缺少对浮点数计算的硬件支持，在需要大量计算时有性能瓶颈<br>-（+</em>）<code>armeabi-v7a</code>:<code>ARM v7</code> 目前主流版本<br>-（+*）<code>arm64-v8a</code>: 64位支持</p>
+<ul>
+<li><code>mips / mips64</code>: 极少用于手机可以忽略</li>
+<li><code>x86 / x86_64</code>: <code>x86</code> 架构的手机都会包含由 <code>Intel</code> 提供的称为 <code>Houdini</code> 的指令集动态转码工具，实现 对 <code>arm</code> <code>.so</code> 的兼容，再考虑<code>x86</code> <code>1%</code> 以下的市场占有率，x86 相关的两个 <code>.so</code> 也是可以忽略的</li>
+<li><code>armeabi</code>: <code>ARM v5</code> 这是相当老旧的一个版本，缺少对浮点数计算的硬件支持，在需要大量计算时有性能瓶颈</li>
+<li><code>armeabi-v7a</code>:<code>ARM v7</code> 目前主流版本</li>
+<li><code>arm64-v8a</code>: 64位支持</li>
+</ul>
 <p><code>ARMv8</code> 是一套不错的指令集，它既支持64位程序，也向下兼容现有32位程序。所以你不用担心兼容性问题。</p>
 <ol start="7">
 <li><strong>参考链接：</strong></li>
